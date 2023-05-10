@@ -1,0 +1,30 @@
+version: '3'
+services:
+  reverse_proxy:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    networks:
+      - mynetwork
+    depends_on:
+      - honeypot
+      - shop
+
+  shop:
+    image: shop_image
+    build:
+      context: ./shop/docker
+    networks:
+      - mynetwork
+
+  honeypot:
+    image: honeypot_image
+    build:
+      context: ./honeypot/docker
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
