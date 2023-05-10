@@ -33,6 +33,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./logs/nginx:/var/log/nginx
+      - ./fail2ban/conf/fail2ban.conf:/etc/fail2ban/fail2ban.conf
+      - ./fail2ban/conf/nginx-honeypot.conf:/etc/fail2ban/filter.d/nginx-honeypot.conf
     network_mode: "host"
     cap_add:
       - NET_ADMIN
