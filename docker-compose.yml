@@ -28,6 +28,7 @@ services:
       - mynetwork
 
   fail2ban:
+    image: fail2ban_image
     build:
       context: ./fail2ban/docker
     volumes:
