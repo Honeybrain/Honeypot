@@ -6,8 +6,8 @@ RUN addgroup -S http && adduser -S http -G http
 # Exposer le port 8080
 EXPOSE 8080
 
-# Ajouter une page d'accueil statique
-RUN echo "Hello from my E-Shop!" > /home/http/index.html
+# Copier le fichier index.html dans le conteneur
+COPY ./index.html /home/http/index.html
 
 # Démarrer le serveur HTTP
 USER http
