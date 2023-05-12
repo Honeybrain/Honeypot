@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  backend:
+    image: adrienroco/hb_dashboard_back:latest
+    ports:
+      - "8000:8000"
+    environment:
+      - NODE_ENV=production
+
+  frontend:
+    image: adrienroco/hb_dashboard_front:latest
+    ports:
+      - "3000:3000"
