@@ -2,13 +2,27 @@ version: "3.9"
 
 services:
   backend:
-    image: adrienroco/hb_dashboard_back:latest
+    image: dashboard_back
+    build:
+      context: ../../Backend/
     ports:
       - "8000:8000"
     environment:
       - NODE_ENV=production
+    networks:
+      - mynetwork
+    volumes:
+      - "../nginx/config/block.conf:/app/honeypot/block.conf"
+      - /var/run/docker.sock:/var/run/docker.sock
 
   frontend:
-    image: adrienroco/hb_dashboard_front:latest
+    image: frontend
+    build:
+      context: ../../Frontend/
     ports:
       - "3000:3000"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
