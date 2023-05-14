@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 
 fail2ban/config/db
+build

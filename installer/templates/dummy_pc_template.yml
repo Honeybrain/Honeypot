@@ -1,7 +1,7 @@
 {% for i in range(num_dummy_pc) %}
   dummy_pc_{{i}}:
     build:
-      context: ./modules/DummyPc
+      context: ./modules/dummy_pc
       dockerfile: Dockerfile
     networks:
       mynetwork:{% if ip_addresses_dummy_pc[i] is not none %}

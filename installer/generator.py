@@ -1,6 +1,6 @@
 from jinja2 import Environment, FileSystemLoader
 import json
-import os
+import shutil
 
 def generate(config_file_path):
     print('Generating docker compose...')
@@ -31,6 +31,9 @@ def generate(config_file_path):
         ftp_ip_address=ftp_ip_address,
         subnet=subnet
     )
+
+    # Copy docker files
+    shutil.copytree('./modules', './build/modules', dirs_exist_ok=True)
 
     # Write the output to a file
     with open('build/docker-compose.yml', 'w') as f:

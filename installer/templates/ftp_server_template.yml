@@ -1,6 +1,6 @@
   ftp:
     build:
-      context: ./modules/Ftp
+      context: ./modules/ftp
       dockerfile: Dockerfile
     ports:
       - "{{ ftp_port }}:21"
