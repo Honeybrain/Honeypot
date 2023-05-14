@@ -4,11 +4,10 @@
 
 
 from pathlib import Path
-
-# from tkinter import *
-# Explicit imports to satisfy Flake8
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
-
+from generator import generate
+import json
+import os
 
 OUTPUT_PATH = Path(__file__).parent
 
@@ -399,6 +398,7 @@ def page3():
         171.5,
         image=entry_image_1
     )
+    global entry_1
     entry_1 = Entry(
         bd=0,
         bg="#F1F5FF",
@@ -419,6 +419,7 @@ def page3():
         312.5,
         image=entry_image_2
     )
+    global entry_2
     entry_2 = Entry(
         bd=0,
         bg="#F1F5FF",
@@ -557,6 +558,32 @@ def page4():
     window.mainloop()
 
 def install():
-    print("Installation in progress...")
+    # Définir les options de configuration
+
+    config = {
+        'dummy_pc': {
+            'num_services': int(entry_1.get()),
+            'ip_addresses': [ip.strip() for ip in entry_2.get().split(',')]
+        },
+        "ftp": {
+            "ip_address": "192.168.1.36",
+            "port": 21
+        },
+        "subnet": "172.28.0.0/16"
+    }
+
+    # Créer le dossier 'build' s'il n'existe pas
+    if not os.path.exists('build'):
+        os.makedirs('build')
+
+    # Path de la configuration
+    config_file_path = "./build/config.json"
+
+    # Écrire les options de configuration dans un fichier
+    with open(config_file_path, 'w') as f:
+        json.dump(config, f, indent=4)
+    
+    # Generer les docker compose en utilisant la configuration
+    generate(config_file_path)
     
 page1()

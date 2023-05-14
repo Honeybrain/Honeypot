@@ -1,0 +1,10 @@
+version: '3'
+services:
+{% include 'dummy_pc_template.yml' %}
+{% include 'ftp_server_template.yml' %}
+
+networks:
+  mynetwork:
+    ipam:
+      config:
+        - subnet: {{ subnet }}

@@ -1,0 +1,9 @@
+  ftp:
+    build:
+      context: ./modules/Ftp
+      dockerfile: Dockerfile
+    ports:
+      - "{{ ftp_port }}:21"
+    networks:
+      mynetwork:{% if ftp_ip_address is not none %}
+        ipv4_address: {{ ftp_ip_address }}{% endif %}
