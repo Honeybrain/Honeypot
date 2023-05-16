@@ -19,11 +19,21 @@ findtime = 600
 # How many attempts can be made before a ban is imposed
 maxretry = 3
 
-[nginx-honeypot]
+[iptables-honeypot]
 enabled = true
-port = http,https
-action   = nginx-blockip[name=NGINX, port=all, protocol=icmp]
+port = all
+action   = iptables-allports[name=nginx-honeypot, port=all, protocol=icmp]
 logpath = /var/log/suricata.log
 filter = nginx-honeypot
 bantime = 3600
-maxretry = 1
+maxretry = 1, nginx-blockip[name=nginx-honeypot, port=all, protocol=tcp]
+
+
+[nginx-honeypot]
+enabled = true
+port = all
+action   = nginx-blockip[name=nginx-honeypot, port=all, protocol=tcp]
+logpath = /var/log/suricata.log
+filter = nginx-honeypot
+bantime = 3600
+maxretry = 1,

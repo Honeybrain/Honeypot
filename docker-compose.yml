@@ -10,7 +10,6 @@ services:
     ports:
       - "80:80"
     networks:
-      - honeypot_core_network
       - honeypot_network
     depends_on:
       - honeypot
@@ -40,6 +39,7 @@ services:
       context: ./fail2ban/docker
     container_name: fail2ban
     restart: "unless-stopped"
+    network_mode: host
     cap_add:
       - NET_ADMIN
       - NET_RAW
@@ -53,18 +53,12 @@ services:
       - "./nginx/config/nginx.conf:/etc/nginx/nginx.conf"
     env_file:
       - "./fail2ban.env"
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "5m"
-        max-file: "10"
-    networks:
-      - honeypot_core_network
     depends_on:
       - suricata
 
   suricata:
     image: jasonish/suricata:latest
+    container_name: suricata
     network_mode: host
     cap_add:
       - NET_ADMIN
@@ -78,5 +72,4 @@ services:
 
 networks:
   honeypot_network:
-  honeypot_core_network:
   dashboard_network:
