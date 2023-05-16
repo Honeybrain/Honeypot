@@ -30,6 +30,8 @@ services:
     container_name: honeypot
     build:
       context: ./honeypot/docker
+    ports:
+      - 8081:8081
     networks:
       - honeypot_services_network
 
@@ -72,10 +74,11 @@ services:
       - ./logs/suricata:/var/log/suricata
       - ./suricata/config/suricata.yaml:/etc/suricata/suricata.yaml
       - ./suricata/config/suricata.rules:/var/lib/suricata/rules/suricata.rules
-    command: -i eth0
+    command: -i br-4c30771a8427 #Set here beginning of id using docker network inspect honeypot_services_network
 
 networks:
   honeypot_network:
   honeypot_services_network:
+    external: true
   honeypot_core_network:
   dashboard_network:
