@@ -10,7 +10,8 @@ services:
     ports:
       - "80:80"
     networks:
-      - mynetwork
+      - honeypot_core_network
+      - honeypot_network
     depends_on:
       - honeypot
       - shop
@@ -22,7 +23,7 @@ services:
     build:
       context: ./shop/docker
     networks:
-      - mynetwork
+      - honeypot_network
 
   honeypot:
     image: honeypot_image
@@ -30,7 +31,7 @@ services:
     build:
       context: ./honeypot/docker
     networks:
-      - mynetwork
+      - honeypot_services_network
 
   fail2ban:
     build:
@@ -56,7 +57,25 @@ services:
         max-size: "5m"
         max-file: "10"
     networks:
-      - mynetwork
+      - honeypot_core_network
+    depends_on:
+      - suricata
+
+  suricata:
+    image: jasonish/suricata:latest
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_NICE
+    volumes:
+      - ./logs/suricata:/var/log/suricata
+      - ./suricata/config/suricata.yaml:/etc/suricata/suricata.yaml
+      - ./suricata/config/suricata.rules:/var/lib/suricata/rules/suricata.rules
+    command: -i eth0
 
 networks:
-  mynetwork:
+  honeypot_network:
+  honeypot_services_network:
+  honeypot_core_network:
+  dashboard_network:
