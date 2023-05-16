@@ -23,7 +23,7 @@ services:
     build:
       context: ./shop/docker
     networks:
-      - honeypot_network
+      honeypot_network:
 
   honeypot:
     image: honeypot_image
@@ -31,9 +31,9 @@ services:
     build:
       context: ./honeypot/docker
     ports:
-      - 8081:8081
+      - "8081:8081"
     networks:
-      - honeypot_services_network
+      honeypot_network:
 
   fail2ban:
     build:
@@ -45,7 +45,7 @@ services:
       - NET_RAW
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./logs/nginx:/var/log/nginx
+      - ./logs/suricata/fast.log:/var/log/suricata.log
       - "./logs/fail2ban:/var/log/fail2ban"
       - "./fail2ban/config:/data"
       - "/var/lib/docker/containers/:/container-logs/:ro"
@@ -71,14 +71,12 @@ services:
       - NET_RAW
       - SYS_NICE
     volumes:
-      - ./logs/suricata:/var/log/suricata
+      - ./logs/suricata/fast.log:/var/log/suricata/fast.log
       - ./suricata/config/suricata.yaml:/etc/suricata/suricata.yaml
       - ./suricata/config/suricata.rules:/var/lib/suricata/rules/suricata.rules
-    command: -i br-4c30771a8427 #Set here beginning of id using docker network inspect honeypot_services_network
+    command: -i eth0
 
 networks:
   honeypot_network:
-  honeypot_services_network:
-    external: true
   honeypot_core_network:
   dashboard_network:

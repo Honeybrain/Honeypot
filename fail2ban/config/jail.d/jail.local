@@ -22,8 +22,8 @@ maxretry = 3
 [nginx-honeypot]
 enabled = true
 port = http,https
-action   = nginx-blockip[name=NGINX, port=http, protocol=tcp]
-logpath = /var/log/nginx/honeypot_access.log
+action   = nginx-blockip[name=NGINX, port=all, protocol=icmp]
+logpath = /var/log/suricata.log
 filter = nginx-honeypot
 bantime = 3600
 maxretry = 1
