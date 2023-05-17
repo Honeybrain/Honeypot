@@ -4,6 +4,6 @@
       context: ./modules/dummy_pc
       dockerfile: Dockerfile
     networks:
-      mynetwork:{% if ip_addresses_dummy_pc[i] is not none %}
+      honeypot_network:{% if ip_addresses_dummy_pc[i] is not none %}
         ipv4_address: {{ ip_addresses_dummy_pc[i] }}{% endif %}
 {% endfor %}

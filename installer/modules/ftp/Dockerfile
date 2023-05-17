@@ -7,7 +7,10 @@ RUN apt-get update
 # Installer vsftpd
 RUN apt-get install -y vsftpd
 
-# Créer un utilisateur ftp avec un mot de passe
+# Créer un utilisateur ftp
+RUN useradd -m ftpuser
+
+# Définir le mot de passe pour l'utilisateur ftp
 RUN echo "ftpuser:ftppass" | chpasswd
 
 # Créer le dossier de l'utilisateur ftp

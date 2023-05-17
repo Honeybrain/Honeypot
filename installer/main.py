@@ -569,7 +569,7 @@ def install():
             "ip_address": "192.168.1.36",
             "port": 21
         },
-        "subnet": "172.28.0.0/16"
+        "subnet": "192.168.1.0/24"
     }
 
     # Créer le dossier 'build' s'il n'existe pas
