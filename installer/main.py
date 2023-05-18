@@ -11,19 +11,19 @@ import os
 
 OUTPUT_PATH = Path(__file__).parent
 
-ASSETS_PATH_PAGE_1 = OUTPUT_PATH / Path(r".\assets\frame4")
+ASSETS_PATH_PAGE_1 = OUTPUT_PATH / Path(r"assets/frame4")
 def relative_to_assets_page_1(path: str) -> Path:
     return ASSETS_PATH_PAGE_1 / Path(path)
 
-ASSETS_PATH_PAGE_2 = OUTPUT_PATH / Path(r".\assets\frame3")
+ASSETS_PATH_PAGE_2 = OUTPUT_PATH / Path(r"assets/frame3")
 def relative_to_assets_page_2(path: str) -> Path:
     return ASSETS_PATH_PAGE_2 / Path(path)
 
-ASSETS_PATH_PAGE_3 = OUTPUT_PATH / Path(r".\assets\frame2")
+ASSETS_PATH_PAGE_3 = OUTPUT_PATH / Path(r"assets/frame2")
 def relative_to_assets_page_3(path: str) -> Path:
     return ASSETS_PATH_PAGE_3 / Path(path)
 
-ASSETS_PATH_PAGE_4 = OUTPUT_PATH / Path(r".\assets\frame1")
+ASSETS_PATH_PAGE_4 = OUTPUT_PATH / Path(r"assets/frame1")
 def relative_to_assets_page_4(path: str) -> Path:
     return ASSETS_PATH_PAGE_4 / Path(path)
 
