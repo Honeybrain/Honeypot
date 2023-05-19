@@ -293,6 +293,7 @@ def page2():
         fg="#000716",
         highlightthickness=0
     )
+    page2_entry_1.insert('1', '192.168.1.0/24')
     page2_entry_1.place(
         x=56.0,
         y=398.0,
@@ -302,20 +303,11 @@ def page2():
 
     canvas.create_text(
         50.0,
-        351.0,
+        365.0,
         anchor="nw",
         text="Sous réseau de votre réseau Honeypot :",
         fill="#FFFFFF",
         font=("Roboto Bold", 16 * -1)
-    )
-
-    canvas.create_text(
-        50.0,
-        370.0,
-        anchor="nw",
-        text="(exemple : 192.168.1.0/24)",
-        fill="#FFFFFF",
-        font=("Roboto Bold", 14 * -1)
     )
 
     window.mainloop()
