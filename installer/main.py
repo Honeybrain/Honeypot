@@ -333,10 +333,10 @@ def page3():
         outline="")
 
     canvas.create_text(
-        478.0,
-        242.0,
+        474.0,
+        197.0,
         anchor="nw",
-        text="(séparé par des virgules: 192.168.1.16, 192.168.1.32) ",
+        text="(example: 192.168.1.16, 192.168.1.32) ",
         fill="#505485",
         font=("Roboto Bold", 14 * -1)
     )
@@ -357,6 +357,22 @@ def page3():
         height=55.0
     )
 
+    button_image_2 = PhotoImage(
+        file=relative_to_assets_page_3("button_2.png"))
+    button_2 = Button(
+        image=button_image_2,
+        borderwidth=0,
+        highlightthickness=0,
+        command=lambda: print("button_2 clicked"),
+        relief="flat"
+    )
+    button_2.place(
+        x=557.0,
+        y=331.0,
+        width=180.0,
+        height=55.0
+    )
+
     canvas.create_text(
         40.0,
         127.0,
@@ -367,8 +383,8 @@ def page3():
     )
 
     canvas.create_text(
-        478.0,
-        108.0,
+        474.0,
+        63.00000000000001,
         anchor="nw",
         text="Nombre de machines:",
         fill="#505485",
@@ -376,8 +392,8 @@ def page3():
     )
 
     canvas.create_text(
-        479.0,
-        223.0,
+        475.0,
+        178.0,
         anchor="nw",
         text="IP spécifiques:",
         fill="#505485",
@@ -395,8 +411,8 @@ def page3():
     entry_image_1 = PhotoImage(
         file=relative_to_assets_page_3("entry_1.png"))
     entry_bg_1 = canvas.create_image(
-        650.5,
-        171.5,
+        646.5,
+        126.5,
         image=entry_image_1
     )
     global page3_entry_1
@@ -407,8 +423,8 @@ def page3():
         highlightthickness=0
     )
     page3_entry_1.place(
-        x=490.0,
-        y=141.0,
+        x=486.0,
+        y=96.0,
         width=321.0,
         height=59.0
     )
@@ -416,8 +432,8 @@ def page3():
     entry_image_2 = PhotoImage(
         file=relative_to_assets_page_3("entry_2.png"))
     entry_bg_2 = canvas.create_image(
-        650.5,
-        312.5,
+        646.5,
+        271.5,
         image=entry_image_2
     )
     global page3_entry_2
@@ -428,8 +444,8 @@ def page3():
         highlightthickness=0
     )
     page3_entry_2.place(
-        x=490.0,
-        y=282.0,
+        x=486.0,
+        y=241.0,
         width=321.0,
         height=59.0
     )
@@ -438,7 +454,7 @@ def page3():
         40.0,
         186.0,
         anchor="nw",
-        text="Générez de fausses machines à la volée,",
+        text="Générez de fausses machines à la",
         fill="#FCFCFC",
         font=("RobotoRoman Regular", 20 * -1)
     )
@@ -447,7 +463,7 @@ def page3():
         40.0,
         214.0,
         anchor="nw",
-        text="ces machines seront visibles sur le",
+        text="volée ces machines seront visibles",
         fill="#FCFCFC",
         font=("RobotoRoman Regular", 20 * -1)
     )
@@ -456,7 +472,7 @@ def page3():
         40.0,
         242.0,
         anchor="nw",
-        text="réseau du honeypot pour simuler",
+        text="sur le réseau du honeypot pour",
         fill="#FCFCFC",
         font=("RobotoRoman Regular", 20 * -1)
     )
@@ -465,7 +481,16 @@ def page3():
         40.0,
         270.0,
         anchor="nw",
-        text="un environnement dans une entreprise.",
+        text="simuler un environnement dans",
+        fill="#FCFCFC",
+        font=("RobotoRoman Regular", 20 * -1)
+    )
+
+    canvas.create_text(
+        40.0,
+        298.0,
+        anchor="nw",
+        text="une entreprise.",
         fill="#FCFCFC",
         font=("RobotoRoman Regular", 20 * -1)
     )
@@ -497,7 +522,7 @@ def page4():
         image=button_image_1,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: page5(),
+        command=lambda:  page5(),
         relief="flat"
     )
     button_1.place(
@@ -517,8 +542,8 @@ def page4():
     )
 
     canvas.create_text(
-        478.0,
-        136.0,
+        474.0,
+        90.0,
         anchor="nw",
         text="Adresse IP du serveur:",
         fill="#505485",
@@ -526,8 +551,8 @@ def page4():
     )
 
     canvas.create_text(
-        478.0,
-        245.0,
+        474.0,
+        207.0,
         anchor="nw",
         text="Port du serveur:",
         fill="#505485",
@@ -545,8 +570,8 @@ def page4():
     entry_image_1 = PhotoImage(
         file=relative_to_assets_page_3("entry_1.png"))
     entry_bg_1 = canvas.create_image(
-        650.5,
-        199.5,
+        646.5,
+        153.5,
         image=entry_image_1
     )
     global page4_entry_1
@@ -557,29 +582,8 @@ def page4():
         highlightthickness=0
     )
     page4_entry_1.place(
-        x=490.0,
-        y=169.0,
-        width=321.0,
-        height=59.0
-    )
-
-    entry_image_2 = PhotoImage(
-        file=relative_to_assets_page_3("entry_2.png"))
-    entry_bg_2 = canvas.create_image(
-        650.5,
-        308.5,
-        image=entry_image_2
-    )
-    global page4_entry_2
-    page4_entry_2 = Entry(
-        bd=0,
-        bg="#F1F5FF",
-        fg="#000716",
-        highlightthickness=0
-    )
-    page4_entry_2.place(
-        x=490.0,
-        y=278.0,
+        x=486.0,
+        y=123.0,
         width=321.0,
         height=59.0
     )
@@ -636,6 +640,43 @@ def page4():
         text="l’attaquant.",
         fill="#FCFCFC",
         font=("RobotoRoman Regular", 20 * -1)
+    )
+
+    button_image_2 = PhotoImage(
+        file=relative_to_assets_page_3("button_2.png"))
+    button_2 = Button(
+        image=button_image_2,
+        borderwidth=0,
+        highlightthickness=0,
+        command=lambda: print("button_2 clicked"),
+        relief="flat"
+    )
+    button_2.place(
+        x=557.0,
+        y=331.0,
+        width=180.0,
+        height=55.0
+    )
+
+    entry_image_2 = PhotoImage(
+        file=relative_to_assets_page_3("entry_2.png"))
+    entry_bg_2 = canvas.create_image(
+        646.5,
+        271.5,
+        image=entry_image_2
+    )
+    global page4_entry_2
+    page4_entry_2 = Entry(
+        bd=0,
+        bg="#F1F5FF",
+        fg="#000716",
+        highlightthickness=0
+    )
+    page4_entry_2.place(
+        x=486.0,
+        y=241.0,
+        width=321.0,
+        height=59.0
     )
     window.mainloop()
 
