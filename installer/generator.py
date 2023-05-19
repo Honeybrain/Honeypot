@@ -67,4 +67,6 @@ def generate(config_file_path):
     
     print("[OK] Docker services started.")
 
+    print("(Tip: You can see your services using \"docker ps\" in a terminal)")
+
     # exit()
