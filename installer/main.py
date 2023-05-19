@@ -509,7 +509,7 @@ def page4():
 
     canvas.place(x = 0, y = 0)
     canvas.create_rectangle(
-        435.0,
+        431.0,
         7.105427357601002e-15,
         866.0,
         519.0,
