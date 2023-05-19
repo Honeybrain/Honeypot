@@ -227,15 +227,6 @@ def page2():
 
     canvas.create_text(
         40.0,
-        321.0,
-        anchor="nw",
-        text="Options disponibles:",
-        fill="#FCFCFC",
-        font=("RobotoRoman Regular", 20 * -1)
-    )
-
-    canvas.create_text(
-        40.0,
         282.0,
         anchor="nw",
         text="en production. ",
@@ -288,31 +279,43 @@ def page2():
         font=("RobotoRoman Regular", 20 * -1)
     )
 
-    canvas.create_text(
-        40.0,
-        355.0,
-        anchor="nw",
-        text="- Module fake machines",
-        fill="#FCFCFC",
-        font=("RobotoRoman Regular", 16 * -1)
+    entry_image_1 = PhotoImage(
+        file=relative_to_assets_page_2("entry_1.png"))
+    entry_bg_1 = canvas.create_image(
+        216.5,
+        428.5,
+        image=entry_image_1
+    )
+    global page2_entry_1
+    page2_entry_1 = Entry(
+        bd=0,
+        bg="#F1F5FF",
+        fg="#000716",
+        highlightthickness=0
+    )
+    page2_entry_1.place(
+        x=56.0,
+        y=398.0,
+        width=321.0,
+        height=59.0
     )
 
     canvas.create_text(
-        40.0,
-        374.0,
+        50.0,
+        351.0,
         anchor="nw",
-        text="- Module base de données vulnérable",
-        fill="#FCFCFC",
-        font=("RobotoRoman Regular", 16 * -1)
+        text="Sous réseau de votre réseau Honeypot :",
+        fill="#FFFFFF",
+        font=("Roboto Bold", 16 * -1)
     )
 
     canvas.create_text(
-        40.0,
-        393.0,
+        50.0,
+        370.0,
         anchor="nw",
-        text="- Module serveur FTP",
-        fill="#FCFCFC",
-        font=("RobotoRoman Regular", 16 * -1)
+        text="(exemple : 192.168.1.0/24)",
+        fill="#FFFFFF",
+        font=("Roboto Bold", 14 * -1)
     )
 
     window.mainloop()
@@ -404,14 +407,14 @@ def page3():
         171.5,
         image=entry_image_1
     )
-    global entry_1
-    entry_1 = Entry(
+    global page3_entry_1
+    page3_entry_1 = Entry(
         bd=0,
         bg="#F1F5FF",
         fg="#000716",
         highlightthickness=0
     )
-    entry_1.place(
+    page3_entry_1.place(
         x=490.0,
         y=141.0,
         width=321.0,
@@ -425,14 +428,14 @@ def page3():
         312.5,
         image=entry_image_2
     )
-    global entry_2
-    entry_2 = Entry(
+    global page3_entry_2
+    page3_entry_2 = Entry(
         bd=0,
         bg="#F1F5FF",
         fg="#000716",
         highlightthickness=0
     )
-    entry_2.place(
+    page3_entry_2.place(
         x=490.0,
         y=282.0,
         width=321.0,
@@ -476,6 +479,174 @@ def page3():
     )
     window.mainloop()
 
+def page4():
+    canvas = Canvas(
+        window,
+        bg = "#003061",
+        height = 519,
+        width = 862,
+        bd = 0,
+        highlightthickness = 0,
+        relief = "ridge"
+    )
+
+    canvas.place(x = 0, y = 0)
+    canvas.create_rectangle(
+        435.0,
+        7.105427357601002e-15,
+        866.0,
+        519.0,
+        fill="#FCFCFC",
+        outline="")
+
+    button_image_1 = PhotoImage(
+        file=relative_to_assets_page_3("button_1.png"))
+    button_1 = Button(
+        image=button_image_1,
+        borderwidth=0,
+        highlightthickness=0,
+        command=lambda: page5(),
+        relief="flat"
+    )
+    button_1.place(
+        x=557.0,
+        y=401.0,
+        width=180.0,
+        height=55.0
+    )
+
+    canvas.create_text(
+        40.0,
+        127.0,
+        anchor="nw",
+        text="Module serveur FTP",
+        fill="#FCFCFC",
+        font=("Roboto Bold", 24 * -1)
+    )
+
+    canvas.create_text(
+        478.0,
+        136.0,
+        anchor="nw",
+        text="Adresse IP du serveur:",
+        fill="#505485",
+        font=("Roboto Bold", 16 * -1)
+    )
+
+    canvas.create_text(
+        478.0,
+        245.0,
+        anchor="nw",
+        text="Port du serveur:",
+        fill="#505485",
+        font=("Roboto Bold", 16 * -1)
+    )
+
+    canvas.create_rectangle(
+        40.0,
+        160.0,
+        100.0,
+        165.0,
+        fill="#FCFCFC",
+        outline="")
+
+    entry_image_1 = PhotoImage(
+        file=relative_to_assets_page_3("entry_1.png"))
+    entry_bg_1 = canvas.create_image(
+        650.5,
+        199.5,
+        image=entry_image_1
+    )
+    global page4_entry_1
+    page4_entry_1 = Entry(
+        bd=0,
+        bg="#F1F5FF",
+        fg="#000716",
+        highlightthickness=0
+    )
+    page4_entry_1.place(
+        x=490.0,
+        y=169.0,
+        width=321.0,
+        height=59.0
+    )
+
+    entry_image_2 = PhotoImage(
+        file=relative_to_assets_page_3("entry_2.png"))
+    entry_bg_2 = canvas.create_image(
+        650.5,
+        308.5,
+        image=entry_image_2
+    )
+    global page4_entry_2
+    page4_entry_2 = Entry(
+        bd=0,
+        bg="#F1F5FF",
+        fg="#000716",
+        highlightthickness=0
+    )
+    page4_entry_2.place(
+        x=490.0,
+        y=278.0,
+        width=321.0,
+        height=59.0
+    )
+
+    canvas.create_text(
+        40.0,
+        186.0,
+        anchor="nw",
+        text="Générez un serveur FTP factice",
+        fill="#FCFCFC",
+        font=("RobotoRoman Regular", 20 * -1)
+    )
+
+    canvas.create_text(
+        40.0,
+        214.0,
+        anchor="nw",
+        text="accessible sur la même adresse IP que",
+        fill="#FCFCFC",
+        font=("RobotoRoman Regular", 20 * -1)
+    )
+
+    canvas.create_text(
+        40.0,
+        242.0,
+        anchor="nw",
+        text="votre site en production, tout en le",
+        fill="#FCFCFC",
+        font=("RobotoRoman Regular", 20 * -1)
+    )
+
+    canvas.create_text(
+        40.0,
+        270.0,
+        anchor="nw",
+        text="gardant sur un réseau virtuel séparé",
+        fill="#FCFCFC",
+        font=("RobotoRoman Regular", 20 * -1)
+    )
+
+    canvas.create_text(
+        40.0,
+        299.0,
+        anchor="nw",
+        text="garantissant une isolation de",
+        fill="#FCFCFC",
+        font=("RobotoRoman Regular", 20 * -1)
+    )
+
+    canvas.create_text(
+        40.0,
+        327.0,
+        anchor="nw",
+        text="l’attaquant.",
+        fill="#FCFCFC",
+        font=("RobotoRoman Regular", 20 * -1)
+    )
+    window.mainloop()
+
 def redirect_output(text_widget):
     class StdoutRedirector:
         def __init__(self, widget):
@@ -492,8 +663,7 @@ def redirect_output(text_widget):
 
     sys.stdout = StdoutRedirector(text_widget)
 
-
-def page4():
+def page5():
     canvas = Canvas(
         window,
         bg = "#003061",
@@ -557,7 +727,7 @@ def page4():
 
     window.mainloop()
 
-def page5():
+def page6():
     canvas = Canvas(
         window,
         bg = "#003061",
@@ -651,14 +821,14 @@ def install():
 
     config = {
         'dummy_pc': {
-            'num_services': int(entry_1.get()),
-            'ip_addresses': [ip.strip() for ip in entry_2.get().split(',')]
+            'num_services': int(page3_entry_1.get()),
+            'ip_addresses': [ip.strip() for ip in page3_entry_2.get().split(',')]
         },
         "ftp": {
-            "ip_address": "192.168.1.36",
-            "port": 21
+            "ip_address": page4_entry_1.get(),
+            "port": page4_entry_2.get()
         },
-        "subnet": "192.168.1.0/24"
+        "subnet": page2_entry_1.get()
     }
 
     # Créer le dossier 'build' s'il n'existe pas
