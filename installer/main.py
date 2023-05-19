@@ -8,6 +8,8 @@ from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 from generator import generate
 import json
 import os
+import sys
+import threading
 
 OUTPUT_PATH = Path(__file__).parent
 
@@ -23,9 +25,13 @@ ASSETS_PATH_PAGE_3 = OUTPUT_PATH / Path(r"assets/frame2")
 def relative_to_assets_page_3(path: str) -> Path:
     return ASSETS_PATH_PAGE_3 / Path(path)
 
-ASSETS_PATH_PAGE_4 = OUTPUT_PATH / Path(r"assets/frame1")
+ASSETS_PATH_PAGE_4 = OUTPUT_PATH / Path(r"assets/frame0")
 def relative_to_assets_page_4(path: str) -> Path:
     return ASSETS_PATH_PAGE_4 / Path(path)
+
+ASSETS_PATH_PAGE_5 = OUTPUT_PATH / Path(r"assets/frame1")
+def relative_to_assets_page_5(path: str) -> Path:
+    return ASSETS_PATH_PAGE_5 / Path(path)
 
 window = Tk()
 
@@ -470,7 +476,88 @@ def page3():
     )
     window.mainloop()
 
+def redirect_output(text_widget):
+    class StdoutRedirector:
+        def __init__(self, widget):
+            self.widget = widget
+
+        def write(self, output):
+            self.widget.configure(state="normal")
+            self.widget.insert("end", output)
+            self.widget.see("end")
+            self.widget.configure(state="disabled")
+
+        def flush(self):
+            pass
+
+    sys.stdout = StdoutRedirector(text_widget)
+
+
 def page4():
+    canvas = Canvas(
+        window,
+        bg = "#003061",
+        height = 519,
+        width = 862,
+        bd = 0,
+        highlightthickness = 0,
+        relief = "ridge"
+    )
+
+    canvas.place(x = 0, y = 0)
+    entry_image_1 = PhotoImage(
+        file=relative_to_assets_page_4("entry_1.png"))
+    entry_bg_1 = canvas.create_image(
+        431.0,
+        288.0,
+        image=entry_image_1
+    )
+    entry_1 = Text(
+        bd=0,
+        bg="#F1F5FF",
+        fg="#000716",
+        highlightthickness=0
+    )
+    entry_1.place(
+        x=53.0,
+        y=95.0,
+        width=756.0,
+        height=384.0
+    )
+
+    canvas.create_rectangle(
+        41.0,
+        95.0,
+        821.0,
+        481.0,
+        fill="#FFFFFF",
+        outline="")
+
+    canvas.create_text(
+        40.0,
+        32.00000000000001,
+        anchor="nw",
+        text="Déploiement...",
+        fill="#FCFCFC",
+        font=("Roboto Bold", 24 * -1)
+    )
+
+    canvas.create_rectangle(
+        40.0,
+        65.0,
+        100.0,
+        70.0,
+        fill="#FCFCFC",
+        outline="")
+    # Rediriger la sortie standard vers le widget Text
+    redirect_output(entry_1)
+
+    install_thread = threading.Thread(target=install)
+    install_thread.start()
+
+    window.mainloop()
+
+def page5():
     canvas = Canvas(
         window,
         bg = "#003061",
@@ -491,7 +578,7 @@ def page4():
         outline="")
 
     image_image_1 = PhotoImage(
-        file=relative_to_assets_page_4("image_1.png"))
+        file=relative_to_assets_page_5("image_1.png"))
     image_1 = canvas.create_image(
         646.0,
         237.0,
@@ -499,7 +586,7 @@ def page4():
     )
 
     button_image_1 = PhotoImage(
-        file=relative_to_assets_page_4("button_1.png"))
+        file=relative_to_assets_page_5("button_1.png"))
     button_1 = Button(
         image=button_image_1,
         borderwidth=0,
@@ -515,7 +602,7 @@ def page4():
     )
 
     button_image_2 = PhotoImage(
-        file=relative_to_assets_page_4("button_2.png"))
+        file=relative_to_assets_page_5("button_2.png"))
     button_2 = Button(
         image=button_image_2,
         borderwidth=0,
@@ -559,6 +646,8 @@ def page4():
 
 def install():
     # Définir les options de configuration
+
+    print('Creating config...')
 
     config = {
         'dummy_pc': {

@@ -3,9 +3,10 @@ import json
 import shutil
 import glob
 import os
+import subprocess
 
 def generate(config_file_path):
-    print('Generating docker compose...')
+    print('Parsing config...')
 
     # Open the config file
     with open(config_file_path, 'r') as f:
@@ -22,6 +23,8 @@ def generate(config_file_path):
     file_loader = FileSystemLoader('templates')
     env = Environment(loader=file_loader)
 
+    print('Generating docker compose...')
+
     # Load the main template
     template = env.get_template('docker-compose-template.yml')
 
@@ -34,8 +37,12 @@ def generate(config_file_path):
         subnet=subnet
     )
 
+    print('Copying honeypot modules...')
+
     # Copy docker files
     shutil.copytree('./modules', './build/modules', dirs_exist_ok=True)
+
+    print('Copying honeypot core services...')
 
     # Copy docker files
     source_path = '../*'
@@ -52,5 +59,12 @@ def generate(config_file_path):
     with open('build/docker-compose.yml', 'w') as f:
         f.write(output)
 
-    print("Docker Compose file has been created.")
-    exit()
+    print("[OK] Docker Compose file has been created.")
+
+    print("Starting honeypot services...")
+
+    subprocess.run(['docker', 'compose', 'up', '-d'], cwd='build')
+    
+    print("[OK] Docker services started.")
+
+    # exit()
