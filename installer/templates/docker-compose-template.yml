@@ -19,13 +19,13 @@ services:
     image: shop_image
     container_name: shop
     build:
-      context: ./shop/docker
+      context: ./honeypot/shop/docker
     networks:
       - services_network
 
   fail2ban:
     build:
-      context: ./fail2ban/docker
+      context: ./honeypot/fail2ban/docker
     container_name: fail2ban
     restart: "unless-stopped"
     network_mode: host
@@ -60,6 +60,29 @@ services:
     command: -i eth0
 {% include 'dummy_pc_template.yml' %}
 {% include 'ftp_server_template.yml' %}
+
+  backend:
+    image: dashboard_back
+    build:
+      context: ../../../Backend/
+    ports:
+      - "8000:8000"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - dashboard_network
+    volumes:
+      - "./honeypot/nginx/config/block.conf:/app/honeypot/block.conf"
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  frontend:
+    image: frontend
+    build:
+      context: ../../../Frontend/
+    ports:
+      - "3000:3000"
+    networks:
+      - dashboard_network
 
 networks:
   honeypot_network:
