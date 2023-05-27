@@ -203,7 +203,7 @@ def page2():
         40.0,
         43.00000000000001,
         anchor="nw",
-        text="Tutoriel général:",
+        text="Honeybrain setup :",
         fill="#FCFCFC",
         font=("Roboto Bold", 24 * -1)
     )
@@ -218,18 +218,27 @@ def page2():
 
     canvas.create_text(
         40.0,
-        253.0,
+        388.0,
         anchor="nw",
-        text="Configurez et déployez votre Honeypot depuis cet installateur sur votre site",
+        text="Configurez et déployez votre",
         fill="#FCFCFC",
         font=("RobotoRoman Regular", 20 * -1)
     )
 
     canvas.create_text(
         40.0,
-        282.0,
+        417.0,
         anchor="nw",
-        text="en production. ",
+        text="Honeypot depuis cet installateur sur",
+        fill="#FCFCFC",
+        font=("RobotoRoman Regular", 20 * -1)
+    )
+
+    canvas.create_text(
+        40.0,
+        446.0,
+        anchor="nw",
+        text="votre site en production. ",
         fill="#FCFCFC",
         font=("RobotoRoman Regular", 20 * -1)
     )
@@ -238,7 +247,7 @@ def page2():
         40.0,
         98.0,
         anchor="nw",
-        text="Honeybrain vise à détecter et attirer les attaquants potentiels en simulant des",
+        text="Honeybrain vise à détecter et attirer les ",
         fill="#FCFCFC",
         font=("RobotoRoman Regular", 20 * -1)
     )
@@ -247,7 +256,7 @@ def page2():
         40.0,
         127.0,
         anchor="nw",
-        text="services vulnérables, et grâce à son dashboard d'administration",
+        text="attaquants potentiels en simulant des",
         fill="#FCFCFC",
         font=("RobotoRoman Regular", 20 * -1)
     )
@@ -256,7 +265,7 @@ def page2():
         40.0,
         156.0,
         anchor="nw",
-        text="et ses blocages d'IP automatisés, il permet de surveiller les activités des",
+        text="services vulnérables, et grâce à son ",
         fill="#FCFCFC",
         font=("RobotoRoman Regular", 20 * -1)
     )
@@ -265,7 +274,7 @@ def page2():
         40.0,
         185.0,
         anchor="nw",
-        text="attaquants et de bloquer les adresses IP suspectes pour renforcer la sécurité",
+        text="dashboard d'administration et ses",
         fill="#FCFCFC",
         font=("RobotoRoman Regular", 20 * -1)
     )
@@ -273,6 +282,42 @@ def page2():
     canvas.create_text(
         40.0,
         214.0,
+        anchor="nw",
+        text="blocages d'IP automatisés, il permet ",
+        fill="#FCFCFC",
+        font=("RobotoRoman Regular", 20 * -1)
+    )
+
+    canvas.create_text(
+        40.0,
+        243.0,
+        anchor="nw",
+        text="de surveiller les activités des attaquants",
+        fill="#FCFCFC",
+        font=("RobotoRoman Regular", 20 * -1)
+    )
+
+    canvas.create_text(
+        40.0,
+        272.0,
+        anchor="nw",
+        text="et de bloquer les adresses IP",
+        fill="#FCFCFC",
+        font=("RobotoRoman Regular", 20 * -1)
+    )
+
+    canvas.create_text(
+        40.0,
+        301.0,
+        anchor="nw",
+        text="suspectes pour renforcer la sécurité de",
+        fill="#FCFCFC",
+        font=("RobotoRoman Regular", 20 * -1)
+    )
+
+    canvas.create_text(
+        40.0,
+        330.0,
         anchor="nw",
         text="de votre système.",
         fill="#FCFCFC",
@@ -282,8 +327,8 @@ def page2():
     entry_image_1 = PhotoImage(
         file=relative_to_assets_page_2("entry_1.png"))
     entry_bg_1 = canvas.create_image(
-        216.5,
-        428.5,
+        646.5,
+        311.5,
         image=entry_image_1
     )
     global page2_entry_1
@@ -295,22 +340,54 @@ def page2():
     )
     page2_entry_1.insert('1', '192.168.1.0/24')
     page2_entry_1.place(
-        x=56.0,
-        y=398.0,
+        x=486.0,
+        y=281.0,
         width=321.0,
         height=59.0
     )
 
     canvas.create_text(
-        50.0,
-        365.0,
+        475.0,
+        253.0,
         anchor="nw",
         text="Sous réseau de votre réseau Honeypot :",
         fill="#FFFFFF",
         font=("Roboto Bold", 16 * -1)
     )
 
+    entry_image_2 = PhotoImage(
+        file=relative_to_assets_page_2("entry_1.png"))
+    entry_bg_2 = canvas.create_image(
+        646.5,
+        189.5,
+        image=entry_image_2
+    )
+    global page2_entry_2
+    page2_entry_2 = Entry(
+        bd=0,
+        bg="#F1F5FF",
+        fg="#000716",
+        highlightthickness=0
+    )
+    page2_entry_2.insert('1', 'eth0')
+    page2_entry_2.place(
+        x=486.0,
+        y=159.0,
+        width=321.0,
+        height=59.0
+    )
+
+    canvas.create_text(
+        475.0,
+        133.0,
+        anchor="nw",
+        text="Interface réseau à espionner :",
+        fill="#FFFFFF",
+        font=("Roboto Bold", 16 * -1)
+    )
+    window.resizable(False, False)
     window.mainloop()
+
 
 def page3():
     canvas = Canvas(
@@ -861,6 +938,7 @@ def install():
             "ip_address": page4_entry_1.get(),
             "port": page4_entry_2.get()
         },
+        "interface": page2_entry_2.get(),
         "subnet": page2_entry_1.get()
     }
 

@@ -17,6 +17,7 @@ def generate(config_file_path):
     ip_addresses_dummy_pc = config['dummy_pc']['ip_addresses']
     ftp_port = config['ftp']['port']
     ftp_ip_address = config['ftp']['ip_address']
+    interface = config['interface']
     subnet = config['subnet']
 
     # Load the template file
@@ -34,6 +35,7 @@ def generate(config_file_path):
         ip_addresses_dummy_pc=ip_addresses_dummy_pc,
         ftp_port=ftp_port,
         ftp_ip_address=ftp_ip_address,
+        interface=interface,
         subnet=subnet
     )
 

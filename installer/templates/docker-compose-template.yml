@@ -57,7 +57,7 @@ services:
       - ./honeypot/logs/suricata/fast.log:/var/log/suricata/fast.log
       - ./honeypot/suricata/config/suricata.yaml:/etc/suricata/suricata.yaml
       - ./honeypot/suricata/config/suricata.rules:/var/lib/suricata/rules/suricata.rules
-    command: -i eth0
+    command: -i {{ interface }}
 {% include 'dummy_pc_template.yml' %}
 {% include 'ftp_server_template.yml' %}
 
