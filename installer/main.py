@@ -10,6 +10,7 @@ import json
 import os
 import sys
 import threading
+import webbrowser
 
 OUTPUT_PATH = Path(__file__).parent
 
@@ -36,6 +37,10 @@ def relative_to_assets_page_5(path: str) -> Path:
 ASSETS_PATH_PAGE_6 = OUTPUT_PATH / Path(r"assets/frame6")
 def relative_to_assets_page_6(path: str) -> Path:
     return ASSETS_PATH_PAGE_6 / Path(path)
+
+ASSETS_PATH_PAGE_7 = OUTPUT_PATH / Path(r"assets/frame7")
+def relative_to_assets_page_7(path: str) -> Path:
+    return ASSETS_PATH_PAGE_7 / Path(path)
 
 window = Tk()
 
@@ -998,48 +1003,48 @@ def page7():
         outline="")
 
     image_image_1 = PhotoImage(
-        file=relative_to_assets_page_5("image_1.png"))
+        file=relative_to_assets_page_7("image_1.png"))
     image_1 = canvas.create_image(
         646.0,
-        237.0,
+        199.0,
         image=image_image_1
     )
 
     button_image_1 = PhotoImage(
-        file=relative_to_assets_page_5("button_1.png"))
+        file=relative_to_assets_page_7("button_1.png"))
     button_1 = Button(
         image=button_image_1,
-        borderwidth=0,
-        highlightthickness=0,
-        command=lambda: print("button_1 clicked"),
-        relief="flat"
-    )
-    button_1.place(
-        x=557.0,
-        y=401.0,
-        width=180.0,
-        height=55.0
-    )
-
-    button_image_2 = PhotoImage(
-        file=relative_to_assets_page_5("button_2.png"))
-    button_2 = Button(
-        image=button_image_2,
         borderwidth=0,
         highlightthickness=0,
         command=lambda: exit(),
         relief="flat"
     )
+    button_1.place(
+        x=557.0,
+        y=340.0,
+        width=180.0,
+        height=55.0
+    )
+
+    button_image_2 = PhotoImage(
+        file=relative_to_assets_page_7("button_2.png"))
+    button_2 = Button(
+        image=button_image_2,
+        borderwidth=0,
+        highlightthickness=0,
+        command=lambda: open_dashboard(),
+        relief="flat"
+    )
     button_2.place(
         x=557.0,
-        y=401.0,
+        y=408.0,
         width=180.0,
         height=55.0
     )
 
     canvas.create_text(
-        94.0,
-        183.0,
+        93.0,
+        209.0,
         anchor="nw",
         text="Configuration ",
         fill="#FCFCFC",
@@ -1047,8 +1052,8 @@ def page7():
     )
 
     canvas.create_text(
-        118.0,
-        230.0,
+        130.0,
+        256.0,
         anchor="nw",
         text="terminée!",
         fill="#FCFCFC",
@@ -1056,13 +1061,18 @@ def page7():
     )
 
     canvas.create_rectangle(
-        144.0,
-        286.0,
-        204.0,
-        291.0,
+        186.0,
+        312.0,
+        246.0,
+        317.0,
         fill="#FCFCFC",
         outline="")
     window.mainloop()
+
+def open_dashboard():
+    url = "http://localhost:3000"
+    webbrowser.open(url)
+
 
 def hide_button(widget):
     # This will remove the widget from toplevel
