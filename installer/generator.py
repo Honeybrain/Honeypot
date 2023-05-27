@@ -106,5 +106,3 @@ def generate(config_file_path, username, password):
     print("All services are now started! You can access the dashboard using http://localhost:3000.")
 
     print("(Tip: You can see your services using \"docker ps\" in a terminal)")
-
-    # exit()

@@ -33,7 +33,7 @@ ASSETS_PATH_PAGE_5 = OUTPUT_PATH / Path(r"assets/frame5")
 def relative_to_assets_page_5(path: str) -> Path:
     return ASSETS_PATH_PAGE_5 / Path(path)
 
-ASSETS_PATH_PAGE_6 = OUTPUT_PATH / Path(r"assets/frame1")
+ASSETS_PATH_PAGE_6 = OUTPUT_PATH / Path(r"assets/frame6")
 def relative_to_assets_page_6(path: str) -> Path:
     return ASSETS_PATH_PAGE_6 / Path(path)
 
@@ -949,6 +949,26 @@ def page6():
         70.0,
         fill="#FCFCFC",
         outline="")
+    
+    button_image_1 = PhotoImage(
+        file=relative_to_assets_page_6("button_1.png"))
+    global button_1
+    button_1 = Button(
+        image=button_image_1,
+        borderwidth=0,
+        highlightthickness=0,
+        command=lambda: page7(),
+        relief="flat"
+    )
+    button_1.place(
+        x=557.0,
+        y=401.0,
+        width=180.0,
+        height=55.0
+    )
+    button_1.pack()
+    hide_button(button_1)
+
     # Rediriger la sortie standard vers le widget Text
     redirect_output(entry_1)
 
@@ -1007,7 +1027,7 @@ def page7():
         image=button_image_2,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: install(),
+        command=lambda: exit(),
         relief="flat"
     )
     button_2.place(
@@ -1044,6 +1064,15 @@ def page7():
         outline="")
     window.mainloop()
 
+def hide_button(widget):
+    # This will remove the widget from toplevel
+    widget.pack_forget()
+  
+# Method to make Button(widget) visible
+def show_button(widget):
+    # This will recover the widget from toplevel
+    widget.pack()
+
 def install():
     # Définir les options de configuration
 
@@ -1075,5 +1104,13 @@ def install():
     
     # Generer les docker compose en utilisant la configuration
     generate(config_file_path, page5_entry_2.get(), page5_entry_1.get())
+
+    show_button(button_1)
+    button_1.place(
+        x=557.0,
+        y=401.0,
+        width=180.0,
+        height=55.0
+    )
  
 page1()
