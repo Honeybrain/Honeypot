@@ -68,7 +68,7 @@ services:
       - ./logs/suricata/fast.log:/var/log/suricata/fast.log
       - ./suricata/config/suricata.yaml:/etc/suricata/suricata.yaml
       - ./suricata/config/suricata.rules:/var/lib/suricata/rules/suricata.rules
-    command: -i eth0
+    command: -i wlo1
 
 networks:
   honeypot_network:

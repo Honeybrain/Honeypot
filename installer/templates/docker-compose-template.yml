@@ -72,6 +72,7 @@ services:
     networks:
       - dashboard_network
     volumes:
+      - "./honeypot/logs/suricata/fast.log:/app/honeypot/fast.log"
       - "./honeypot/nginx/config/block.conf:/app/honeypot/block.conf"
       - /var/run/docker.sock:/var/run/docker.sock
 
