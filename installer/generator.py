@@ -4,8 +4,32 @@ import shutil
 import glob
 import os
 import subprocess
+import time
+from firebase import create_account
 
-def generate(config_file_path):
+def wait_for_container_health(container_name, timeout=60):
+    start_time = time.time()
+
+    while time.time() - start_time < timeout:
+        try:
+            output = subprocess.check_output(['docker', 'ps', '--format', '{{json .}}'])
+            containers = [line for line in output.decode().split('\n') if line.strip()]
+            
+            for container in containers:
+                container_info = json.loads(container)
+                if container_info['Names'] == container_name:
+                    status = container_info['Status']
+                    if 'healthy' in status:
+                        return
+
+            time.sleep(1)
+
+        except subprocess.CalledProcessError:
+            pass
+
+    raise TimeoutError(f"Timeout while waiting for container '{container_name}' to become healthy.")
+
+def generate(config_file_path, username, password):
     print('Parsing config...')
 
     # Open the config file
@@ -65,9 +89,21 @@ def generate(config_file_path):
 
     print("Starting honeypot services...")
 
-    subprocess.run(['docker', 'compose', 'up', '-d'], cwd='build')
+    subprocess.run(['docker', 'compose', '-f', './build/docker-compose.yml', 'up', '-d'], cwd='.')
     
     print("[OK] Docker services started.")
+
+    wait_for_container_health('backend')
+    
+    print("Creating account...")
+
+    create_account(username, password)
+
+    print("[OK] Account created.")
+
+    wait_for_container_health('frontend')
+
+    print("All services are now started! You can access the dashboard using http://localhost:3000.")
 
     print("(Tip: You can see your services using \"docker ps\" in a terminal)")
 

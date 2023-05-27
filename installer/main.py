@@ -29,9 +29,13 @@ ASSETS_PATH_PAGE_4 = OUTPUT_PATH / Path(r"assets/frame0")
 def relative_to_assets_page_4(path: str) -> Path:
     return ASSETS_PATH_PAGE_4 / Path(path)
 
-ASSETS_PATH_PAGE_5 = OUTPUT_PATH / Path(r"assets/frame1")
+ASSETS_PATH_PAGE_5 = OUTPUT_PATH / Path(r"assets/frame5")
 def relative_to_assets_page_5(path: str) -> Path:
     return ASSETS_PATH_PAGE_5 / Path(path)
+
+ASSETS_PATH_PAGE_6 = OUTPUT_PATH / Path(r"assets/frame1")
+def relative_to_assets_page_6(path: str) -> Path:
+    return ASSETS_PATH_PAGE_6 / Path(path)
 
 window = Tk()
 
@@ -757,6 +761,122 @@ def page4():
     )
     window.mainloop()
 
+def page5():
+    canvas = Canvas(
+        window,
+        bg = "#003061",
+        height = 519,
+        width = 862,
+        bd = 0,
+        highlightthickness = 0,
+        relief = "ridge"
+    )
+
+    canvas.place(x = 0, y = 0)
+    button_image_1 = PhotoImage(
+        file=relative_to_assets_page_5("button_1.png"))
+    button_1 = Button(
+        image=button_image_1,
+        borderwidth=0,
+        highlightthickness=0,
+        command=lambda: page6(),
+        relief="flat"
+    )
+    button_1.place(
+        x=557.0,
+        y=401.0,
+        width=180.0,
+        height=55.0
+    )
+
+    canvas.create_text(
+        276.0,
+        56.00000000000001,
+        anchor="nw",
+        text="Dernière étape ...",
+        fill="#FCFCFC",
+        font=("Roboto Bold", 40 * -1)
+    )
+
+    entry_image_1 = PhotoImage(
+        file=relative_to_assets_page_5("entry_1.png"))
+    entry_bg_1 = canvas.create_image(
+        430.5,
+        317.5,
+        image=entry_image_1
+    )
+    global page5_entry_1
+    page5_entry_1 = Entry(
+        bd=0,
+        bg="#F1F5FF",
+        fg="#000716",
+        highlightthickness=0
+    )
+    page5_entry_1.place(
+        x=270.0,
+        y=287.0,
+        width=321.0,
+        height=59.0
+    )
+
+    canvas.create_text(
+        144.0,
+        308.0,
+        anchor="nw",
+        text="Mot de passe :",
+        fill="#FFFFFF",
+        font=("Roboto Bold", 16 * -1)
+    )
+
+    entry_image_2 = PhotoImage(
+        file=relative_to_assets_page_5("entry_2.png"))
+    entry_bg_2 = canvas.create_image(
+        430.5,
+        236.5,
+        image=entry_image_2
+    )
+    global page5_entry_2
+    page5_entry_2 = Entry(
+        bd=0,
+        bg="#F1F5FF",
+        fg="#000716",
+        highlightthickness=0
+    )
+    page5_entry_2.place(
+        x=270.0,
+        y=206.0,
+        width=321.0,
+        height=59.0
+    )
+
+    canvas.create_text(
+        117.0,
+        227.0,
+        anchor="nw",
+        text="Nom d’utilisateur :",
+        fill="#FFFFFF",
+        font=("Roboto Bold", 16 * -1)
+    )
+
+    canvas.create_text(
+        149.0,
+        113.0,
+        anchor="nw",
+        text="Créez votre compte administrateur pour accéder au dashboard",
+        fill="#FCFCFC",
+        font=("RobotoRoman Regular", 20 * -1)
+    )
+
+    canvas.create_text(
+        274.0,
+        141.0,
+        anchor="nw",
+        text="d’administration de votre honeypot.",
+        fill="#FCFCFC",
+        font=("RobotoRoman Regular", 20 * -1)
+    )
+    window.mainloop()
+
 def redirect_output(text_widget):
     class StdoutRedirector:
         def __init__(self, widget):
@@ -773,7 +893,7 @@ def redirect_output(text_widget):
 
     sys.stdout = StdoutRedirector(text_widget)
 
-def page5():
+def page6():
     canvas = Canvas(
         window,
         bg = "#003061",
@@ -837,7 +957,7 @@ def page5():
 
     window.mainloop()
 
-def page6():
+def page7():
     canvas = Canvas(
         window,
         bg = "#003061",
@@ -954,6 +1074,6 @@ def install():
         json.dump(config, f, indent=4)
     
     # Generer les docker compose en utilisant la configuration
-    generate(config_file_path)
-    
+    generate(config_file_path, page5_entry_2.get(), page5_entry_1.get())
+ 
 page1()

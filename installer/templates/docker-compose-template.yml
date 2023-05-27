@@ -63,6 +63,7 @@ services:
 
   backend:
     image: dashboard_back
+    container_name: backend
     build:
       context: ../../../Backend/
     ports:
@@ -75,15 +76,26 @@ services:
       - "./honeypot/logs/suricata/fast.log:/app/honeypot/fast.log"
       - "./honeypot/nginx/config/block.conf:/app/honeypot/block.conf"
       - /var/run/docker.sock:/var/run/docker.sock
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8000/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   frontend:
     image: frontend
+    container_name: frontend
     build:
       context: ../../../Frontend/
     ports:
       - "3000:3000"
     networks:
       - dashboard_network
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:3000/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
 networks:
   honeypot_network:
