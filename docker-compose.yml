@@ -1,0 +1,148 @@
+version: '3'
+services:
+  reverse_proxy:
+    image: nginx:latest
+    container_name: reverse_proxy
+    volumes:
+      - ./nginx/config/nginx.conf:/etc/nginx/nginx.conf
+      - "./nginx/config/block.conf:/etc/nginx/block.conf"
+      - ./logs/nginx:/var/log/nginx
+    ports:
+      - "80:80"
+    networks:
+      - services_network
+    depends_on:
+      - shop
+      - fail2ban
+
+  shop:
+    image: shop_image
+    container_name: shop
+    build:
+      context: ./shop/docker
+    networks:
+      - services_network
+
+  fail2ban:
+    build:
+      context: ./fail2ban/docker
+    container_name: fail2ban
+    restart: "unless-stopped"
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./logs/suricata/fast.log:/var/log/suricata.log
+      - "./logs/fail2ban:/var/log/fail2ban"
+      - "./fail2ban/config:/data"
+      - "/var/lib/docker/containers/:/container-logs/:ro"
+      - "./nginx/config/block.conf:/etc/nginx/block.conf"
+      - "./nginx/config/nginx.conf:/etc/nginx/nginx.conf"
+    env_file:
+      - "./fail2ban.env"
+    depends_on:
+      - suricata
+
+  suricata:
+    image: jasonish/suricata:latest
+    container_name: suricata
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_NICE
+    volumes:
+      - ./logs/suricata/fast.log:/var/log/suricata/fast.log
+      - ./suricata/config/suricata.yaml:/etc/suricata/suricata.yaml
+      - ./suricata/config/suricata.rules:/var/lib/suricata/rules/suricata.rules
+    command: -i eth0
+
+  dummy_pc_0:
+    build:
+      context: ./installer/modules/dummy_pc
+      dockerfile: Dockerfile
+    networks:
+      honeypot_network:
+        ipv4_address: 192.168.1.12
+
+  dummy_pc_1:
+    build:
+      context: ./installer/modules/dummy_pc
+      dockerfile: Dockerfile
+    networks:
+      honeypot_network:
+        ipv4_address: 192.168.1.13
+
+  dummy_pc_2:
+    build:
+      context: ./installer/modules/dummy_pc
+      dockerfile: Dockerfile
+    networks:
+      honeypot_network:
+        ipv4_address: 192.168.1.14
+
+  dummy_pc_3:
+    build:
+      context: ./installer/modules/dummy_pc
+      dockerfile: Dockerfile
+    networks:
+      honeypot_network:
+        ipv4_address: 192.168.1.15
+
+  ftp:
+    build:
+      context: ./installer/modules/ftp
+      dockerfile: Dockerfile
+    ports:
+      - "21:21"
+    networks:
+      honeypot_network:
+        ipv4_address: 192.168.1.17
+
+  backend:
+    image: dashboard_back
+    container_name: backend
+    build:
+      context: ../Backend/
+    ports:
+      - "8000:8000"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - dashboard_network
+    volumes:
+      - "./logs/suricata/fast.log:/app/honeypot/fast.log"
+      - "./nginx/config/block.conf:/app/honeypot/block.conf"
+      - /var/run/docker.sock:/var/run/docker.sock
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8000/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  frontend:
+    image: frontend
+    build:
+      context: ../Frontend/
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    networks:
+      - dashboard_network
+    volumes:
+      - ../Frontend/:/app
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:3000/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+networks:
+  honeypot_network:
+    ipam:
+      config:
+        - subnet: 192.168.1.0/24
+  services_network:
+  dashboard_network:
