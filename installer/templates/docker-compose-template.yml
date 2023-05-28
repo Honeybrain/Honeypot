@@ -84,13 +84,15 @@ services:
 
   frontend:
     image: frontend
-    container_name: frontend
     build:
       context: ../../../Frontend/
+      dockerfile: Dockerfile.dev
     ports:
       - "3000:3000"
     networks:
       - dashboard_network
+    volumes:
+      - ../../../Frontend/:/app
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:3000/"]
       interval: 10s
