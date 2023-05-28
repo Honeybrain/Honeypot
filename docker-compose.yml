@@ -124,6 +124,7 @@ services:
 
   frontend:
     image: frontend
+    container_name: frontend
     build:
       context: ../Frontend/
       dockerfile: Dockerfile.dev
