@@ -60,33 +60,25 @@ services:
     command: -i eth0
 
   dummy_pc_0:
-    build:
-      context: ./installer/modules/dummy_pc
-      dockerfile: Dockerfile
+    image: adrienroco/hb_modules_pc:latest
     networks:
       honeypot_network:
         ipv4_address: 192.168.1.12
 
   dummy_pc_1:
-    build:
-      context: ./installer/modules/dummy_pc
-      dockerfile: Dockerfile
+    image: adrienroco/hb_modules_pc:latest
     networks:
       honeypot_network:
         ipv4_address: 192.168.1.13
 
   dummy_pc_2:
-    build:
-      context: ./installer/modules/dummy_pc
-      dockerfile: Dockerfile
+    image: adrienroco/hb_modules_pc:latest
     networks:
       honeypot_network:
         ipv4_address: 192.168.1.14
 
   dummy_pc_3:
-    build:
-      context: ./installer/modules/dummy_pc
-      dockerfile: Dockerfile
+    image: adrienroco/hb_modules_pc:latest
     networks:
       honeypot_network:
         ipv4_address: 192.168.1.15
@@ -102,10 +94,8 @@ services:
         ipv4_address: 192.168.1.17
 
   backend:
-    image: dashboard_back
+    image: adrienroco/hb_dashboard_back:latest
     container_name: backend
-    build:
-      context: ../Backend/
     ports:
       - "8000:8000"
     environment:
@@ -123,11 +113,8 @@ services:
       retries: 3
 
   frontend:
-    image: frontend
+    image: adrienroco/hb_dashboard_front:latest
     container_name: frontend
-    build:
-      context: ../Frontend/
-      dockerfile: Dockerfile.dev
     environment:
       - NODE_ENV=production
     ports:
