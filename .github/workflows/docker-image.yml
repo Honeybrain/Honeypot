@@ -16,8 +16,7 @@ jobs:
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
       run: |
-        cd installer/modules/dummy_pc
-        docker build -t $DOCKER_USER/hb_modules_pc .
+        docker build -t $DOCKER_USER/hb_modules_pc installer/modules/dummy_pc/.
     - name: Push the dummy PC
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
