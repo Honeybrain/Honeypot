@@ -84,9 +84,7 @@ services:
         ipv4_address: 192.168.1.15
 
   ftp:
-    build:
-      context: ./installer/modules/ftp
-      dockerfile: Dockerfile
+    image: adrienroco/hb_modules_ftp:latest
     ports:
       - "21:21"
     networks:
