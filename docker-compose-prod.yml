@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   reverse_proxy:
     image: nginx:latest
@@ -129,8 +129,11 @@ services:
 
 networks:
   honeypot_network:
+    name: honeypot_network
     ipam:
       config:
         - subnet: 192.168.1.0/24
   services_network:
+    name: services_network
   dashboard_network:
+    name: dashboard_network

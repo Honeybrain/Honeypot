@@ -99,8 +99,11 @@ services:
 
 networks:
   honeypot_network:
+    name: honeypot_network
     ipam:
       config:
         - subnet: {{ subnet }}
   services_network:
+    name: services_network
   dashboard_network:
+    name: dashboard_network
