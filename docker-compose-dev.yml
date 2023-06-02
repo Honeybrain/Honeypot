@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   reverse_proxy:
     image: nginx:latest
@@ -57,7 +57,7 @@ services:
       - ./logs/suricata/fast.log:/var/log/suricata/fast.log
       - ./suricata/config/suricata.yaml:/etc/suricata/suricata.yaml
       - ./suricata/config/suricata.rules:/var/lib/suricata/rules/suricata.rules
-    command: -i eth0
+    command: -i enp2s0
 
   dummy_pc_0:
     build:
@@ -128,14 +128,13 @@ services:
     build:
       context: ../Frontend/
       dockerfile: Dockerfile.dev
-    environment:
-      - NODE_ENV=production
+    restart: unless-stopped
     ports:
       - "3000:3000"
     networks:
       - dashboard_network
-    # volumes:
-    #   - ../Frontend/:/app
+    volumes:
+      - ../Frontend/src:/app/src
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:3000/"]
       interval: 10s
