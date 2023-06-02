@@ -62,10 +62,8 @@ services:
 {% include 'ftp_server_template.yml' %}
 
   backend:
-    image: dashboard_back
+    image: adrienroco/hb_dashboard_back:latest
     container_name: backend
-    build:
-      context: ../../../Backend/
     ports:
       - "8000:8000"
     environment:
@@ -83,16 +81,16 @@ services:
       retries: 3
 
   frontend:
-    image: frontend
-    build:
-      context: ../../../Frontend/
-      dockerfile: Dockerfile.dev
+    image: adrienroco/hb_dashboard_front:latest
+    container_name: frontend
+    environment:
+      - NODE_ENV=production
     ports:
       - "3000:3000"
     networks:
       - dashboard_network
-    volumes:
-      - ../../../Frontend/:/app
+    # volumes:
+    #   - ../Frontend/:/app
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:3000/"]
       interval: 10s
