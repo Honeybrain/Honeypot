@@ -61,30 +61,35 @@ services:
 
   dummy_pc_0:
     image: adrienroco/hb_modules_pc:latest
+    container_name: honeypot_dummy_pc_0
     networks:
       honeypot_network:
         ipv4_address: 192.168.1.12
 
   dummy_pc_1:
     image: adrienroco/hb_modules_pc:latest
+    container_name: honeypot_dummy_pc_1
     networks:
       honeypot_network:
         ipv4_address: 192.168.1.13
 
   dummy_pc_2:
     image: adrienroco/hb_modules_pc:latest
+    container_name: honeypot_dummy_pc_2
     networks:
       honeypot_network:
         ipv4_address: 192.168.1.14
 
   dummy_pc_3:
     image: adrienroco/hb_modules_pc:latest
+    container_name: honeypot_dummy_pc_3
     networks:
       honeypot_network:
         ipv4_address: 192.168.1.15
 
   ftp:
     image: adrienroco/hb_modules_ftp:latest
+    container_name: honeypot_ftp
     ports:
       - "21:21"
     networks:

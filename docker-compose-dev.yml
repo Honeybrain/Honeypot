@@ -60,6 +60,7 @@ services:
     command: -i enp2s0
 
   dummy_pc_0:
+    container_name: honeypot_dummy_pc_0
     build:
       context: ./installer/modules/dummy_pc
       dockerfile: Dockerfile
@@ -68,6 +69,7 @@ services:
         ipv4_address: 192.168.1.12
 
   dummy_pc_1:
+    container_name: honeypot_dummy_pc_1
     build:
       context: ./installer/modules/dummy_pc
       dockerfile: Dockerfile
@@ -76,6 +78,7 @@ services:
         ipv4_address: 192.168.1.13
 
   dummy_pc_2:
+    container_name: honeypot_dummy_pc_2
     build:
       context: ./installer/modules/dummy_pc
       dockerfile: Dockerfile
@@ -84,6 +87,7 @@ services:
         ipv4_address: 192.168.1.14
 
   dummy_pc_3:
+    container_name: honeypot_dummy_pc_3
     build:
       context: ./installer/modules/dummy_pc
       dockerfile: Dockerfile
@@ -92,6 +96,7 @@ services:
         ipv4_address: 192.168.1.15
 
   ftp:
+    container_name: honeypot_dummy_ftp
     build:
       context: ./installer/modules/ftp
       dockerfile: Dockerfile
