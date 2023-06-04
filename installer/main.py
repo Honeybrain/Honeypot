@@ -493,7 +493,7 @@ def page3():
         page4(nofakemachine)
 
     if not is_valid_interface(page2_entry_2.get()):
-        messagebox.showerror("Erreur.", "Cette interface réseau n'existe pas.")
+        messagebox.showerror("Erreur.", "Cette interface réseau n'existe pas. Tapez ifconfig pour trouver le nom de votre interface réseau (du paquet npm net-tools).")
         page2()
 
     if not is_valid_cidr(page2_entry_1.get()):
