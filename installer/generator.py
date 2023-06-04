@@ -88,10 +88,10 @@ def generate(config_file_path, username, password):
     print("Starting honeypot services...")
 
     subprocess.run(['docker', 'compose', '-f', './build/docker-compose.yml', 'up', '-d'], cwd='.')
-    
-    print("[OK] Docker services started.")
 
     wait_for_container_health('backend')
+
+    print("[OK] Docker services started.")
     
     print("Creating account...")
 

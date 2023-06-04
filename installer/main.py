@@ -49,12 +49,6 @@ ASSETS_PATH_PAGE_8 = OUTPUT_PATH / Path(r"assets/frame8")
 def relative_to_assets_page_8(path: str) -> Path:
     return ASSETS_PATH_PAGE_8 / Path(path)
 
-global nofakemachine
-nofakemachine = False
-
-global noftp
-noftp = False
-
 window = Tk()
 
 window.geometry("862x519")
@@ -259,7 +253,9 @@ def page1():
     window.mainloop()
 
 
-def page2(): 
+def page2():
+    global page2_entry_1
+    global page2_entry_2
     canvas = Canvas(
         window,
         bg = "#003061",
@@ -419,7 +415,6 @@ def page2():
         311.5,
         image=entry_image_1
     )
-    global page2_entry_1
     page2_entry_1 = Entry(
         bd=0,
         bg="#F1F5FF",
@@ -450,7 +445,6 @@ def page2():
         189.5,
         image=entry_image_2
     )
-    global page2_entry_2
     page2_entry_2 = Entry(
         bd=0,
         bg="#F1F5FF",
@@ -476,11 +470,24 @@ def page2():
 
     window.mainloop()
 
-def page3_button_2_clicked():
-    nofakemachine = True
-    page4()
-
 def page3():
+    global page3_entry_1
+    global page3_entry_2
+
+    def page3_button_2_clicked():
+        print('page3_button_2_clicked')
+        global nofakemachine
+        nofakemachine = True
+        print("nofakemachine=" + str(nofakemachine))
+        page4(nofakemachine)
+
+    def page3_button_1_clicked():
+        print('page3_button_1_clicked')
+        global nofakemachine
+        nofakemachine = False
+        print("nofakemachine=" + str(nofakemachine))
+        page4(nofakemachine)
+
     if not is_valid_cidr(page2_entry_1.get()):
         messagebox.showerror("Erreur.", "Ceci n'est pas une adresse IP.")
         page2()
@@ -519,7 +526,7 @@ def page3():
         image=button_image_1,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: page4(),
+        command=lambda: page3_button_2_clicked(),
         relief="flat"
     )
     button_1.place(
@@ -535,7 +542,7 @@ def page3():
         image=button_image_2,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: page3_button_2_clicked(),
+        command=lambda: page3_button_1_clicked(),
         relief="flat"
     )
     button_2.place(
@@ -587,7 +594,6 @@ def page3():
         126.5,
         image=entry_image_1
     )
-    global page3_entry_1
     page3_entry_1 = Entry(
         bd=0,
         bg="#F1F5FF",
@@ -608,7 +614,6 @@ def page3():
         271.5,
         image=entry_image_2
     )
-    global page3_entry_2
     page3_entry_2 = Entry(
         bd=0,
         bg="#F1F5FF",
@@ -669,11 +674,28 @@ def page3():
 
     window.mainloop()
 
-def page4_button_2_clicked():
-    noftp = True
-    page5()
+def page4(nofakemachine):
+    print("nofakemachine=" + str(nofakemachine))
 
-def page4():
+    global page4_entry_1
+    global page4_entry_2
+
+    def page4_button_2_clicked():
+        print('page4_button_2_clicked')
+        global noftp
+        noftp = True
+        print("noftp=" + str(noftp))
+        page5(noftp)
+
+    def page4_button_1_clicked():
+        print('page4_button_1_clicked')
+        global noftp
+        noftp = False
+        print("noftp=" + str(noftp))
+        page5(noftp)
+
+    print("nofakemachine=" + str(nofakemachine))
+
     if nofakemachine is not False:
         if not is_valid_ip_list(page3_entry_2.get()):
             messagebox.showerror("Erreur.", "Le format de la liste est invalide.")
@@ -708,7 +730,7 @@ def page4():
         image=button_image_1,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda:  page5(),
+        command=lambda: page4_button_2_clicked(),
         relief="flat"
     )
     button_1.place(
@@ -760,7 +782,6 @@ def page4():
         153.5,
         image=entry_image_1
     )
-    global page4_entry_1
     page4_entry_1 = Entry(
         bd=0,
         bg="#F1F5FF",
@@ -834,7 +855,7 @@ def page4():
         image=button_image_2,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: page4_button_2_clicked(),
+        command=lambda: page4_button_1_clicked(),
         relief="flat"
     )
     button_2.place(
@@ -851,7 +872,6 @@ def page4():
         271.5,
         image=entry_image_2
     )
-    global page4_entry_2
     page4_entry_2 = Entry(
         bd=0,
         bg="#F1F5FF",
@@ -867,7 +887,11 @@ def page4():
     )
     window.mainloop()
 
-def page5():
+def page5(noftp):
+    print("noftp=" + str(noftp))
+
+    global page5_entry_1
+    global page5_entry_2
     if noftp is not False:
         if not is_valid_ip_list(page4_entry_1.get()):
             messagebox.showerror("Erreur.", "Adresse IP invalide.")
@@ -876,6 +900,8 @@ def page5():
         if not is_valid_port(page4_entry_2.get()):
             messagebox.showerror("Erreur.", "Port invalide.")
             page4()
+
+    print("noftp=" + str(noftp))
 
     canvas = Canvas(
         window,
@@ -920,7 +946,6 @@ def page5():
         329.5,
         image=entry_image_1
     )
-    global page5_entry_1
     page5_entry_1 = Entry(
         bd=0,
         bg="#F1F5FF",
@@ -950,7 +975,6 @@ def page5():
         231.5,
         image=entry_image_2
     )
-    global page5_entry_2
     page5_entry_2 = Entry(
         bd=0,
         bg="#F1F5FF",
@@ -993,6 +1017,7 @@ def page5():
     window.mainloop()
 
 def page6():
+    global page6_entry_1
     if not is_valid_email(page5_entry_2.get()):
         messagebox.showerror("Erreur.", "E-mail invalide.")
         page5()
@@ -1040,7 +1065,6 @@ def page6():
         274.5,
         image=entry_image_1
     )
-    global page6_entry_1
     page6_entry_1 = Entry(
         bd=0,
         bg="#F1F5FF",
@@ -1295,6 +1319,9 @@ def add_dockerfile_to_path(path):
     return path
 
 def install():
+    print("noftp=" + str(noftp))
+    print("nofakemachine=" + str(nofakemachine))
+
     # Définir les options de configuration
 
     print('Creating config...')
@@ -1340,5 +1367,5 @@ def install():
         width=180.0,
         height=55.0
     )
- 
+
 page1()

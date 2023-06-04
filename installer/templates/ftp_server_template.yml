@@ -1,4 +1,4 @@
-  ftp:
+ftp:
     image: adrienroco/hb_modules_ftp:latest
     container_name: honeypot_ftp
     ports:
