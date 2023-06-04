@@ -1,9 +1,3 @@
-from jinja2 import Environment, FileSystemLoader
-import json
-import shutil
-import glob
-import os
-import subprocess
 import requests
 
 def create_account(username, password):
@@ -23,3 +17,4 @@ def create_account(username, password):
         print(response.json())
     else:
         print(f'Error creating user: {response.text}')
+        raise Exception(f"Could not create user.")

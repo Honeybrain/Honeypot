@@ -1346,6 +1346,8 @@ def install():
     with open(config_file_path, 'w') as f:
         json.dump(config, f, indent=4)
 
+    print('[OK] Config created.')
+
     print('Launching Honeypot generator...')
     
     # Generer les docker compose en utilisant la configuration
