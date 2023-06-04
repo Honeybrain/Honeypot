@@ -57,7 +57,7 @@ services:
       - ./logs/suricata/fast.log:/var/log/suricata/fast.log
       - ./suricata/config/suricata.yaml:/etc/suricata/suricata.yaml
       - ./suricata/config/suricata.rules:/var/lib/suricata/rules/suricata.rules
-    command: -i enp2s0
+    command: -i eth0
 
   dummy_pc_0:
     container_name: honeypot_dummy_pc_0
