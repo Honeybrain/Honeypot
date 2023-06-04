@@ -42,6 +42,10 @@ ASSETS_PATH_PAGE_7 = OUTPUT_PATH / Path(r"assets/frame7")
 def relative_to_assets_page_7(path: str) -> Path:
     return ASSETS_PATH_PAGE_7 / Path(path)
 
+ASSETS_PATH_PAGE_8 = OUTPUT_PATH / Path(r"assets/frame8")
+def relative_to_assets_page_8(path: str) -> Path:
+    return ASSETS_PATH_PAGE_8 / Path(path)
+
 window = Tk()
 
 window.geometry("862x519")
@@ -795,10 +799,10 @@ def page5():
     )
 
     canvas.create_text(
-        276.0,
-        56.00000000000001,
+        258.0,
+        61.00000000000001,
         anchor="nw",
-        text="Dernière étape ...",
+        text="on y est presque ...",
         fill="#FCFCFC",
         font=("Roboto Bold", 40 * -1)
     )
@@ -807,7 +811,7 @@ def page5():
         file=relative_to_assets_page_5("entry_1.png"))
     entry_bg_1 = canvas.create_image(
         430.5,
-        317.5,
+        329.5,
         image=entry_image_1
     )
     global page5_entry_1
@@ -818,15 +822,15 @@ def page5():
         highlightthickness=0
     )
     page5_entry_1.place(
-        x=270.0,
-        y=287.0,
-        width=321.0,
+        x=278.0,
+        y=299.0,
+        width=305.0,
         height=59.0
     )
 
     canvas.create_text(
-        144.0,
-        308.0,
+        266.0,
+        275.0,
         anchor="nw",
         text="Mot de passe :",
         fill="#FFFFFF",
@@ -837,7 +841,7 @@ def page5():
         file=relative_to_assets_page_5("entry_2.png"))
     entry_bg_2 = canvas.create_image(
         430.5,
-        236.5,
+        231.5,
         image=entry_image_2
     )
     global page5_entry_2
@@ -848,17 +852,17 @@ def page5():
         highlightthickness=0
     )
     page5_entry_2.place(
-        x=270.0,
-        y=206.0,
-        width=321.0,
+        x=278.0,
+        y=201.0,
+        width=305.0,
         height=59.0
     )
 
     canvas.create_text(
-        117.0,
-        227.0,
+        266.0,
+        177.0,
         anchor="nw",
-        text="Nom d’utilisateur :",
+        text="E-mail :",
         fill="#FFFFFF",
         font=("Roboto Bold", 16 * -1)
     )
@@ -882,6 +886,92 @@ def page5():
     )
     window.mainloop()
 
+def page6():
+    canvas = Canvas(
+        window,
+        bg = "#003061",
+        height = 519,
+        width = 862,
+        bd = 0,
+        highlightthickness = 0,
+        relief = "ridge"
+    )
+
+    canvas.place(x = 0, y = 0)
+    button_image_1 = PhotoImage(
+        file=relative_to_assets_page_8("button_1.png"))
+    button_1 = Button(
+        image=button_image_1,
+        borderwidth=0,
+        highlightthickness=0,
+        command=lambda: page7(),
+        relief="flat"
+    )
+    button_1.place(
+        x=557.0,
+        y=401.0,
+        width=180.0,
+        height=55.0
+    )
+
+    canvas.create_text(
+        252.0,
+        61.00000000000001,
+        anchor="nw",
+        text="une dernière étape !",
+        fill="#FCFCFC",
+        font=("Roboto Bold", 40 * -1)
+    )
+
+    entry_image_1 = PhotoImage(
+        file=relative_to_assets_page_8("entry_1.png"))
+    entry_bg_1 = canvas.create_image(
+        431.0,
+        274.5,
+        image=entry_image_1
+    )
+    global page6_entry_1
+    page6_entry_1 = Entry(
+        bd=0,
+        bg="#F1F5FF",
+        fg="#000716",
+        highlightthickness=0
+    )
+    page6_entry_1.place(
+        x=178.0,
+        y=244.0,
+        width=506.0,
+        height=59.0
+    )
+
+    canvas.create_text(
+        349.0,
+        214.0,
+        anchor="nw",
+        text="Chemin du Dockerfile :",
+        fill="#FFFFFF",
+        font=("Roboto Bold", 16 * -1)
+    )
+
+    canvas.create_text(
+        144.0,
+        113.0,
+        anchor="nw",
+        text="Renseignez le chemin de l’image Docker (Dockerfile) de votre",
+        fill="#FCFCFC",
+        font=("RobotoRoman Regular", 20 * -1)
+    )
+
+    canvas.create_text(
+        134.0,
+        141.0,
+        anchor="nw",
+        text="site prêt au déploiement en production pour l’intégrer au Honeypot.",
+        fill="#FCFCFC",
+        font=("RobotoRoman Regular", 20 * -1)
+    )
+    window.mainloop()
+
 def redirect_output(text_widget):
     class StdoutRedirector:
         def __init__(self, widget):
@@ -898,7 +988,7 @@ def redirect_output(text_widget):
 
     sys.stdout = StdoutRedirector(text_widget)
 
-def page6():
+def page7():
     canvas = Canvas(
         window,
         bg = "#003061",
@@ -962,7 +1052,7 @@ def page6():
         image=button_image_1,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: page7(),
+        command=lambda: page8(),
         relief="flat"
     )
     button_1.place(
@@ -982,7 +1072,7 @@ def page6():
 
     window.mainloop()
 
-def page7():
+def page8():
     canvas = Canvas(
         window,
         bg = "#003061",
@@ -1098,7 +1188,8 @@ def install():
             "port": page4_entry_2.get()
         },
         "interface": page2_entry_2.get(),
-        "subnet": page2_entry_1.get()
+        "subnet": page2_entry_1.get(),
+        "dockerfile": page6_entry_1.get()
     }
 
     # Créer le dossier 'build' s'il n'existe pas

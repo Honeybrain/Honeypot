@@ -7,7 +7,7 @@ import subprocess
 import time
 from firebase import create_account
 
-def wait_for_container_health(container_name, timeout=60):
+def wait_for_container_health(container_name, timeout=3600):
     start_time = time.time()
 
     while time.time() - start_time < timeout:
@@ -43,6 +43,7 @@ def generate(config_file_path, username, password):
     ftp_ip_address = config['ftp']['ip_address']
     interface = config['interface']
     subnet = config['subnet']
+    dockerfile = config['dockerfile']
 
     # Load the template file
     file_loader = FileSystemLoader('templates')
@@ -60,7 +61,8 @@ def generate(config_file_path, username, password):
         ftp_port=ftp_port,
         ftp_ip_address=ftp_ip_address,
         interface=interface,
-        subnet=subnet
+        subnet=subnet,
+        dockerfile=dockerfile
     )
 
     print('Copying honeypot modules...')
@@ -70,16 +72,12 @@ def generate(config_file_path, username, password):
 
     print('Copying honeypot core services...')
 
-    # Copy docker files
-    source_path = '../*'
-    destination_path = './build/honeypot'
-    for file_or_dir in glob.glob(source_path):
-        if os.path.isdir(file_or_dir) and os.path.basename(file_or_dir) == 'installer':
-            continue  # Exclure le dossier "installer"
-        if os.path.isfile(file_or_dir):
-            shutil.copy2(file_or_dir, destination_path)
-        elif os.path.isdir(file_or_dir):
-            shutil.copytree(file_or_dir, os.path.join(destination_path, os.path.basename(file_or_dir)), dirs_exist_ok=True)
+    shutil.copytree('../fail2ban', './build/honeypot/fail2ban', dirs_exist_ok=True)
+    shutil.copytree('../logs', './build/honeypot/logs', dirs_exist_ok=True)
+    shutil.copytree('../nginx', './build/honeypot/nginx', dirs_exist_ok=True)
+    shutil.copytree('../shop', './build/honeypot/shop', dirs_exist_ok=True)
+    shutil.copytree('../suricata', './build/honeypot/suricata', dirs_exist_ok=True)
+    shutil.copy('../fail2ban.env', './build/honeypot/fail2ban.env')
 
     # Write the output to a file
     with open('build/docker-compose.yml', 'w') as f:
@@ -106,3 +104,7 @@ def generate(config_file_path, username, password):
     print("All services are now started! You can access the dashboard using http://localhost:3000.")
 
     print("(Tip: You can see your services using \"docker ps\" in a terminal)")
+    print("")
+    print("")
+    print("")
+    print("")

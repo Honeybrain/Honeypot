@@ -1,8 +1,6 @@
   ftp:
+    image: adrienroco/hb_modules_ftp:latest
     container_name: honeypot_ftp
-    build:
-      context: ./modules/ftp
-      dockerfile: Dockerfile
     ports:
       - "{{ ftp_port }}:21"
     networks:

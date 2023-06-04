@@ -19,7 +19,7 @@ services:
     image: shop_image
     container_name: shop
     build:
-      context: ./honeypot/shop/docker
+      context: {{ dockerfile }}
     networks:
       - services_network
 
