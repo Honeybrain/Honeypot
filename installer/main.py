@@ -14,6 +14,7 @@ import sys
 import threading
 import webbrowser
 import re
+import netifaces
 
 OUTPUT_PATH = Path(__file__).parent
 
@@ -135,6 +136,9 @@ def is_dockerfile_path(path):
     
     # Vérifie si le Dockerfile existe dans le chemin
     return os.path.isfile(path)
+
+def is_valid_interface(interface_name):
+    return interface_name in netifaces.interfaces()
 
 def page1():
     canvas = Canvas(
@@ -487,6 +491,10 @@ def page3():
         nofakemachine = False
         print("nofakemachine=" + str(nofakemachine))
         page4(nofakemachine)
+
+    if not is_valid_interface(page2_entry_2.get()):
+        messagebox.showerror("Erreur.", "Cette interface réseau n'existe pas.")
+        page2()
 
     if not is_valid_cidr(page2_entry_1.get()):
         messagebox.showerror("Erreur.", "Ceci n'est pas une adresse IP.")
