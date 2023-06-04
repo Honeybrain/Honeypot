@@ -1303,11 +1303,10 @@ def show_button(widget):
     # This will recover the widget from toplevel
     widget.pack()
 
-def add_dockerfile_to_path(path):
-    # Si le mot 'Dockerfile' n'est pas dans le chemin, l'ajoute à la fin
-    if not path.endswith('Dockerfile'):
-        path = os.path.join(path, 'Dockerfile')
-    
+def remove_dockerfile_from_path(path):
+    if path.endswith('Dockerfile'):
+        path = os.path.dirname(path)
+
     return path
 
 def install():
@@ -1315,7 +1314,7 @@ def install():
 
     print('Creating config...')
     
-    dockerfile = add_dockerfile_to_path(page6_entry_1.get())
+    dockerfile = remove_dockerfile_from_path(page6_entry_1.get())
 
     config = {
     "interface": page2_entry_2.get(),
