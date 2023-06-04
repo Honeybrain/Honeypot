@@ -479,17 +479,13 @@ def page3():
     global page3_entry_2
 
     def page3_button_2_clicked():
-        print('page3_button_2_clicked')
         global nofakemachine
         nofakemachine = True
-        print("nofakemachine=" + str(nofakemachine))
         page4(nofakemachine)
 
     def page3_button_1_clicked():
-        print('page3_button_1_clicked')
         global nofakemachine
         nofakemachine = False
-        print("nofakemachine=" + str(nofakemachine))
         page4(nofakemachine)
 
     if not is_valid_interface(page2_entry_2.get()):
@@ -683,26 +679,18 @@ def page3():
     window.mainloop()
 
 def page4(nofakemachine):
-    print("nofakemachine=" + str(nofakemachine))
-
     global page4_entry_1
     global page4_entry_2
 
     def page4_button_2_clicked():
-        print('page4_button_2_clicked')
         global noftp
         noftp = True
-        print("noftp=" + str(noftp))
         page5(noftp)
 
     def page4_button_1_clicked():
-        print('page4_button_1_clicked')
         global noftp
         noftp = False
-        print("noftp=" + str(noftp))
         page5(noftp)
-
-    print("nofakemachine=" + str(nofakemachine))
 
     if nofakemachine is not False:
         if not is_valid_ip_list(page3_entry_2.get()):
@@ -896,8 +884,6 @@ def page4(nofakemachine):
     window.mainloop()
 
 def page5(noftp):
-    print("noftp=" + str(noftp))
-
     global page5_entry_1
     global page5_entry_2
     if noftp is not False:
@@ -908,8 +894,6 @@ def page5(noftp):
         if not is_valid_port(page4_entry_2.get()):
             messagebox.showerror("Erreur.", "Port invalide.")
             page4()
-
-    print("noftp=" + str(noftp))
 
     canvas = Canvas(
         window,
@@ -1327,9 +1311,6 @@ def add_dockerfile_to_path(path):
     return path
 
 def install():
-    print("noftp=" + str(noftp))
-    print("nofakemachine=" + str(nofakemachine))
-
     # Définir les options de configuration
 
     print('Creating config...')
@@ -1364,6 +1345,8 @@ def install():
     # Écrire les options de configuration dans un fichier
     with open(config_file_path, 'w') as f:
         json.dump(config, f, indent=4)
+
+    print('Launching Honeypot generator...')
     
     # Generer les docker compose en utilisant la configuration
     generate(config_file_path, page5_entry_2.get(), page5_entry_1.get())
