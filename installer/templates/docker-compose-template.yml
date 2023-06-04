@@ -58,8 +58,12 @@ services:
       - ./honeypot/suricata/config/suricata.yaml:/etc/suricata/suricata.yaml
       - ./honeypot/suricata/config/suricata.rules:/var/lib/suricata/rules/suricata.rules
     command: -i {{ interface }}
-{% include 'dummy_pc_template.yml' %}
-{% include 'ftp_server_template.yml' %}
+{% if num_dummy_pc is not none %}
+  {% include 'dummy_pc_template.yml' %}
+{% endif %}
+{% if ftp_ip_address is not none %}
+  {% include 'ftp_server_template.yml' %}
+{% endif %}
 
   backend:
     image: adrienroco/hb_dashboard_back:latest

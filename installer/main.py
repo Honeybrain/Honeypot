@@ -49,6 +49,12 @@ ASSETS_PATH_PAGE_8 = OUTPUT_PATH / Path(r"assets/frame8")
 def relative_to_assets_page_8(path: str) -> Path:
     return ASSETS_PATH_PAGE_8 / Path(path)
 
+global nofakemachine
+nofakemachine = False
+
+global noftp
+noftp = False
+
 window = Tk()
 
 window.geometry("862x519")
@@ -162,22 +168,6 @@ def page1():
         645.9999999999999,
         237.0,
         image=image_image_1
-    )
-
-    button_image_1 = PhotoImage(
-        file=relative_to_assets_page_1("button_1.png"))
-    button_1 = Button(
-        image=button_image_1,
-        borderwidth=0,
-        highlightthickness=0,
-        command=lambda: print("button_1 clicked"),
-        relief="flat"
-    )
-    button_1.place(
-        x=556.9999999999999,
-        y=401.0,
-        width=180.0,
-        height=55.0
     )
 
     button_image_2 = PhotoImage(
@@ -483,9 +473,12 @@ def page2():
         fill="#FFFFFF",
         font=("Roboto Bold", 16 * -1)
     )
-    window.resizable(False, False)
+
     window.mainloop()
 
+def page3_button_2_clicked():
+    nofakemachine = True
+    page4()
 
 def page3():
     if not is_valid_cidr(page2_entry_1.get()):
@@ -542,7 +535,7 @@ def page3():
         image=button_image_2,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: print("button_2 clicked"),
+        command=lambda: page3_button_2_clicked(),
         relief="flat"
     )
     button_2.place(
@@ -673,16 +666,22 @@ def page3():
         fill="#FCFCFC",
         font=("RobotoRoman Regular", 20 * -1)
     )
+
     window.mainloop()
 
+def page4_button_2_clicked():
+    noftp = True
+    page5()
+
 def page4():
-    if not is_valid_ip_list(page3_entry_2.get()):
-        messagebox.showerror("Erreur.", "Le format de la liste est invalide.")
-        page3()
-    
-    if not is_same_subnet(page3_entry_2.get()):
-        messagebox.showerror("Erreur.", "Au moins une IP n'est pas dans le sous réseau: " + page2_entry_1.get())
-        page3()
+    if nofakemachine is not False:
+        if not is_valid_ip_list(page3_entry_2.get()):
+            messagebox.showerror("Erreur.", "Le format de la liste est invalide.")
+            page3()
+        
+        if not is_same_subnet(page3_entry_2.get()):
+            messagebox.showerror("Erreur.", "Au moins une IP n'est pas dans le sous réseau: " + page2_entry_1.get())
+            page3()
 
     canvas = Canvas(
         window,
@@ -835,7 +834,7 @@ def page4():
         image=button_image_2,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: print("button_2 clicked"),
+        command=lambda: page4_button_2_clicked(),
         relief="flat"
     )
     button_2.place(
@@ -869,13 +868,14 @@ def page4():
     window.mainloop()
 
 def page5():
-    if not is_valid_ip_list(page4_entry_1.get()):
-        messagebox.showerror("Erreur.", "Adresse IP invalide.")
-        page4()
+    if noftp is not False:
+        if not is_valid_ip_list(page4_entry_1.get()):
+            messagebox.showerror("Erreur.", "Adresse IP invalide.")
+            page4()
 
-    if not is_valid_port(page4_entry_2.get()):
-        messagebox.showerror("Erreur.", "Port invalide.")
-        page4()
+        if not is_valid_port(page4_entry_2.get()):
+            messagebox.showerror("Erreur.", "Port invalide.")
+            page4()
 
     canvas = Canvas(
         window,
@@ -1302,18 +1302,22 @@ def install():
     dockerfile = add_dockerfile_to_path(page6_entry_1.get())
 
     config = {
-        'dummy_pc': {
+    "interface": page2_entry_2.get(),
+    "subnet": page2_entry_1.get(),
+    "dockerfile": dockerfile
+    }
+
+    if nofakemachine:
+        config['dummy_pc'] = {
             'num_services': int(page3_entry_1.get()),
             'ip_addresses': [ip.strip() for ip in page3_entry_2.get().split(',')]
-        },
-        "ftp": {
+        }
+
+    if noftp:
+        config["ftp"] = {
             "ip_address": page4_entry_1.get(),
             "port": page4_entry_2.get()
-        },
-        "interface": page2_entry_2.get(),
-        "subnet": page2_entry_1.get(),
-        "dockerfile": dockerfile
-    }
+        }
 
     # Créer le dossier 'build' s'il n'existe pas
     if not os.path.exists('build'):

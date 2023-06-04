@@ -37,10 +37,10 @@ def generate(config_file_path, username, password):
         config = json.load(f)
 
     # Parameters
-    num_dummy_pc = config['dummy_pc']['num_services']
-    ip_addresses_dummy_pc = config['dummy_pc']['ip_addresses']
-    ftp_port = config['ftp']['port']
-    ftp_ip_address = config['ftp']['ip_address']
+    num_dummy_pc = config['dummy_pc']['num_services'] if 'dummy_pc' in config else None
+    ip_addresses_dummy_pc = config['dummy_pc']['ip_addresses'] if 'dummy_pc' in config else None
+    ftp_port = config['ftp']['port'] if 'ftp' in config else None
+    ftp_ip_address = config['ftp']['ip_address'] if 'ftp' in config else None
     interface = config['interface']
     subnet = config['subnet']
     dockerfile = config['dockerfile']
