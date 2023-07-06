@@ -7,6 +7,7 @@ docker_image="honeypot"
 github_repo="https://github.com/Le-Pot-de-Miel/Honeypot.git"
 
 echo "$(date +"%Y-%m-%d %T") Checking for updates on GitHub repository."
+cd $repo_path
 git fetch origin
 
 if [[ $(git rev-parse HEAD) != $(git rev-parse origin/main) ]]; then
