@@ -1,6 +1,6 @@
 #!/bin/bash
 
-repo_path="/home/honeybrain/HoneyBrain/Honeypot"
+repo_path="/home/honeybrain/Honeybrain/Honeypot"
 docker_file="docker-compose-prod.yml"
 docker_args="-d --build"
 docker_image="honeypot"
