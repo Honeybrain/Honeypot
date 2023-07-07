@@ -1,0 +1,32 @@
+# connect to vps via ssh
+# ip address: ssh.honeybrain.fr
+# user: honeybrain
+# password: honeybrain
+# port: 4242
+# run auto update script
+
+name: Execute Script on VPS
+
+on:
+  push:
+    branches:
+      - S2-5.1/Automatisation_du_vps
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Execute script on VPS
+        uses: appleboy/ssh-action@master
+        with:
+          host: ssh.honeybrain.fr
+          username: honeybrain
+          password: honeybrain
+          port: 4242
+          script: |
+            cd /home/honeybrain/HoneyBrain/Honeypot
+            ./auto_update_vps.sh
