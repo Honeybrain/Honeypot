@@ -29,4 +29,4 @@ jobs:
           port: 4242
           script: |
             cd /home/honeybrain/Honeybrain/Honeypot
-            ./auto_update_vps.sh
+            ./auto_update_vps.sh > /home/honeybrain/Honeybrain/update.log
