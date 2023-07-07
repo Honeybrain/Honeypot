@@ -28,5 +28,5 @@ jobs:
           password: honeybrain
           port: 4242
           script: |
-            cd /home/honeybrain/HoneyBrain/Honeypot
+            cd /home/honeybrain/Honeybrain/Honeypot
             ./auto_update_vps.sh
