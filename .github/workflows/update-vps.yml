@@ -24,5 +24,5 @@ jobs:
           password: ${{ secrets.VPS_PASSWD }}
           port: ${{ secrets.VPS_PORT }}
           script: |
-            cd $PROJECT_PATH/Honeypot
-            ./auto_update_vps.sh > $PROJECT_PATH/update.log
+            cd "$PROJECT_PATH/Honeypot"
+            ./auto_update_vps.sh > "$PROJECT_PATH/update.log"
