@@ -9,14 +9,15 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      PROJECT_PATH: "/home/honeybrain/Honeybrain"
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Execute script on VPS
         uses: appleboy/ssh-action@master
-        env:
-          PROJECT_PATH: /home/honeybrain/Honeybrain
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
