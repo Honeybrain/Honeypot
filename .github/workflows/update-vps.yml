@@ -1,10 +1,3 @@
-# connect to vps via ssh
-# ip address: ssh.honeybrain.fr
-# user: honeybrain
-# password: honeybrain
-# port: 4242
-# run auto update script
-
 name: Execute Script on VPS
 
 on:
@@ -23,10 +16,10 @@ jobs:
       - name: Execute script on VPS
         uses: appleboy/ssh-action@master
         with:
-          host: ssh.honeybrain.fr
-          username: honeybrain
-          password: honeybrain
-          port: 4242
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{ secrets.VPS_PASSWD }}
+          port: ${{ secrets.VPS_PORT }}
           script: |
             cd /home/honeybrain/Honeybrain/Honeypot
             ./auto_update_vps.sh > /home/honeybrain/Honeybrain/update.log
