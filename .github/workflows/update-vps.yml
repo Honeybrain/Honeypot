@@ -9,14 +9,13 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    env:
-      PROJECT_PATH: "/home/honeybrain/Honeybrain"
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Execute script on VPS
+        env:
+          PROJECT_PATH: "/home/honeybrain/Honeybrain"
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.VPS_HOST }}
@@ -24,5 +23,5 @@ jobs:
           password: ${{ secrets.VPS_PASSWD }}
           port: ${{ secrets.VPS_PORT }}
           script: |
-            cd "$PROJECT_PATH/Honeypot"
-            ./auto_update_vps.sh > "$PROJECT_PATH/update.log"
+            cd $PROJECT_PATH/Honeypot
+            ./auto_update_vps.sh > $PROJECT_PATH/update.log
