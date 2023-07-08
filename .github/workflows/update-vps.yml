@@ -1,12 +1,12 @@
-name: Execute Script on VPS
+name: Trigger VPS update
 
 on:
   push:
-    branches:
-      - S2-5.1/Automatisation_du_vps
 
 jobs:
+
   deploy:
+
     runs-on: ubuntu-latest
 
     steps:
