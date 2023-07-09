@@ -62,7 +62,7 @@ services:
   dummy_pc_0:
     container_name: honeypot_dummy_pc_0
     build:
-      context: ./installer/modules/dummy_pc
+      context: ./modules/dummy_pc
       dockerfile: Dockerfile
     networks:
       honeypot_network:
@@ -71,7 +71,7 @@ services:
   dummy_pc_1:
     container_name: honeypot_dummy_pc_1
     build:
-      context: ./installer/modules/dummy_pc
+      context: ./modules/dummy_pc
       dockerfile: Dockerfile
     networks:
       honeypot_network:
@@ -80,7 +80,7 @@ services:
   dummy_pc_2:
     container_name: honeypot_dummy_pc_2
     build:
-      context: ./installer/modules/dummy_pc
+      context: ./modules/dummy_pc
       dockerfile: Dockerfile
     networks:
       honeypot_network:
@@ -89,7 +89,7 @@ services:
   dummy_pc_3:
     container_name: honeypot_dummy_pc_3
     build:
-      context: ./installer/modules/dummy_pc
+      context: ./modules/dummy_pc
       dockerfile: Dockerfile
     networks:
       honeypot_network:
@@ -98,7 +98,7 @@ services:
   ftp:
     container_name: honeypot_dummy_ftp
     build:
-      context: ./installer/modules/ftp
+      context: ./modules/ftp
       dockerfile: Dockerfile
     ports:
       - "21:21"
