@@ -1,27 +1,30 @@
-name: FTP Build
+name: Modules FTP
 
 on:
   push:
-    branches: [ main ]
+    branches: [ S2-0.0/Restore_modules ]
 
 jobs:
 
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Build the FTP image
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
       run: |
-        cd installer/modules/ftp
+        cd modules/ftp
         docker build -t $DOCKER_USER/hb_modules_ftp .
-    - name: Push the FTP image
-      env:
-        DOCKER_USER: ${{ secrets.DOCKER_USER }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      run: |
-        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-        docker push $DOCKER_USER/hb_modules_ftp
+
+  push:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Push the FTP image
+        env:
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+          docker push $DOCKER_USER/hb_modules_ftp
