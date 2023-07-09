@@ -9,12 +9,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Build the dummy PC image
-      env:
-        DOCKER_USER: ${{ secrets.DOCKER_USER }}
-      run: |
-        cd modules/dummy_pc
-        docker build -t $DOCKER_USER/hb_modules_pc .
+      - uses: actions/checkout@v2
+      - name: Build the dummy PC image
+        env:
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        run: |
+          cd modules/dummy_pc
+          docker build -t $DOCKER_USER/hb_modules_pc .
 
   push:
     needs: build
