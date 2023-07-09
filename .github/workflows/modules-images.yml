@@ -2,7 +2,8 @@ name: Honeypot Modules
 
 on:
   push:
-    branches: [ S2-0.0/Restore_modules ]
+    branches:
+      - main
 
 env:
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
