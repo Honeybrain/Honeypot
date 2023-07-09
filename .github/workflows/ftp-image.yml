@@ -9,7 +9,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
     - name: Build the FTP image
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
@@ -21,6 +20,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Push the FTP image
         env:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
