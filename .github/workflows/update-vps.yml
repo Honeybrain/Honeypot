@@ -2,6 +2,8 @@ name: Trigger VPS update
 
 on:
   push:
+    branches:
+      - main
 
 jobs:
 
