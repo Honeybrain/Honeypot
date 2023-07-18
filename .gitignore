@@ -131,3 +131,5 @@ dmypy.json
 
 fail2ban/config/db
 build
+node_modules
+package-lock.json
