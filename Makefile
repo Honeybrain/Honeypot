@@ -1,22 +1,29 @@
 BACKEND_DIR = ../Backend
+FRONTEND_DIR = ../Frontend
+
 PROTO_DIR = proto
 PROTO_OUTPUT_DIR = proto/js
 DOCKER_COMPOSE_FILE = docker-compose-dev.yml
 DOCKER_COMPOSE_PROD_FILE = docker-compose-prod.yml
 
-.PHONY: grpc backend-grpc run check-setup build stop logs
+.PHONY: grpc backend-grpc frontend-grpc run check-setup build stop logs
 
 check-setup:
 	@echo "🚀 Checking setup..."
-	@bash scripts/check-setup.sh $(BACKEND_DIR)
+	@bash scripts/check-setup.sh $(BACKEND_DIR) $(FRONTEND_DIR)
 	@echo "✅ Setup is okay!"
 
-grpc: backend-grpc
+grpc: backend-grpc frontend-grpc
 
 backend-grpc:
-	@echo "🚀 Generating Backend Protobuf files ..."
+	@echo "🚀 Generating backend protobuf files ..."
 	@bash scripts/make_backend_protos.sh $(PROTO_DIR) $(PROTO_OUTPUT_DIR) $(BACKEND_DIR)
-	@echo "✅ Backend Protobuf files generated successfully!"
+	@echo "✅ Protobuf backend files generated successfully!"
+
+frontend-grpc:
+	@echo "🚀 Generating frontend protobuf files ..."
+	@bash scripts/make_frontend_protos.sh $(PROTO_DIR) $(PROTO_OUTPUT_DIR) $(FRONTEND_DIR)
+	@echo "✅ Protobuf frontend files generated successfully!"
 
 run:
 	@echo "🚀 Starting Docker services in detached mode..."
