@@ -1,8 +1,7 @@
 BACKEND_DIR = ../Backend
 FRONTEND_DIR = ../Frontend
 
-PROTO_DIR = proto
-PROTO_OUTPUT_DIR = proto/js
+PROTO_DIR = protos
 DOCKER_COMPOSE_FILE = docker-compose-dev.yml
 DOCKER_COMPOSE_PROD_FILE = docker-compose-prod.yml
 
@@ -17,12 +16,12 @@ grpc: backend-grpc frontend-grpc
 
 backend-grpc:
 	@echo "🚀 Generating backend protobuf files ..."
-	@bash scripts/make_backend_protos.sh $(PROTO_DIR) $(PROTO_OUTPUT_DIR) $(BACKEND_DIR)
+	@bash scripts/make_backend_protos.sh $(PROTO_DIR) $(BACKEND_DIR)
 	@echo "✅ Protobuf backend files generated successfully!"
 
 frontend-grpc:
 	@echo "🚀 Generating frontend protobuf files ..."
-	@bash scripts/make_frontend_protos.sh $(PROTO_DIR) $(PROTO_OUTPUT_DIR) $(FRONTEND_DIR)
+	@bash scripts/make_frontend_protos.sh $(PROTO_DIR) $(FRONTEND_DIR)
 	@echo "✅ Protobuf frontend files generated successfully!"
 
 run:
