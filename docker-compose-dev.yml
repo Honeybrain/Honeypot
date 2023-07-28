@@ -57,7 +57,7 @@ services:
       - ./logs/suricata/fast.log:/var/log/suricata/fast.log
       - ./suricata/config/suricata.yaml:/etc/suricata/suricata.yaml
       - ./suricata/config/suricata.rules:/var/lib/suricata/rules/suricata.rules
-    command: -i eth0
+    command: -i enp2s0
 
   dummy_pc_0:
     container_name: honeypot_dummy_pc_0
@@ -107,12 +107,13 @@ services:
         ipv4_address: 192.168.1.17
 
   backend:
-    image: dashboard_back
+    image: backend
     container_name: backend
     build:
       context: ../Backend/
+      dockerfile: Dockerfile.dev
     ports:
-      - "8000:8000"
+      - "50051:50051"
     environment:
       - NODE_ENV=production
     networks:
@@ -122,7 +123,7 @@ services:
       - "./nginx/config/block.conf:/app/honeypot/block.conf"
       - /var/run/docker.sock:/var/run/docker.sock
     healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:8000/"]
+      test: ["CMD", "curl", "--fail", "http://localhost:50051/"]
       interval: 10s
       timeout: 5s
       retries: 3
@@ -145,6 +146,16 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+
+  envoy:
+    container_name: envoy
+    build:
+      context: ../Backend/
+      dockerfile: ../Backend/Dockerfile.envoy
+    ports:
+      - "8080:8080"
+    networks:
+      - dashboard_network
 
 networks:
   honeypot_network:
