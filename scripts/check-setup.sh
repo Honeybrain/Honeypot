@@ -17,9 +17,9 @@ if [ ! -d "$FRONTEND_DIR" ]; then
 fi
 echo "✅ Frontend directory exists."
 
-# Check if npx is installed
-if ! command -v npx &> /dev/null; then
-  echo "❌ Error: npx is not installed."
+# Check if yarn is installed
+if ! command -v yarn &> /dev/null; then
+  echo "❌ Error: yarn is not installed."
   exit 1
 fi
-echo "✅ npx is installed."
+echo "✅ yarn is installed."
