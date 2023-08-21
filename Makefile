@@ -1,18 +1,19 @@
 BACKEND_DIR = ../Backend
 FRONTEND_DIR = ../Frontend
+INSTALLER_DIR = ../Installer
 
 PROTO_DIR = protos
 DOCKER_COMPOSE_FILE = docker-compose-dev.yml
 DOCKER_COMPOSE_PROD_FILE = docker-compose-prod.yml
 
-.PHONY: grpc backend-grpc frontend-grpc run check-setup build stop logs
+.PHONY: grpc backend-grpc frontend-grpc installer-grpc run check-setup build stop logs
 
 check-setup:
 	@echo "🚀 Checking setup..."
-	@bash scripts/check-setup.sh $(BACKEND_DIR) $(FRONTEND_DIR)
+	@bash scripts/check-setup.sh $(BACKEND_DIR) $(FRONTEND_DIR) $(INSTALLER_DIR)
 	@echo "✅ Setup is okay!"
 
-grpc: backend-grpc frontend-grpc
+grpc: check-setup backend-grpc frontend-grpc installer-grpc
 
 backend-grpc:
 	@echo "🚀 Generating backend protobuf files ..."
@@ -24,12 +25,17 @@ frontend-grpc:
 	@bash scripts/make_frontend_protos.sh $(PROTO_DIR) $(FRONTEND_DIR)
 	@echo "✅ Protobuf frontend files generated successfully!"
 
+installer-grpc:
+	@echo "🚀 Generating installer protobuf files ..."
+	@bash scripts/make_installer_protos.sh $(PROTO_DIR) $(INSTALLER_DIR)
+	@echo "✅ Protobuf installer files generated successfully!"
+
 run:
 	@echo "🚀 Starting Docker services in detached mode..."
 	docker compose -f $(DOCKER_COMPOSE_FILE) up -d
 	@echo "✅ Docker services started successfully!"
 
-build: check-setup grpc
+build: grpc
 	@echo "🚀 Starting Docker services with build..."
 	docker compose -f $(DOCKER_COMPOSE_FILE) build
 	@echo "✅ Docker images built successfully!"
