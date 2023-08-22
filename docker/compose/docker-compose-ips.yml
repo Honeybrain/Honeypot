@@ -34,4 +34,4 @@ services:
       - "../../logs/suricata/fast.log:/var/log/suricata/fast.log"
       - "../../config/suricata/suricata.yaml:/etc/suricata/suricata.yaml"
       - "../../config/suricata/suricata.rules:/var/lib/suricata/rules/suricata.rules"
-    command: -i ${NETWORK_INTERFACE}
+    command: -i ${NETWORK_INTERFACE:-null}

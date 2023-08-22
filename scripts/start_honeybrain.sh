@@ -5,7 +5,7 @@ export COMPOSE_IGNORE_ORPHANS=True
 DOCKER_COMPOSE_FILE=$1
 DOCKER_COMPOSE_IPS_FILE=$2
 
-echo "⌛ Starting honeypot services..."
+echo "⌛ Starting Honeypot services..."
 
 docker compose -p honeybrain -f $DOCKER_COMPOSE_FILE up -d
 

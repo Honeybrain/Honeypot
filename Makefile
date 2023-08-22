@@ -11,7 +11,7 @@ ROOT = .
 
 check-setup:
 	@echo "🚀 Checking setup..."
-	@bash scripts/check-setup.sh $(BACKEND_DIR) $(FRONTEND_DIR) $(INSTALLER_DIR)
+	@bash scripts/check_setup.sh $(BACKEND_DIR) $(FRONTEND_DIR) $(INSTALLER_DIR)
 	@echo "✅ Setup is okay!"
 
 grpc: check-setup backend-grpc frontend-grpc installer-grpc
@@ -38,14 +38,11 @@ run:
 
 build: grpc
 	@echo "🚀 Starting Docker services with build..."
-	docker compose -f $(DOCKER_COMPOSE_FILE) build
+	@bash scripts/build_honeybrain.sh $(DOCKER_COMPOSE_FILE) $(DOCKER_COMPOSE_IPS_FILE)
 	@echo "✅ Docker images built successfully!"
 
 stop:
 	@echo "🚀 Stopping Docker services..."
-	docker compose -f $(DOCKER_COMPOSE_FILE) down
+	@bash scripts/stop_honeybrain.sh $(DOCKER_COMPOSE_FILE) $(DOCKER_COMPOSE_IPS_FILE)
 	@echo "✅ Docker services stopped successfully!"
-
-logs:
-	@echo "📜 Following Docker service logs..."
-	docker compose -f $(DOCKER_COMPOSE_FILE) logs -f
+	
