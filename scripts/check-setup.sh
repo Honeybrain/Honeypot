@@ -38,3 +38,10 @@ if ! command -v python3 &> /dev/null; then
   exit 1
 fi
 echo "✅ python is installed."
+
+# Check if tkinter is installed for python3
+if ! python3 -c "import tkinter" &> /dev/null; then
+    echo "❌ Error: tkinter is not installed for python3."
+    exit 1
+fi
+echo "✅ tkinter is installed."
