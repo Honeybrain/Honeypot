@@ -3,14 +3,15 @@ FRONTEND_DIR = ../Frontend
 INSTALLER_DIR = ../Installer
 
 PROTO_DIR = protos
-DOCKER_COMPOSE_FILE = docker-compose-dev.yml
-DOCKER_COMPOSE_PROD_FILE = docker-compose-prod.yml
+DOCKER_COMPOSE_FILE = ./docker/compose/docker-compose.yml
+DOCKER_COMPOSE_IPS_FILE = ./docker/compose/docker-compose-ips.yml
+ROOT = .
 
 .PHONY: grpc backend-grpc frontend-grpc installer-grpc run check-setup build stop logs
 
 check-setup:
 	@echo "🚀 Checking setup..."
-	@bash scripts/check-setup.sh $(BACKEND_DIR) $(FRONTEND_DIR) $(INSTALLER_DIR)
+	@bash scripts/check_setup.sh $(BACKEND_DIR) $(FRONTEND_DIR) $(INSTALLER_DIR)
 	@echo "✅ Setup is okay!"
 
 grpc: check-setup backend-grpc frontend-grpc installer-grpc
@@ -32,38 +33,16 @@ installer-grpc:
 
 run:
 	@echo "🚀 Starting Docker services in detached mode..."
-	docker compose -f $(DOCKER_COMPOSE_FILE) up -d
+	@bash scripts/start_honeybrain.sh $(DOCKER_COMPOSE_FILE) $(DOCKER_COMPOSE_IPS_FILE)
 	@echo "✅ Docker services started successfully!"
 
 build: grpc
 	@echo "🚀 Starting Docker services with build..."
-	docker compose -f $(DOCKER_COMPOSE_FILE) build
+	@bash scripts/build_honeybrain.sh $(DOCKER_COMPOSE_FILE) $(DOCKER_COMPOSE_IPS_FILE)
 	@echo "✅ Docker images built successfully!"
 
 stop:
 	@echo "🚀 Stopping Docker services..."
-	docker compose -f $(DOCKER_COMPOSE_FILE) down
+	@bash scripts/stop_honeybrain.sh $(DOCKER_COMPOSE_FILE) $(DOCKER_COMPOSE_IPS_FILE)
 	@echo "✅ Docker services stopped successfully!"
-
-logs:
-	@echo "📜 Following Docker service logs..."
-	docker compose -f $(DOCKER_COMPOSE_FILE) logs -f
-
-run-prod:
-	@echo "🚀 Starting Docker services in detached mode..."
-	docker compose -f $(DOCKER_COMPOSE_PROD_FILE) up -d
-	@echo "✅ Docker services started successfully!"
-
-build-prod: check-setup grpc
-	@echo "🚀 Starting Docker services with build..."
-	docker compose -f $(DOCKER_COMPOSE_PROD_FILE) build
-	@echo "✅ Docker images built successfully!"
-
-stop-prod:
-	@echo "🚀 Stopping Docker services..."
-	docker compose -f $(DOCKER_COMPOSE_PROD_FILE) down
-	@echo "✅ Docker services stopped successfully!"
-
-logs-prod:
-	@echo "📜 Following Docker service logs..."
-	docker compose -f $(DOCKER_COMPOSE_PROD_FILE) logs -f
+	

@@ -24,4 +24,4 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           script: |
             cd /home/honeybrain/Honeybrain/Honeypot
-            ./auto_update_vps.sh > /home/honeybrain/Honeybrain/update.log
+            ./scripts/auto_update_vps.sh > /home/honeybrain/Honeybrain/update.log
