@@ -33,7 +33,7 @@ installer-grpc:
 
 run:
 	@echo "🚀 Starting Docker services in detached mode..."
-	@bash scripts/start_honeybrain.sh $(ROOT) $(DOCKER_COMPOSE_FILE) $(DOCKER_COMPOSE_IPS_FILE)
+	@bash scripts/start_honeybrain.sh $(DOCKER_COMPOSE_FILE) $(DOCKER_COMPOSE_IPS_FILE)
 	@echo "✅ Docker services started successfully!"
 
 build: grpc

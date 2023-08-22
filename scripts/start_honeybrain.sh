@@ -1,10 +1,9 @@
 #!/bin/bash
 
-export ROOT=$1
 export COMPOSE_IGNORE_ORPHANS=True
 
-DOCKER_COMPOSE_FILE=$2
-DOCKER_COMPOSE_IPS_FILE=$3
+DOCKER_COMPOSE_FILE=$1
+DOCKER_COMPOSE_IPS_FILE=$2
 
 echo "⌛ Starting honeypot services..."
 
