@@ -84,7 +84,7 @@ services:
       - "../../config/nginx/block.conf:/app/honeypot/block.conf"
       - "/var/run/docker.sock:/var/run/docker.sock"
     healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:50051/"]
+      test: ["CMD", "nc", "-zv", "localhost", "50051"]
       interval: 10s
       timeout: 5s
       retries: 3
