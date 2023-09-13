@@ -77,6 +77,8 @@ services:
       dockerfile: Dockerfile.dev
     environment:
       - NODE_ENV=production
+    ports:
+      - "50051:50051"
     networks:
       - dashboard_network
     volumes:
@@ -88,6 +90,26 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+    depends_on:
+      - mongo
+
+  mongo:
+    container_name: mongo
+    image: mongo:latest
+    networks:
+      - dashboard_network
+
+  envoy:
+    container_name: envoy
+    build:
+      context: ../../../Backend/
+      dockerfile: Dockerfile.envoy
+    ports:
+      - "8080:8080"
+    networks:
+      - dashboard_network
+    depends_on:
+      - backend
 
   frontend:
     image: frontend
@@ -107,16 +129,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-
-  envoy:
-    container_name: envoy
-    build:
-      context: ../../../Backend/
-      dockerfile: Dockerfile.envoy
-    ports:
-      - "8080:8080"
-    networks:
-      - dashboard_network
 
 networks:
   honeypot_network:
