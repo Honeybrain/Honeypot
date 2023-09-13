@@ -7,14 +7,14 @@ DOCKER_COMPOSE_FILE = ./docker/compose/docker-compose.yml
 DOCKER_COMPOSE_IPS_FILE = ./docker/compose/docker-compose-ips.yml
 ROOT = .
 
-.PHONY: grpc backend-grpc frontend-grpc installer-grpc run check-setup build stop logs
+.PHONY: grpc frontend-grpc installer-grpc run check-setup build stop logs
 
 check-setup:
 	@echo "🚀 Checking setup..."
 	@bash scripts/check_setup.sh $(BACKEND_DIR) $(FRONTEND_DIR) $(INSTALLER_DIR)
 	@echo "✅ Setup is okay!"
 
-grpc: check-setup backend-grpc frontend-grpc installer-grpc
+grpc: check-setup frontend-grpc installer-grpc
 
 backend-grpc:
 	@echo "🚀 Generating backend protobuf files ..."
