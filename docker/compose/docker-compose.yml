@@ -76,7 +76,7 @@ services:
       context: ../../../Backend/
       dockerfile: Dockerfile.dev
     environment:
-      - NODE_ENV=production
+      - GRPC_URL=backend:50051
     ports:
       - "50051:50051"
     networks:
