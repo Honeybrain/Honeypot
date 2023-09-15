@@ -94,6 +94,8 @@ services:
   mongo:
     container_name: mongo
     image: mongo:latest
+    ports:
+      - "27017:27017"
     networks:
       - dashboard_network
 
