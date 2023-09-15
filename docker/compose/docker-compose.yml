@@ -77,8 +77,6 @@ services:
       dockerfile: Dockerfile.dev
     environment:
       - GRPC_URL=backend:50051
-    ports:
-      - "50051:50051"
     networks:
       - dashboard_network
     volumes:
@@ -104,8 +102,6 @@ services:
     build:
       context: ../../../Backend/
       dockerfile: Dockerfile.envoy
-    ports:
-      - "8080:8080"
     networks:
       - dashboard_network
     depends_on:
