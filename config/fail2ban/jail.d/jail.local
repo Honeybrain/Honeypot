@@ -22,7 +22,7 @@ maxretry = 3
 [iptables-honeypot]
 enabled = true
 port = all
-action   = iptables-allports[name=iptables-honeypot, port=all, protocol=icmp]
+action   = iptables-allports[name=iptables-honeypot, port=all, protocol=all]
 logpath = /var/log/suricata.log
 filter = nginx-honeypot
 bantime = -1 # ban forever
