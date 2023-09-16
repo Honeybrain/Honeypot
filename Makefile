@@ -4,10 +4,20 @@ INSTALLER_DIR = ../Installer
 
 PROTO_DIR = protos
 DOCKER_COMPOSE_FILE = ./docker/compose/docker-compose.yml
+DOCKER_COMPOSE_PROD_FILE = ./docker/compose/docker-compose-prod.yml
 DOCKER_COMPOSE_IPS_FILE = ./docker/compose/docker-compose-ips.yml
 ROOT = .
 
-.PHONY: grpc frontend-grpc installer-grpc run check-setup build stop logs
+.PHONY: grpc \
+		frontend-grpc \
+		installer-grpc \
+		run check-setup \
+		build \
+		stop \
+		logs \
+		run-production \
+		stop-production \
+		build-production
 
 check-setup:
 	@echo "🚀 Checking setup..."
@@ -36,6 +46,21 @@ run:
 	@bash scripts/start_honeybrain.sh $(DOCKER_COMPOSE_FILE) $(DOCKER_COMPOSE_IPS_FILE)
 	@echo "✅ Docker services started successfully!"
 
+run-production:
+	@echo "🚀 Starting Docker services in production mode..."
+	@bash scripts/start_honeybrain.sh $(DOCKER_COMPOSE_PROD_FILE) $(DOCKER_COMPOSE_IPS_FILE)
+	@echo "✅ Docker services started successfully!"
+
+stop-production:
+	@echo "🚀 Stopping Docker services in production mode..."
+	@bash scripts/stop_honeybrain.sh $(DOCKER_COMPOSE_PROD_FILE) $(DOCKER_COMPOSE_IPS_FILE)
+	@echo "✅ Docker services stopped successfully!"
+
+build-production: grpc
+	@echo "🚀 Starting Docker services with build in production mode..."
+	@bash scripts/build_honeybrain.sh $(DOCKER_COMPOSE_PROD_FILE) $(DOCKER_COMPOSE_IPS_FILE)
+	@echo "✅ Docker images built successfully!"
+
 build: grpc
 	@echo "🚀 Starting Docker services with build..."
 	@bash scripts/build_honeybrain.sh $(DOCKER_COMPOSE_FILE) $(DOCKER_COMPOSE_IPS_FILE)
@@ -45,4 +70,3 @@ stop:
 	@echo "🚀 Stopping Docker services..."
 	@bash scripts/stop_honeybrain.sh $(DOCKER_COMPOSE_FILE) $(DOCKER_COMPOSE_IPS_FILE)
 	@echo "✅ Docker services stopped successfully!"
-	
