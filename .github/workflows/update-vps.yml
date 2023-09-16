@@ -5,11 +5,6 @@ on:
     branches:
       - Fix_vps
 
-env:
-  HOST: ${{ secrets.VPS_HOST }}
-  USER: ${{ secrets.VPS_USER }}
-  PASSWD: ${{ secrets.VPS_PASSWD }}
-
 jobs:
   Update:
     runs-on: ubuntu-latest
@@ -20,9 +15,9 @@ jobs:
       - name: Execute script on VPS
         uses: appleboy/ssh-action@master
         with:
-          host: $HOST
-          username: $USER
-          password: $PASSWD
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{ secrets.VPS_PASSWD }}
           port: ${{ secrets.VPS_PORT }}
           script: |
             cd /home/honeybrain/Honeybrain/Honeypot
