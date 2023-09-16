@@ -21,7 +21,6 @@ fi
 
 if [[ $(docker ps -q -f name=$docker_image) == "" ]]; then
     echo "$(date +"%Y-%m-%d %T"): Starting container..."
-    make build-production
     make run-production
     echo "$(date +"%Y-%m-%d %T"): Container started."
 fi
