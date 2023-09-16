@@ -6,10 +6,10 @@ on:
       - Fix_vps
 
 env:
-  VPS_HOST: ${{ secrets.VPS_HOST }}
-  VPS_USER: ${{ secrets.VPS_USER }}
-  VPS_PASSWD: ${{ secrets.VPS_PASSWD }}
-  VPS_PORT: ${{ secrets.VPS_PORT }}
+  HOST: ${{ secrets.VPS_HOST }}
+  USER: ${{ secrets.VPS_USER }}
+  PASSWD: ${{ secrets.VPS_PASSWD }}
+  PORT: ${{ secrets.VPS_PORT }}
 
 jobs:
   Update:
@@ -21,10 +21,10 @@ jobs:
       - name: Execute script on VPS
         uses: appleboy/ssh-action@master
         with:
-          host: $VPS_HOST
-          username: $VPS_USER
-          password: $VPS_PASSWD
-          port: $VPS_PORT
+          host: $HOST
+          username: $USER
+          password: $PASSWD
+          port: $PORT
           script: |
             cd /home/honeybrain/Honeybrain/Honeypot
             ./scripts/auto_update_vps.sh > /home/honeybrain/Honeybrain/update.log
