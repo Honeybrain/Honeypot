@@ -11,7 +11,7 @@ git fetch origin
 
 if [[ $(git rev-parse HEAD) != $(git rev-parse origin/main) ]]; then
     echo "$(date +"%Y-%m-%d %T"): Update available..."
-    make stop
+    make stop-production
     docker system prune -fa > /dev/null 2>&1
     git -C "$repo_path" pull origin main
     echo "$(date +"%Y-%m-%d %T"): Update complete."
@@ -21,7 +21,7 @@ fi
 
 if [[ $(docker ps -q -f name=$docker_image) == "" ]]; then
     echo "$(date +"%Y-%m-%d %T"): Starting container..."
-    make production
+    make run-production
     echo "$(date +"%Y-%m-%d %T"): Container started."
 fi
 echo "$(date +"%Y-%m-%d %T"): Script finished."
