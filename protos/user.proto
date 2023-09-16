@@ -29,10 +29,21 @@ message EmailRequest {
   string email = 2;
 }
 
+message InviteUserRequest {
+  string email = 1;
+  bool admin = 2;
+}
+
+message ActivateUserRequest {
+  string token = 1;
+}
+
 // The UserService defines the methods that our service exposes
 service User {
   rpc SignIn(SignInSignUpRequest) returns (UserResponse);
   rpc SignUp(SignInSignUpRequest) returns (UserResponse);
   rpc ResetPassword(PasswordRequest) returns (UserResponse);
   rpc ChangeEmail(EmailRequest) returns (UserResponse);
+  rpc InviteUser(InviteUserRequest) returns (EmptyResponse);
+  rpc ActivateUser(ActivateUserRequest) returns (EmptyResponse);
 }
