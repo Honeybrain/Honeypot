@@ -8,7 +8,16 @@ DOCKER_COMPOSE_PROD_FILE = ./docker/compose/docker-compose-prod.yml
 DOCKER_COMPOSE_IPS_FILE = ./docker/compose/docker-compose-ips.yml
 ROOT = .
 
-.PHONY: grpc frontend-grpc installer-grpc run check-setup build stop logs run-production stop-production
+.PHONY: grpc \
+		frontend-grpc \
+		installer-grpc \
+		run check-setup \
+		build \
+		stop \
+		logs \
+		run-production \
+		stop-production \
+		build-production
 
 check-setup:
 	@echo "🚀 Checking setup..."
@@ -46,6 +55,11 @@ stop-production:
 	@echo "🚀 Stopping Docker services in production mode..."
 	@bash scripts/stop_honeybrain.sh $(DOCKER_COMPOSE_PROD_FILE) $(DOCKER_COMPOSE_IPS_FILE)
 	@echo "✅ Docker services stopped successfully!"
+
+build-production: grpc
+	@echo "🚀 Starting Docker services with build in production mode..."
+	@bash scripts/build_honeybrain.sh $(DOCKER_COMPOSE_PROD_FILE) $(DOCKER_COMPOSE_IPS_FILE)
+	@echo "✅ Docker images built successfully!"
 
 build: grpc
 	@echo "🚀 Starting Docker services with build..."
