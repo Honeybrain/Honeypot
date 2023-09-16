@@ -3,7 +3,7 @@ name: Trigger VPS update
 on:
   push:
     branches:
-      - Fix_vps
+      - main
 
 jobs:
   Update:
