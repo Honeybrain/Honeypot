@@ -3,14 +3,17 @@ name: Trigger VPS update
 on:
   push:
     branches:
-      - main
+      - Fix_vps
+
+env:
+  VPS_HOST: ${{ secrets.VPS_HOST }}
+  VPS_USER: ${{ secrets.VPS_USER }}
+  VPS_PASSWD: ${{ secrets.VPS_PASSWD }}
+  VPS_PORT: ${{ secrets.VPS_PORT }}
 
 jobs:
-
-  deploy:
-
+  Update:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -18,10 +21,10 @@ jobs:
       - name: Execute script on VPS
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          password: ${{ secrets.VPS_PASSWD }}
-          port: ${{ secrets.VPS_PORT }}
+          host: $VPS_HOST
+          username: $VPS_USER
+          password: $VPS_PASSWD
+          port: $VPS_PORT
           script: |
             cd /home/honeybrain/Honeybrain/Honeypot
             ./scripts/auto_update_vps.sh > /home/honeybrain/Honeybrain/update.log
