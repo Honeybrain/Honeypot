@@ -9,7 +9,6 @@ env:
   HOST: ${{ secrets.VPS_HOST }}
   USER: ${{ secrets.VPS_USER }}
   PASSWD: ${{ secrets.VPS_PASSWD }}
-  PORT: ${{ secrets.VPS_PORT }}
 
 jobs:
   Update:
@@ -24,7 +23,7 @@ jobs:
           host: $HOST
           username: $USER
           password: $PASSWD
-          port: $PORT
+          port: ${{ secrets.VPS_PORT }}
           script: |
             cd /home/honeybrain/Honeybrain/Honeypot
             ./scripts/auto_update_vps.sh > /home/honeybrain/Honeybrain/update.log
