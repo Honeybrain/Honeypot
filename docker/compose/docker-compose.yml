@@ -77,11 +77,11 @@ services:
       dockerfile: Dockerfile.dev
     environment:
       - GRPC_URL=backend:50051
-      - SMTP_HOST=smtp.gmail.com
-      - SMTP_PORT=587
-      - SMTP_FROM=no.reply.honeybrain@gmail.com
-      - SMTP_USER=no.reply.honeybrain@gmail.com
-      - SMTP_PASSWORD=hSC55anx7R85Gt
+      - SMTP_HOST=smtp.zoho.eu
+      - SMTP_PORT=465
+      - SMTP_FROM=contact@honeybrain.fr
+      - SMTP_USER=contact@honeybrain.fr
+      - SMTP_PASSWORD=H!2HQwusWch-:xc
     networks:
       - dashboard_network
     volumes:
