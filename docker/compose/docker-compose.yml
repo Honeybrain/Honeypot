@@ -135,7 +135,7 @@ services:
       timeout: 5s
       retries: 3
 
-   wireguard:
+  wireguard:
     image: linuxserver/wireguard
     container_name: wireguard
     cap_add:
@@ -156,7 +156,7 @@ services:
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
     networks:
-      - shared-network
+      - dashboard_network
     restart: unless-stopped
 
 networks:
