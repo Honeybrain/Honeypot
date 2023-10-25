@@ -42,7 +42,7 @@ jobs:
     - name: Build protos
       run: |
         chmod 777 ./scripts/make_frontend_protos.sh
-        ./scripts/make_frontend_protos.sh ./protos ../Frontend
+        ./scripts/make_frontend_protos.sh ./protos ./Frontend
     - name: Build the Frontend image
       run: |
         docker build -t $DOCKER_USER/hb_dashboard_front ./Frontend
