@@ -1,0 +1,3 @@
+alert icmp any any -> $HOME_NET any (msg:"ICMP Echo Request Detected"; itype: 8; sid:1000010; rev:1;)
+alert tcp any any -> $HOME_NET 21 (msg:"FTP Connection Detected"; sid:1000020; rev:1;)
+alert tcp any any -> $HOME_NET any (flags: S,12; msg:"Possible SYN Port Scan Detected"; sid:1000030; rev:1;)

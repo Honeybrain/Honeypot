@@ -1,5 +1,5 @@
-BACKEND_DIR = ../Backend
-FRONTEND_DIR = ../Frontend
+BACKEND_DIR = ./Backend
+FRONTEND_DIR = ./Frontend
 INSTALLER_DIR = ../Installer
 
 PROTO_DIR = protos
@@ -24,7 +24,7 @@ check-setup:
 	@bash scripts/check_setup.sh $(BACKEND_DIR) $(FRONTEND_DIR) $(INSTALLER_DIR)
 	@echo "✅ Setup is okay!"
 
-grpc: check-setup frontend-grpc installer-grpc
+grpc: check-setup frontend-grpc #installer-grpc
 
 backend-grpc:
 	@echo "🚀 Generating backend protobuf files ..."

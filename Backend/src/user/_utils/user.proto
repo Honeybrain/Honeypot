@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package user;
+
+// The SignInSignUpRequest message is used for the SignIn and SignUp operations.
+message SignInSignUpRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message UserResponse {
+  string message = 1;
+  string token = 2;
+}
+
+message EmptyRequest {}
+
+message EmptyResponse {
+  string message = 1;
+}
+
+message PasswordRequest {
+  string password = 1;
+}
+
+message EmailRequest {
+  string email = 1;
+}
+
+message InviteUserRequest {
+  string email = 1;
+  bool admin = 2;
+}
+
+message ChangeRightsRequest {
+  string email = 1;
+  bool admin = 2;
+}
+
+message GetUsersResponse {
+  repeated string users = 1;
+}
+
+message ActivateUserRequest {
+  string token = 1;
+  string password = 2;
+}
+
+message ActivateUserResponse {
+  string token = 1;
+}
+
+message ChangeLanguageRequest {
+  string language = 1;
+}
+
+// The UserService defines the methods that our service exposes
+service User {
+  rpc SignIn(SignInSignUpRequest) returns (UserResponse);
+  rpc SignUp(SignInSignUpRequest) returns (UserResponse);
+  rpc ResetPassword(PasswordRequest) returns (EmptyResponse);
+  rpc ChangeEmail(EmailRequest) returns (EmptyResponse);
+  rpc InviteUser(InviteUserRequest) returns (EmptyResponse);
+  rpc ActivateUser(ActivateUserRequest) returns (ActivateUserResponse);
+  rpc ChangeRights(ChangeRightsRequest) returns (EmptyResponse);
+  rpc GetUsers(EmptyRequest) returns (GetUsersResponse);
+  rpc DeleteUser(EmailRequest) returns (EmptyResponse);
+  rpc ChangeLanguage(ChangeLanguageRequest) returns (EmptyResponse);
+}

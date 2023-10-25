@@ -3,7 +3,7 @@ name: Honeypot Services
 on:
   push:
     branches:
-      - main
+      - S3-2.3/Passage_en_mono_repo
 
 env:
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
@@ -23,6 +23,6 @@ jobs:
         run: |
           cd docker/dockerfile/fail2ban
           docker build -t $DOCKER_USER/hb_services_fail2ban .
-      - name: Push the Fail2ban image
-        run: |
-          docker --config $DOCKER_CONFIG push $DOCKER_USER/hb_services_fail2ban
+      # - name: Push the Fail2ban image
+      #   run: |
+      #     docker --config $DOCKER_CONFIG push $DOCKER_USER/hb_services_fail2ban

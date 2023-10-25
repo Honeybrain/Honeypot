@@ -22,4 +22,3 @@ echo "✅ Now spying network honeypot_network ($NETWORK_INTERFACE)"
 echo "⌛ Starting IDS/IPS services..."
 
 docker compose -p honeybrain -f $DOCKER_COMPOSE_IPS_FILE up -d
-

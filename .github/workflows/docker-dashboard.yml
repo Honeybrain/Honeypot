@@ -1,0 +1,51 @@
+name: Docker Backend
+
+on:
+  push:
+    branches:
+      - S3-2.3/Passage_en_mono_repo
+
+env:
+  DOCKER_USER: ${{ secrets.DOCKER_USER }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  DOCKER_CONFIG: ${{ github.workspace }}/.docker
+  FIREBASE_TOKEN: ${{ secrets.FIREBASE_CONFIG }}
+
+jobs:
+  Backend:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Configure Docker credentials
+      run: |
+        mkdir $DOCKER_CONFIG
+        echo -n "$DOCKER_PASSWORD" | docker --config $DOCKER_CONFIG login --username $DOCKER_USER --password-stdin
+    - name: Build the Backend image
+      run: |
+        docker build -t $DOCKER_USER/hb_dashboard_back .
+    - name: Build the Envoy image
+      run: |
+        docker build -t $DOCKER_USER/hb_dashboard_envoy -f Dockerfile.envoy .
+    # - name: Push the images
+    #   run: |
+    #     docker --config $DOCKER_CONFIG push $DOCKER_USER/hb_dashboard_back
+    #     docker --config $DOCKER_CONFIG push $DOCKER_USER/hb_dashboard_envoy
+
+  Frontend:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Configure Docker credentials
+      run: |
+        mkdir $DOCKER_CONFIG
+        echo -n "$DOCKER_PASSWORD" | docker --config $DOCKER_CONFIG login --username $DOCKER_USER --password-stdin
+    - name: Build protos
+      run: |
+        chmod 777 ./scripts/make_frontend_protos.sh
+        ./scripts/make_frontend_protos.sh ./protos ../Frontend
+    - name: Build the Frontend image
+      run: |
+        docker build -t $DOCKER_USER/hb_dashboard_front .
+    # - name: Push the Frontend image
+    #   run: |
+    #     docker --config $DOCKER_CONFIG push $DOCKER_USER/hb_dashboard_front

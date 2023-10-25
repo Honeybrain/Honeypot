@@ -1,0 +1,125 @@
+version: "3"
+services:
+  reverse_proxy:
+    image: nginx:latest
+    container_name: reverse_proxy
+    volumes:
+      - "../../config/nginx/nginx.conf:/etc/nginx/nginx.conf"
+      - "../../config/nginx/block.conf:/etc/nginx/block.conf"
+      - "../../logs/nginx:/var/log/nginx"
+    ports:
+      - "80:80"
+    networks:
+      - services_network
+    depends_on:
+      - shop
+
+  shop:
+    image: shop_image
+    container_name: shop
+    build:
+      context: ../dockerfile/shop
+    networks:
+      - services_network
+
+  dummy_pc_0:
+    image: adrienroco/hb_modules_pc
+    container_name: honeypot_dummy_pc_0
+    networks:
+      honeypot_network:
+        ipv4_address: 192.168.1.12
+
+  dummy_pc_1:
+    image: adrienroco/hb_modules_pc
+    container_name: honeypot_dummy_pc_1
+    networks:
+      honeypot_network:
+        ipv4_address: 192.168.1.13
+
+  dummy_pc_2:
+    image: adrienroco/hb_modules_pc
+    container_name: honeypot_dummy_pc_2
+    networks:
+      honeypot_network:
+        ipv4_address: 192.168.1.14
+
+  dummy_pc_3:
+    image: adrienroco/hb_modules_pc
+    container_name: honeypot_dummy_pc_3
+    networks:
+      honeypot_network:
+        ipv4_address: 192.168.1.15
+
+  ftp:
+    image: adrienroco/hb_modules_ftp
+    container_name: honeypot_dummy_ftp
+    ports:
+      - "21:21"
+    networks:
+      honeypot_network:
+        ipv4_address: 192.168.1.17
+
+  backend:
+    image: adrienroco/hb_dashboard_back
+    container_name: backend
+    environment:
+      - NODE_ENV=production
+      - GRPC_URL=backend:50051
+    networks:
+      - dashboard_network
+    volumes:
+      - "../../logs/suricata/fast.log:/app/honeypot/fast.log"
+      - "../../config/nginx/block.conf:/app/honeypot/block.conf"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    healthcheck:
+      test: ["CMD", "nc", "-zv", "localhost", "50051"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      - mongo
+
+  mongo:
+    container_name: mongo
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    networks:
+      - dashboard_network
+
+  envoy:
+    image: adrienroco/hb_dashboard_envoy
+    container_name: envoy
+    ports:
+      - "8080:8080"
+    networks:
+      - dashboard_network
+    depends_on:
+      - backend
+
+  frontend:
+    image: adrienroco/hb_dashboard_front
+    container_name: frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    networks:
+      - dashboard_network
+    volumes:
+      - "../../../Frontend/src:/app/src"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:3000/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+networks:
+  honeypot_network:
+    name: honeypot_network
+    ipam:
+      config:
+        - subnet: 192.168.1.0/24
+  services_network:
+    name: services_network
+  dashboard_network:
+    name: dashboard_network

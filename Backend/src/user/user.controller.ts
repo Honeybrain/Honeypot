@@ -1,0 +1,75 @@
+import { Controller, UseGuards } from '@nestjs/common';
+import { UserService } from './user.service';
+import { GrpcMethod } from '@nestjs/microservices';
+import { SignInSignUpDto } from './_utils/dto/request/sign-in-sign-up.dto';
+import { EmailRequestDto } from './_utils/dto/request/email-request.dto';
+import { PasswordRequestDto } from './_utils/dto/request/password-request.dto';
+import { ChangeLanguageRequestDto } from './_utils/dto/request/change-language-request.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { InviteUserRequestDto } from './_utils/dto/request/invite-user-request.dto';
+import { GetEmptyDto } from '../_utils/dto/response/get-empty.dto';
+import { ActivateUserRequestDto } from './_utils/dto/request/activate-request.dto';
+import { ChangeRightsRequestDto } from './_utils/dto/request/change-rights-request.dto';
+import { GrpcAuthGuard } from './_utils/jwt/grpc-auth.guard';
+import { MetadataWithUser } from './_utils/interface/metadata-with-user.interface';
+import { GetUsersListDto } from './_utils/dto/response/get-users-list.dto';
+import { ActivateResponseDto } from './_utils/dto/response/activate-response.dto';
+
+@Controller('user')
+@ApiTags('User')
+export class UserController {
+  constructor(private readonly userService: UserService) {}
+
+  @GrpcMethod('User', 'SignUp')
+  signUp(signInSignUpDto: SignInSignUpDto) {
+    return this.userService.signUp(signInSignUpDto);
+  }
+
+  @GrpcMethod('User', 'SignIn')
+  signIn(signInSignUpDto: SignInSignUpDto) {
+    return this.userService.signIn(signInSignUpDto);
+  }
+
+  @UseGuards(GrpcAuthGuard)
+  @GrpcMethod('User', 'ChangeEmail')
+  changeEmail(data: EmailRequestDto, meta: MetadataWithUser): Promise<GetEmptyDto> {
+    return this.userService.changeEmail(data.email, meta.user);
+  }
+
+  @UseGuards(GrpcAuthGuard)
+  @GrpcMethod('User', 'ResetPassword')
+  resetPassword(data: PasswordRequestDto, meta: MetadataWithUser): Promise<GetEmptyDto> {
+    return this.userService.resetPassword(data.password, meta.user);
+  }
+
+  @GrpcMethod('User', 'InviteUser')
+  inviteUser(data: InviteUserRequestDto): Promise<GetEmptyDto> {
+    return this.userService.inviteUser(data.email, data.admin);
+  }
+
+  @GrpcMethod('User', 'ActivateUser')
+  activateUser(data: ActivateUserRequestDto): Promise<ActivateResponseDto> {
+    return this.userService.activateUser(data);
+  }
+
+  @GrpcMethod('User', 'ChangeRights')
+  changeRights(data: ChangeRightsRequestDto): Promise<GetEmptyDto> {
+    return this.userService.changeRights(data);
+  }
+
+  @GrpcMethod('User', 'GetUsers')
+  getUsers(): Promise<GetUsersListDto> {
+    return this.userService.findAllUsers();
+  }
+
+  @GrpcMethod('User', 'DeleteUser')
+  deleteUser(emailRequestDto: EmailRequestDto): Promise<GetEmptyDto> {
+    return this.userService.deleteUser(emailRequestDto);
+  }
+
+  @UseGuards(GrpcAuthGuard)
+  @GrpcMethod('User', 'ChangeLanguage')
+  changeLanguage(data: ChangeLanguageRequestDto, meta: MetadataWithUser): Promise<GetEmptyDto> {
+    return this.userService.changeLanguage(data.language, meta.user);
+  }
+}
