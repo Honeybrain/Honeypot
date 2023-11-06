@@ -3,7 +3,7 @@ set -e
 
 FRONTEND_DIR=$2
 PROTO_DIR=../Honeypot/protos
-PROTO_OUTPUT_DIR=$FRONTEND_DIR/src/protos
+PROTO_OUTPUT_DIR=./src/protos
 
 cd $FRONTEND_DIR
 

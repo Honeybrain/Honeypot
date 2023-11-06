@@ -3,7 +3,7 @@ set -e
 
 BACKEND_DIR=$2
 PROTO_DIR=../Honeypot/protos
-PROTO_OUTPUT_DIR=$BACKEND_DIR/src/protos
+PROTO_OUTPUT_DIR=./src/protos
 
 cd $BACKEND_DIR
 

@@ -3,9 +3,9 @@ FRONTEND_DIR = ./Frontend
 INSTALLER_DIR = ../Installer
 
 PROTO_DIR = protos
-DOCKER_COMPOSE_FILE = ./docker/compose/docker-compose.yml
-DOCKER_COMPOSE_PROD_FILE = ./docker/compose/docker-compose-prod.yml
-DOCKER_COMPOSE_IPS_FILE = ./docker/compose/docker-compose-ips.yml
+DOCKER_COMPOSE_FILE = ./Honeypot/docker/compose/docker-compose.yml
+DOCKER_COMPOSE_PROD_FILE = ./Honeypot/docker/compose/docker-compose-prod.yml
+DOCKER_COMPOSE_IPS_FILE = ./Honeypot/docker/compose/docker-compose-ips.yml
 ROOT = .
 
 .PHONY: grpc \
