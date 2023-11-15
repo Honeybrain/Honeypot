@@ -3,7 +3,7 @@ name: Trigger VPS update
 on:
   push:
     branches:
-      - main
+      - S3-2.3/Passage_en_mono_repo
 
 jobs:
   Update:

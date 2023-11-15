@@ -27,10 +27,10 @@ jobs:
       run: |
         cd ./Backend
         docker build -t $DOCKER_USER/hb_dashboard_back .
-    # - name: Push the images
-    #   run: |
-    #     docker --config $DOCKER_CONFIG push $DOCKER_USER/hb_dashboard_envoy
-    #     docker --config $DOCKER_CONFIG push $DOCKER_USER/hb_dashboard_back
+    - name: Push the images
+      run: |
+        docker --config $DOCKER_CONFIG push $DOCKER_USER/hb_dashboard_envoy
+        docker --config $DOCKER_CONFIG push $DOCKER_USER/hb_dashboard_back
 
   Frontend:
     runs-on: ubuntu-latest
@@ -48,6 +48,6 @@ jobs:
       run: |
         cd ./Frontend
         docker build -t $DOCKER_USER/hb_dashboard_front .
-    # - name: Push the Frontend image
-    #   run: |
-    #     docker --config $DOCKER_CONFIG push $DOCKER_USER/hb_dashboard_front
+    - name: Push the Frontend image
+      run: |
+        docker --config $DOCKER_CONFIG push $DOCKER_USER/hb_dashboard_front

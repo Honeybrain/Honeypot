@@ -13,7 +13,7 @@ if [[ $(git rev-parse HEAD) != $(git rev-parse origin/main) ]]; then
     echo "$(date +"%Y-%m-%d %T"): Update available..."
     make stop-production
     docker system prune -fa > /dev/null 2>&1
-    git -C "$repo_path" pull origin main
+    git -C "$repo_path" pull origin S3-2.3/Passage_en_mono_repo #CHANGE TO MAIN FOR PROD
     echo "$(date +"%Y-%m-%d %T"): Update complete."
 else
     echo "$(date +"%Y-%m-%d %T"): No update available."

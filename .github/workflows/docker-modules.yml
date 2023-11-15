@@ -23,9 +23,9 @@ jobs:
         run: |
           cd Honeypot/docker/modules/ftp
           docker build -t $DOCKER_USER/hb_modules_ftp .
-      # - name: Push the fake FTP image
-      #   run: |
-      #     docker --config $DOCKER_CONFIG push $DOCKER_USER/hb_modules_ftp
+      - name: Push the fake FTP image
+        run: |
+          docker --config $DOCKER_CONFIG push $DOCKER_USER/hb_modules_ftp
 
   DummyPC_image:
     runs-on: ubuntu-latest
@@ -39,9 +39,9 @@ jobs:
         run: |
           cd Honeypot/docker/modules/dummy_pc
           docker build -t $DOCKER_USER/hb_modules_pc .
-      # - name: Push the Dummy PC image
-      #   run: |
-      #     docker --config $DOCKER_CONFIG push $DOCKER_USER/hb_modules_pc
+      - name: Push the Dummy PC image
+        run: |
+          docker --config $DOCKER_CONFIG push $DOCKER_USER/hb_modules_pc
 
   DB_image:
     runs-on: ubuntu-latest
@@ -55,6 +55,6 @@ jobs:
         run: |
           cd Honeypot/docker/modules/db
           docker build -t $DOCKER_USER/hb_modules_db .
-      # - name: Push the fake DB image
-      #   run: |
-      #     docker --config $DOCKER_CONFIG push $DOCKER_USER/hb_modules_db
+      - name: Push the fake DB image
+        run: |
+          docker --config $DOCKER_CONFIG push $DOCKER_USER/hb_modules_db
