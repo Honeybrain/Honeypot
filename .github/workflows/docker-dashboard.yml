@@ -14,7 +14,7 @@ jobs:
   Backend:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Configure Docker credentials
       run: |
         mkdir $DOCKER_CONFIG
@@ -35,7 +35,7 @@ jobs:
   Frontend:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Configure Docker credentials
       run: |
         mkdir $DOCKER_CONFIG
