@@ -9,7 +9,6 @@ env:
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   DOCKER_CONFIG: ${{ github.workspace }}/.docker
-  FIREBASE_TOKEN: ${{ secrets.FIREBASE_CONFIG }}
 
 jobs:
   Backend:
