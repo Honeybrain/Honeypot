@@ -9,8 +9,8 @@ COPY . .
 
 RUN yarn install
 
-RUN yarn build
+# RUN yarn build
 
 EXPOSE 50051
 
-CMD ["yarn", "start:prod"]
+CMD ["yarn", "start:dev"]
