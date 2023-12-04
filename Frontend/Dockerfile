@@ -7,6 +7,7 @@ COPY package.json ./
 RUN yarn install
 
 COPY . .
+COPY src/environment-prod.ts src/environment.ts
 
 RUN npm run build
 
