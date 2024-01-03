@@ -89,6 +89,7 @@ services:
       - "../../logs/suricata/fast.log:/app/honeypot/fast.log"
       - "../../config/suricata/suricata.rules:/app/honeypot/suricata.rules"
       - "../../config/fail2ban/filter.d/nginx-honeypot.conf:/app/honeypot/nginx-honeypot.conf"
+      - "../../config/fail2ban/action.d/geohostsdeny.conf:/app/honeypot/geohostsdeny.conf"
       - "../../config/nginx/block.conf:/app/honeypot/block.conf"
       - "/var/run/docker.sock:/var/run/docker.sock"
     healthcheck:
