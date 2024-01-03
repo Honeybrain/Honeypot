@@ -19,6 +19,9 @@ findtime = 600
 # How many attempts can be made before a ban is imposed
 maxretry = 3
 
+# Define the banaction globally if you want all jails to use the geohostsdeny action
+banaction = geohostsdeny
+
 [iptables-honeypot]
 enabled = true
 port = all
