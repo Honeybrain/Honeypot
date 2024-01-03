@@ -59,3 +59,17 @@ if ! command -v protoc-gen-mypy &> /dev/null; then
     exit 1
 fi
 echo "✅ protoc-gen-mypy plugin is available."
+
+# Check if netifaces is installed
+if ! python3 -c "import netifaces" &> /dev/null; then
+    echo "❌ Error: netifaces is not installed for python3. Please install 'netifaces' pip3 package."
+    exit 1
+fi
+echo "✅ netifaces is installed."
+
+# Check if jinja2 is installed
+if ! python3 -c "import jinja2" &> /dev/null; then
+    echo "❌ Error: jinja2 is not installed for python3. Please install 'jinja2' pip3 package."
+    exit 1
+fi
+echo "✅ jinja2 is installed."
