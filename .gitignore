@@ -129,7 +129,10 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-fail2ban/config/db
+config/fail2ban/db
+config/wireguard
+config/nginx/block.conf
+logs/suricata/fast.log
 build
 node_modules
 package-lock.json
