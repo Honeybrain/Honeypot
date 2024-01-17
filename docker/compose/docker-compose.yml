@@ -85,7 +85,7 @@ services:
     networks:
       - dashboard_network
     volumes:
-      - "../../config/wireguard/peer1/peer1.png:/app/honeypot/peer1.png"
+      - "../../config/wireguard/peer1:/app/honeypot/peer1"
       - "../../logs/suricata/fast.log:/app/honeypot/fast.log"
       - "../../config/suricata/suricata.rules:/app/honeypot/suricata.rules"
       - "../../config/fail2ban/filter.d/nginx-honeypot.conf:/app/honeypot/nginx-honeypot.conf"
