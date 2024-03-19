@@ -1,0 +1,8 @@
+{% for i in range(num_dummy_pc) %}
+  dummy_pc_{{i}}:
+    image: adrienroco/hb_modules_pc:latest
+    container_name: honeypot_dummy_pc_{{i}}
+    networks:
+      honeypot_network:{% if ip_addresses_dummy_pc[i] is not none %}
+        ipv4_address: {{ ip_addresses_dummy_pc[i] }}{% endif %}
+{% endfor %}

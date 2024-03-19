@@ -2,7 +2,7 @@
 set -e
 
 INSTALLER_DIR=$2
-PROTO_DIR=../Honeypot/protos
+PROTO_DIR=./Honeypot/protos
 PROTO_OUTPUT_DIR=$INSTALLER_DIR/src/protos
 
 cd $INSTALLER_DIR

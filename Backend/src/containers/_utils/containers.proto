@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package containers;
+
+service Containers {
+  rpc StreamContainers (ContainersRequest) returns (stream ContainersReply) {}
+  rpc GetContainers (ContainersRequest) returns (ContainersReply) {}
+}
+
+message ContainersRequest {}
+
+message Container {
+  string name = 1;
+  string status = 2;
+  string ip = 3;
+}
+
+message ContainersReply {
+  repeated Container containers = 1;
+}
