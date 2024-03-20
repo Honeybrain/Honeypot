@@ -82,6 +82,8 @@ services:
       - SMTP_FROM=contact@honeybrain.fr
       - SMTP_USER=contact@honeybrain.fr
       - SMTP_PASSWORD=H!2HQwusWch-:xc
+      - CREATE_ADMIN_EMAIL=francois.bolla@epitech.eu
+      - CREATE_ADMIN_PASSWORD=k6d=Ha2#~fW25OwrAffe
     networks:
       - dashboard_network
     volumes:
@@ -162,6 +164,13 @@ services:
     networks:
       - dashboard_network
     restart: unless-stopped
+
+  generator:
+    image: alpine:latest
+    container_name: generator
+    build:
+      context: ../dockerfile/generator
+      dockerfile: Dockerfile
 
 networks:
   honeypot_network:
