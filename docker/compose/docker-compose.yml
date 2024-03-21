@@ -93,6 +93,7 @@ services:
       - "../../config/fail2ban/filter.d/nginx-honeypot.conf:/app/honeypot/nginx-honeypot.conf"
       - "../../config/fail2ban/action.d/geohostsdeny.conf:/app/honeypot/geohostsdeny.conf"
       - "../../config/nginx/block.conf:/app/honeypot/block.conf"
+      - ../../config/generator:/app/honeypot/generator
       - "/var/run/docker.sock:/var/run/docker.sock"
     healthcheck:
       test: ["CMD", "nc", "-zv", "localhost", "50051"]
@@ -171,6 +172,8 @@ services:
     build:
       context: ../dockerfile/generator
       dockerfile: Dockerfile
+    volumes:
+      - ../../config/generator:/config
 
 networks:
   honeypot_network:
