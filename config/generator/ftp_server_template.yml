@@ -1,0 +1,8 @@
+ftp:
+    image: adrienroco/hb_modules_ftp:latest
+    container_name: honeypot_ftp
+    ports:
+      - "{{ ftp_port }}:21"
+    networks:
+      honeypot_network:{% if ftp_ip_address is not none %}
+        ipv4_address: {{ ftp_ip_address }}{% endif %}
