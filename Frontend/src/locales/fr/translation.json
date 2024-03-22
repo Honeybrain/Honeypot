@@ -1,114 +1,166 @@
 {
-    "navbar": {
-      "dashboard": "Tableau de bord",
-      "login": "Se connecter",
-      "logout": "Se déconnecter",
-      "profile": "Profil",
-      "home": "Accueil"
-    },
-    "loginPage": {
-      "login": "Connexion",
-      "emailPlaceholder": "E-mail",
-      "passwordPlaceholder": "Mot de passe",
-      "submit": "Se connecter",
-      "errorMessage": "Nom d'utilisateur et/ou mot de passe incorrect.",
-      "loginSuccess": "Connexion éussi, Chargement en cours..."
-    },
-    "homePage": {
-      "dashboard": "Tableau de bord",
-      "ipManagement": "Gestion des IP",
-      "containerManager": "Manager des conteneurs",
-      "incomingConnections": "Connexions entrantes",
-      "otherFeatures": "Autres fonctionnalités",
-      "history": "Historique"
-    },
-    "profilePage": {
-      "passwordChange": "Changement de mot de passe",
-      "resetEmailSent": "Votre mot de passe a bien été modifié.",
-      "newPassword": "Nouveau mot de passe",
-      "resetPassword": "Réinitialiser le mot de passe",
-      "emailChange": "Changement d'adresse email",
-      "emailUpdated": "Votre Email a bien été modifié.",
-      "newEmail": "Nouvel e-mail",
-      "validate": "Réinitialiser le mail"
-    },
-    "blacklistPage": {
-      "blockedIPs": "IP bloquées",
-      "helpText": "Avec le widget IP bloquées, vous pouvez voir les addresses IP de la liste noire. Cela signifie que toute tentative d'accès au honeypot à partir de cette adresse IP sera bloquée.\n\nPour chaque adresse IP de la liste, un bouton de suppression est disponible.\n\nPour supprimer une adresse IP de la liste noire, vous avez un boutton permettant cette suppression.\n\nUne notification apparaît à l'écran pour vous informer de l'action qui a été effectuée.",
-      "noBlockedIP": "Aucune ip bloquée !"
-    },
-    "containerMonitorWidget": {
-      "honeypotServices": "Services honeypot",
-      "helpText": "En utilisant le widget Gestion des conteneurs, vous pouvez voir une liste de tous les conteneurs actuellement en cours d'exécution, ainsi que leur état et leur adresse IP. Chaque conteneur est affiché sur une carte individuelle.\n\nL'état du conteneur peut être Up ou Down indiquant si le conteneur est actuellement en cours d'exécution ou non.\n\nL'adresse IP du conteneur est également affichée, permettant de voir facilement l'adresse réseau du conteneur.",
-      "status": "État",
-      "ip": "IP"
-    },
-    "logViewerWidget": {
-      "incomingConnections": "Connexions entrantes",
-      "helpText": "Le widget Connexions entrantes offre une vue en temps réel des logs de connexions au système de honeypot.\n\nCes logs sont généralement des enregistrements d'événements produits par le système, en particulier des tentatives de connexion entrantes.\n\nUn honeypot est une ressource de réseau mise en place pour attirer et détecter les tentatives d'accès non autorisées."
-    },
-    "blockManager": {
-      "ipManagement": "Gestion des IP",
-      "helpText": "Vous pouvez ajouter une addresse IP à la liste noire. Cela signifie que toute tentative d'accès au honeypot à partir de cette adresse IP sera bloquée.\n\nUne liste de toutes les adresses IP actuellement bloquées est affichée à l'écran. Pour chaque adresse IP de la liste, un bouton de suppression est disponible.\n\nPour supprimer une adresse IP de la liste noire, vous avez un boutton permettant cette suppression.\n\n- Une notification apparaît à l'écran pour vous informer de l'action qui a été effectuée.",
-      "blockAnIP": "Bloquer une IP",
-      "ipAddress": "Adresse IP",
-      "blockIP": "Bloquer IP",
-      "currentlyBlocked": "IPs actuellement bloquées",
-      "blockSuccess": "IP bloquée avec succès",
-      "unblockSuccess": "IP débloquée avec succès"
-    },
-    "listConnections": {
-      "title": "Connexions entrantes",
-      "helpText": "La fonctionnalité Connexions entrantes offre une vue en temps réel des logs de connexions au système de honeypot.\n\nCes logs sont généralement des enregistrements d'événements produits par le système, en particulier des tentatives de connexion entrantes.\n\nUn honeypot est une ressource de réseau mise en place pour attirer et détecter les tentatives d'accès non autorisées."
-    },
-    "containerManager": {
-      "title": "Gestion des conteneurs",
-      "helpText": "En utilisant le Gestion des conteneurs , vous pouvez voir une liste de tous les conteneurs actuellement en cours d'exécution, ainsi que leur état et leur adresse IP. Chaque conteneur est affiché sur une carte individuelle.\n\nL'état du conteneur peut être Up ou Down indiquant si le conteneur est actuellement en cours d'exécution ou non.\n\nL'adresse IP du conteneur est également affichée, permettant de voir facilement l'adresse réseau du conteneur.",
-      "status": "État",
-      "ip": "IP"
-    },
-    "configGenerator": {
-      "title": "Générateur de Configuration",
-      "helpText": "Cette fonctionnalité, nommée Config Generator, permet à l'utilisateur de générer et de télécharger un fichier de configuration pour un réseau avec des adresses IP spécifiques. L'utilisateur peut spécifier le nombre de faux ordinateurs (dummy PC), leur adresse IP, l'adresse IP et le port d'un serveur FTP, ainsi que le sous-réseau du réseau. Cela permet de configurer le HoneyBrain depuis le Dashboard.",
-      "generalConfiguration": "Configuration Générale",
-      "services": "Services",
-      "networkInterfaceLabel": "Interface réseau",
-      "subnetLabel": "Sous-réseau",
-      "dockerfilePathLabel": "Chemin du Dockerfile",
-      "numberOfDummyPCLabel": "Nombre de faux PC",
-      "ipAddressForDummyPCLabel": "Adresse IP pour le faux PC",
-      "ipAddressForFTPLabel": "Adresse IP pour le FTP",
-      "portForFTPLabel": "Port pour le FTP",
-      "downloadConfiguration": "Télécharger la Configuration"
-    },
-    "historyPage": {
-      "title": "Historique des actions",
-      "search": "Recherche",
-      "date": "Date",
-      "time": "Heure",
-      "type": "Type",
-      "user": "Utilisateur",
-      "description": "Description",
-      "safe": "Sûr",
-      "danger": "Dangereux",
-      "dangerHigh": "Niveau de danger : élevé",
-      "dangerMedium": "Niveau de danger : moyen",
-      "dangerLow": "Niveau de danger : faible"
-    },
-    "helpModal": {
-      "help": "Aide",
-      "helpText": "Ici vous pouvez mettre le texte d'aide en français...",
-      "close": "Fermer"
-    },
-    "HoneyPotPage": {
-      "current_connections": "Connexions actuelles",
-      "ip_connections": "Connexions IP",
-      "ip": "IP",
-      "time": "Heure",
-      "safe": "Sûr",
-      "danger": "Danger"
-    },
-    "AuthContext": {
-      "logout": "Vous avez été déconnecté avec succès"
-    }
+  "navbar": {
+    "dashboard": "Tableau de bord",
+    "login": "Se connecter",
+    "logout": "Se déconnecter",
+    "profile": "Profil",
+    "home": "Accueil"
+  },
+  "loginPage": {
+    "login": "Connexion",
+    "emailPlaceholder": "E-mail",
+    "passwordPlaceholder": "Mot de passe",
+    "submit": "Se connecter",
+    "errorMessage": "Nom d'utilisateur et/ou mot de passe incorrect.",
+    "loginSuccess": "Connexion éussi, Chargement en cours..."
+  },
+  "homePage": {
+    "dashboard": "Tableau de bord",
+    "ipManagement": "Gestion des IP",
+    "containerManager": "Gestion des conteneurs",
+    "incomingConnections": "Connexions entrantes",
+    "rulesManager": "Gestion des régles",
+    "userManagement": "Gestion des utilisateurs",
+    "mobileLink": "Mobile Link",
+    "otherFeatures": "Autres fonctionnalités",
+    "history": "Historique"
+  },
+  "profilePage": {
+    "passwordChange": "Changement de mot de passe",
+    "resetEmailSent": "Votre mot de passe a bien été modifié.",
+    "newPassword": "Nouveau mot de passe",
+    "resetPassword": "Réinitialiser le mot de passe",
+    "emailChange": "Changement d'adresse email",
+    "emailUpdated": "Votre Email a bien été modifié.",
+    "newEmail": "Nouvel e-mail",
+    "validate": "Réinitialiser le mail"
+  },
+  "blacklistPage": {
+    "blockedIPs": "IP bloquées",
+    "helpText": "Avec le widget IP bloquées, vous pouvez voir les addresses IP de la liste noire. Cela signifie que toute tentative d'accès au honeypot à partir de cette adresse IP sera bloquée.\n\nPour chaque adresse IP de la liste, un bouton de suppression est disponible.\n\nPour supprimer une adresse IP de la liste noire, vous avez un boutton permettant cette suppression.\n\nUne notification apparaît à l'écran pour vous informer de l'action qui a été effectuée.",
+    "noBlockedIP": "Aucune ip bloquée !"
+  },
+  "containerMonitorWidget": {
+    "honeypotServices": "Services honeypot",
+    "helpText": "En utilisant le widget Gestion des conteneurs, vous pouvez voir une liste de tous les conteneurs actuellement en cours d'exécution, ainsi que leur état et leur adresse IP. Chaque conteneur est affiché sur une carte individuelle.\n\nL'état du conteneur peut être Up ou Down indiquant si le conteneur est actuellement en cours d'exécution ou non.\n\nL'adresse IP du conteneur est également affichée, permettant de voir facilement l'adresse réseau du conteneur.",
+    "status": "État",
+    "ip": "IP"
+  },
+  "chartsWidget": {
+    "charts": "Graphiques",
+    "blockedIPsYear": "IP bloquée sur une demi année",
+    "helpText": "Ces graphiques permettent un traitement et une meilleure compréhension des données ressorties."
+  },
+  "logViewerWidget": {
+    "incomingConnections": "Connexions entrantes",
+    "helpText": "Le widget Connexions entrantes offre une vue en temps réel des logs de connexions au système de honeypot.\n\nCes logs sont généralement des enregistrements d'événements produits par le système, en particulier des tentatives de connexion entrantes.\n\nUn honeypot est une ressource de réseau mise en place pour attirer et détecter les tentatives d'accès non autorisées."
+  },
+  "blockManager": {
+    "ipManagement": "Gestion des IP",
+    "helpText": "Vous pouvez ajouter une addresse IP à la liste noire. Cela signifie que toute tentative d'accès au honeypot à partir de cette adresse IP sera bloquée.\n\nUne liste de toutes les adresses IP actuellement bloquées est affichée à l'écran. Pour chaque adresse IP de la liste, un bouton de suppression est disponible.\n\nPour supprimer une adresse IP de la liste noire, vous avez un boutton permettant cette suppression.\n\n- Une notification apparaît à l'écran pour vous informer de l'action qui a été effectuée.",
+    "blockAnIP": "Bloquer une IP",
+    "ipAddress": "Adresse IP",
+    "blockIP": "Bloquer IP",
+    "currentlyBlocked": "IPs actuellement bloquées",
+    "blockSuccess": "IP bloquée avec succès",
+    "unblockSuccess": "IP débloquée avec succès",
+    "unblockCountrySuccess": "Pays débloqué avec succès",
+    "blockCountrySuccess": "Pays bloqué avec succès",
+    "blockACountry": "Bloquer un pays",
+    "blockCountry": "Bloquer le pays",
+    "countryCode": "Code du pays",
+    "currentlyBlockedCountries": "Pays actuellement bloqués",
+    "noBlockedCountries": "Aucun pays n'a pour l'instant été bloqué."
+  },
+  "listConnections": {
+    "title": "Connexions entrantes",
+    "helpText": "La fonctionnalité Connexions entrantes offre une vue en temps réel des logs de connexions au système de honeypot.\n\nCes logs sont généralement des enregistrements d'événements produits par le système, en particulier des tentatives de connexion entrantes.\n\nUn honeypot est une ressource de réseau mise en place pour attirer et détecter les tentatives d'accès non autorisées."
+  },
+  "containerManager": {
+    "title": "Gestion des conteneurs",
+    "helpText": "En utilisant le Gestion des conteneurs , vous pouvez voir une liste de tous les conteneurs actuellement en cours d'exécution, ainsi que leur état et leur adresse IP. Chaque conteneur est affiché sur une carte individuelle.\n\nL'état du conteneur peut être Up ou Down indiquant si le conteneur est actuellement en cours d'exécution ou non.\n\nL'adresse IP du conteneur est également affichée, permettant de voir facilement l'adresse réseau du conteneur.",
+    "status": "État",
+    "ip": "IP"
+  },
+  "configGenerator": {
+    "title": "Générateur de Configuration",
+    "helpText": "Cette fonctionnalité, nommée Config Generator, permet à l'utilisateur de générer et de télécharger un fichier de configuration pour un réseau avec des adresses IP spécifiques. L'utilisateur peut spécifier le nombre de faux ordinateurs (dummy PC), leur adresse IP, l'adresse IP et le port d'un serveur FTP, ainsi que le sous-réseau du réseau. Cela permet de configurer le HoneyBrain depuis le Dashboard.",
+    "generalConfiguration": "Configuration Générale",
+    "services": "Services",
+    "networkInterfaceLabel": "Interface réseau",
+    "subnetLabel": "Sous-réseau",
+    "dockerfilePathLabel": "Chemin du Dockerfile",
+    "numberOfDummyPCLabel": "Nombre de faux PC",
+    "ipAddressForDummyPCLabel": "Adresse IP pour le faux PC",
+    "ipAddressForFTPLabel": "Adresse IP pour le FTP",
+    "portForFTPLabel": "Port pour le FTP",
+    "downloadConfiguration": "Télécharger la Configuration"
+  },
+  "historyPage": {
+    "title": "Historique des actions",
+    "search": "Recherche",
+    "date": "Date",
+    "time": "Heure",
+    "type": "Type",
+    "user": "Utilisateur",
+    "description": "Description",
+    "safe": "Sûr",
+    "danger": "Dangereux",
+    "dangerHigh": "Niveau de danger : élevé",
+    "dangerMedium": "Niveau de danger : moyen",
+    "dangerLow": "Niveau de danger : faible"
+  },
+  "helpModal": {
+    "help": "Aide",
+    "helpText": "Ici vous pouvez mettre le texte d'aide en français...",
+    "close": "Fermer"
+  },
+  "HoneyPotPage": {
+    "current_connections": "Connexions actuelles",
+    "ip_connections": "Connexions IP",
+    "ip": "IP",
+    "time": "Heure",
+    "safe": "Sûr",
+    "danger": "Danger"
+  },
+  "AuthContext": {
+    "logout": "Vous avez été déconnecté avec succès"
+  },
+  "userManagement": {
+    "userManagement":"Gestion des utilisateurs",
+    "inviteNewUser":"Inviter un nouvel utilisateur",
+    "emailNewUser": "Email nouvel utilisateur",
+    "sendInvite": "Envoyer l'invitation",
+    "usersList": "Liste des utilisateurs",
+    "activated": "activé",
+    "waitingActivation": "en attente d'activation"
+  },
+  "roleEnum": {
+    "ADMIN": "Administrateur",
+    "CAN_INVITE": "Inviter",
+    "CAN_MANAGE_IP": "Gérer les IP",
+    "CAN_READ_IP": "Lire les IP",
+    "CAN_READ_LOGS": "Lire les logs",
+    "CAN_MANAGE_CONFIGURATION": "Gérer la configuration",
+    "CAN_READ_SERVICES": "Lire les services"
+  },
+  "mobileLink": {
+    "mobileLink": "Mobile Link",
+    "accessDistance": "Liez votre mobile pour un accès à distance 🚀",
+    "installWireguardStep": "1. Installez Wireguard",
+    "installWireguardDescription": "Installez l'application Wireguard sur votre téléphone Mobile.",
+    "scanQRCodeStep": "2. Scannez le QR code avec votre application Wireguard",
+    "scanQRCodeDescription": "Scannez ce QR code avec l'application Wireguard pour se connecter à votre réseau local.",
+    "downloadAppStep": "3. Téléchargez Honeybrain Mobile",
+    "downloadAppDescription": "Téléchargez l'application Mobile à ce lien :",
+    "loadingQRCode": "Chargement du QR code...",
+    "qrCodeUnavailable": "QR code non disponible",
+    "blockManagerHelpText": "Le client VPN sert de passerelle sécurisée pour accéder à distance à la suite HoneyBrain, au-delà de votre réseau local. En établissant une connexion protégée, il garantit que seuls les utilisateurs autorisés peuvent administrer la suite de sécurité. Cette fonctionnalité est cruciale pour maintenir l'intégrité et la confidentialité de votre réseau. Elle vous permet de gérer les configurations, surveiller les activités et mettre à jour les mesures de sécurité de n'importe où, vous assurant un contrôle total sur votre environnement de cybersécurité."
+  },
+  "rulesManager": {
+    "saveSuccess": "Configuration enregistrée avec succès",
+    "saveChanges": "Enregistrer les modifications",
+    "fail2BanConfig": "Configuration de Fail2Ban",
+    "suricataConfig": "Configuration de Suricata"
+  }
 }

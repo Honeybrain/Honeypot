@@ -20,176 +20,180 @@ import useChangeRightsRPC from "@hooks/backend/userService/useChangeRightsRPC";
 import useDeleteUserRPC from "@hooks/backend/userService/useDeleteUserRPC";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { RpcError } from "@protobuf-ts/runtime-rpc";
-
+import { RoleEnum } from "../../_utils/enums/role.enum";
+import { useTranslation } from "react-i18next";
+import { UserDto } from "@protos/user";
+import { useContext } from "react";
+import { NightModeContext } from '@contexts/NightModeContext';
 interface User {
   email: string;
   activated: boolean;
   admin: boolean;
   id: string;
+  lan: string;
 }
 
 const UsersManagement: React.FC = () => {
-  const [selectedRights, setSelectedRights] = useState<Record<string, string>>(
-    {},
-  );
+  const { t } = useTranslation();
+  const { isNightMode } = useContext(NightModeContext); 
   const [email, setEmail] = useState<string>("");
-  const [users, setUsers] = useState<User[]>([]);
-
-  const [open, setOpen] = React.useState(false);
-  const [alertText, setAlertText] = React.useState("");
-  const [alertSeverity, setAlertSeverity] = useState<"success" | "error">(
-    "success",
-  );
+  const [users, setUsers] = useState<UserDto[]>([]);
+  const textStyle = isNightMode ? { color: 'white' } : {};
+  const listItemStyle = isNightMode
+    ? { bgcolor: 'action.hover', color: 'white' }
+    : { bgcolor: 'background.default', color: 'inherit' };
+    const textFieldStyle = isNightMode 
+    ? { 
+        InputLabelProps: { style: { color: 'white' } }, 
+        inputProps: { style: { color: 'white' } },
+        sx: { borderBottom: '1px solid white' }
+      } 
+    : {};
+  const listItemTextStyle = isNightMode ? { color: 'white' } : {};
+  const [alert, setAlert] = useState<{
+    content: string;
+    severity: "success" | "error";
+  } | null>(null);
 
   const { getUsers } = useGetUsersRPC();
   const { inviteUser } = useInviteUserRPC();
   const { changeRights } = useChangeRightsRPC();
   const { deleteUser } = useDeleteUserRPC();
 
-  const myButton = (email: string, right: boolean) => (
+  const myButton = (user: UserDto) => (
     <>
       <Select
-        value={
-          selectedRights[email] || (right ? "Administrateur" : "Utilisateur")
+        multiple
+        value={user.roles}
+        onChange={(e) =>
+          changeRightsClick(user, [e.target.value as RoleEnum[]].flat())
         }
-        onChange={async (e) => {
-          setSelectedRights((prevSelectedRights) => ({
-            ...prevSelectedRights,
-            [email]: e.target.value as string,
-          }));
-          const admin = e.target.value === "Administrateur"; // Cette ligne transforme la valeur en un booléen
-          await changeRightsClick(email, admin);
-        }}
         sx={{ width: "150px" }}
-        label="Changer les droitas"
+        label="Changer les droits"
       >
-        <MenuItem value="Utilisateur">Utilisateur</MenuItem>
-        <MenuItem value="Administrateur">Administrateur</MenuItem>
+        {Object.entries(RoleEnum)
+          .filter((x) => typeof x[1] == "number")
+          .map((role) => (
+            <MenuItem key={role[1]} value={role[1]}>
+              {t(`roleEnum.${role[0]}`)}
+            </MenuItem>
+          ))}
       </Select>
     </>
   );
 
-  const deleteButton = (email: string) => (
+  const deleteButton = (user: UserDto) => (
     <IconButton
       edge="end"
       sx={{ marginLeft: "3px" }}
       aria-label="delete"
-      onClick={() => {
-        deleteUserClick(email);
-      }}
+      onClick={() => deleteUserClick(user)}
     >
       <DeleteIcon color="error" />
     </IconButton>
   );
 
-  const changeRightsClick = async (email: string, admin: boolean) => {
-    try {
-      await changeRights(email, admin);
-    } catch (error: any) {
-      setAlertText(
-        "Une erreur s'est produite lors du changement de droit de l'utilisateur.",
+  const changeRightsClick = (user: UserDto, roles: number[]) =>
+    changeRights(user.email, roles)
+      .then((newUser) => {
+        const user = users.find((x) => x.id == newUser.response.id);
+        if (!user) return;
+        user.roles = newUser.response.roles;
+        setUsers([...users]);
+      })
+      .catch(() =>
+        setAlert({
+          content:
+            "Une erreur s'est produite lors du changement de droit de l'utilisateur.",
+          severity: "error",
+        }),
       );
-      setAlertSeverity("error");
-      setOpen(true);
-    }
-  };
 
-  const deleteUserClick = async (email: string) => {
-    try {
-      await deleteUser(email);
-      await fetchUsers();
-    } catch (error) {
-      setAlertText(
-        "Une erreur s'est produite lors de la suppression de l'utilisateur.",
+  const deleteUserClick = (user: UserDto) =>
+    deleteUser(user.email)
+      .then(() => setUsers((x) => [...x.filter((y) => y.id != user.id)]))
+      .catch(() =>
+        setAlert({
+          content:
+            "Une erreur s'est produite lors de la suppression de l'utilisateur.",
+          severity: "error",
+        }),
       );
-      setAlertSeverity("error");
-      setOpen(true);
-    }
-  };
 
-  const inviteUserClick = async (email: string) => {
-    try {
-      await inviteUser(email);
-      setAlertText("Utilisateur invité avec succès!");
-      setAlertSeverity("success");
-      setOpen(true);
-      await fetchUsers();
-    } catch (error) {
-      setAlertSeverity("error");
-      setOpen(true);
-      if (error instanceof RpcError) {
-        if (error.code == "ALREADY_EXISTS")
-          return setAlertText("Un compte avec cet email existe déjà.");
-      }
-      setAlertText(
-        "Une erreur s'est produite lors de l'invitation de l'utilisateur.",
-      );
-    }
-  };
-
-  const fetchUsers = async () => {
-    try {
-      const fetchedUsers = (await getUsers()).map(
-        (userString: string) => JSON.parse(userString) as User,
-      );
-      setUsers(fetchedUsers);
-
-      const initialRights: Record<string, string> = {};
-      fetchedUsers.forEach((user) => {
-        initialRights[user.email] = user.admin
-          ? "Administrateur"
-          : "Utilisateur";
+  const inviteUserClick = (email: string) =>
+    inviteUser(email)
+      .then((x) => {
+        setUsers((y) => [...y, x.response]);
+        setAlert({
+          content: "Utilisateur invité avec succès!",
+          severity: "success",
+        });
+      })
+      .catch((error) => {
+        if (error instanceof RpcError) {
+          if (error.code == "ALREADY_EXISTS")
+            return setAlert({
+              content: "Un compte avec cet email existe déjà.",
+              severity: "error",
+            });
+        }
+        setAlert({
+          content:
+            "Une erreur s'est produite lors de l'invitation de l'utilisateur.",
+          severity: "error",
+        });
       });
-      setSelectedRights(initialRights);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des utilisateurs:", error);
-    }
-  };
+
+  const fetchUsers = () =>
+    getUsers()
+      .then(setUsers)
+      .catch((x) =>
+        console.error("Erreur lors de la récupération des utilisateurs:", x),
+      );
 
   const handleClose = React.useCallback(() => {
-    setOpen(false);
+    setAlert(null);
   }, []);
 
   useEffect(() => {
-    fetchUsers();
+    void fetchUsers();
   }, []);
 
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item>
-        <Typography variant="h4">Gestion des utilisateurs</Typography>
+        <Typography variant="h4"sx={textStyle}>{t('homePage.userManagement')}</Typography>
       </Grid>
       <Grid item>
-        <Typography variant="h6" mb={2}>
-          Inviter un nouvel utilisateur
+        <Typography variant="h6" sx={textStyle} mb={2}>
+          {t('homePage.userManagement')}
         </Typography>
         <Grid container spacing={2} direction="column">
           <Grid item>
             <TextField
               type="email"
-              label="Email nouvel utilisateur"
+              label={t('userManagement.emailNewUser')}
               variant="outlined"
               fullWidth
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              {...textFieldStyle}
             />
           </Grid>
           <Grid item>
             <Button
               variant="contained"
               color="primary"
-              onClick={() => {
-                inviteUserClick(email);
-              }}
+              onClick={() => inviteUserClick(email)}
             >
-              Envoyer l'invitation
+              {t('userManagement.sendInvite')}
             </Button>
           </Grid>
         </Grid>
       </Grid>
       <Grid item>
-        <Typography variant="h6" gutterBottom>
-          Liste des utilisateurs
+        <Typography variant="h6" sx={textStyle} gutterBottom>
+          {t('userManagement.usersList')}
         </Typography>
       </Grid>
       <Grid item xs sx={{ marginBottom: 0.4 }}>
@@ -208,38 +212,33 @@ const UsersManagement: React.FC = () => {
             {users.map((user, index) => (
               <ListItem
                 key={index}
-                sx={{
-                  my: 1,
-                  px: 2,
-                  bgcolor:
-                    index % 2 === 0 ? "action.hover" : "background.default",
-                  borderRadius: 1,
-                }}
+                sx={{ bgcolor: isNightMode ? 'action.hover' : 'background.default' }}
               >
                 <ListItemText
+                  sx={listItemTextStyle}
                   primary={`${user.email}`}
                   secondary={`${
-                    user.activated ? "Activé" : "En attente d'activation"
+                    user.activated ? t('userManagement.activated') : t('userManagement.waitingActivation')
                   }`}
                 />
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                  {myButton(user.email, user.admin)}
+                <Box sx={{ display: "flex", alignItems: "center"}}>
+                  {myButton(user)}
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
-                  {deleteButton(user.email)}
+                  {deleteButton(user)}
                 </Box>
               </ListItem>
             ))}
           </List>
         </Box>
       </Grid>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+      <Snackbar open={!!alert} autoHideDuration={6000} onClose={handleClose}>
         <Alert
           onClose={handleClose}
-          severity={alertSeverity}
+          severity={alert?.severity}
           sx={{ width: "100%" }}
         >
-          {alertText}
+          {alert?.content}
         </Alert>
       </Snackbar>
     </Grid>

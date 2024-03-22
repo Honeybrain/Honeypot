@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EnvironmentVariables, validateEnv } from './_utils/config/config';
-import { HelloworldModule } from './helloworld/helloworld.module';
 import { LogsModule } from './logs/logs.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { ContainersModule } from './containers/containers.module';
@@ -10,6 +9,10 @@ import { UserModule } from './user/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { GlobalModule } from './_utils/global.module';
 import { MailsModule } from './mails/mails.module';
+import { RulesModule } from './rules/rules.module';
+import { MobileModule } from './mobile/mobile.module';
+import { HistoryModule } from './history/history.module';
+import { ReconfigureModule } from './reconfig/reconfig.module';
 
 @Module({
   imports: [
@@ -23,13 +26,16 @@ import { MailsModule } from './mails/mails.module';
       }),
     }),
     ConfigModule.forRoot({ validate: validateEnv, isGlobal: true }),
-    HelloworldModule,
     MailsModule,
     LogsModule,
     DashboardModule,
     ContainersModule,
     BlacklistModule,
     UserModule,
+    RulesModule,
+    MobileModule,
+    HistoryModule,
+    ReconfigureModule,
   ],
 })
 export class AppModule {}

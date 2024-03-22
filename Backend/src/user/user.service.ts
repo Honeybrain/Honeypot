@@ -18,7 +18,14 @@ import { MailsService } from '../mails/mails.service';
 import { EmailRequestDto } from './_utils/dto/request/email-request.dto';
 import { ActivateUserRequestDto } from './_utils/dto/request/activate-request.dto';
 import { ActivateResponseDto } from './_utils/dto/response/activate-response.dto';
+import { UserLanguageResponseDto } from './_utils/dto/response/user-language-response.dto';
 import { Status } from '@grpc/grpc-js/build/src/constants';
+import { RoleEnum } from './_utils/enums/role.enum';
+import { UserMapper } from './user.mapper';
+import { GetUserDto } from './_utils/dto/response/get-user.dto';
+import { GetHistoryRequestDto } from './_utils/dto/request/get-history-request.dto';
+import { GetHistoryResponseDto } from './_utils/dto/response/get-history-response.dto';
+import { HistoryRepository } from 'src/history/history.repository';
 
 @Injectable()
 export class UserService implements OnModuleInit {
@@ -28,6 +35,8 @@ export class UserService implements OnModuleInit {
     private readonly usersRepository: UserRepository,
     private readonly invitationsRepository: InvitationRepository,
     private readonly configService: ConfigService<EnvironmentVariables, true>,
+    private readonly userMapper: UserMapper,
+    private readonly historyRepository: HistoryRepository, 
   ) {}
 
   onModuleInit() {
@@ -43,21 +52,32 @@ export class UserService implements OnModuleInit {
     const userModel: User = {
       email: signInSignUpDto.email,
       password: signInSignUpDto.password,
-      admin: true,
+      roles: [RoleEnum.ADMIN],
       activated: true,
-      lan: "en",
+      lan: 'en',
+      nightMode: false
     };
     const user = await this.usersRepository.createUser(userModel).catch((err) => {
       throw new RpcException({ code: Status.CANCELLED, message: err });
     });
-    return { message: 'User created successfully', token: this.jwtService.sign({ id: user._id }) };
+    return {
+      message: 'User created successfully',
+      token: this.jwtService.sign({ id: user._id }),
+      user: this.userMapper.toGetUser(user),
+    };
   }
+
+  getMe = (user: UserDocument): GetUserDto => this.userMapper.toGetUser(user);
 
   async signIn(signInSignUpDto: SignInSignUpDto): Promise<UserResponseDto> {
     const user = await this.usersRepository.findByEmail(signInSignUpDto.email);
     if (user.password && !compareSync(signInSignUpDto.password, user.password))
       throw new RpcException({ code: status.UNAUTHENTICATED, message: 'Wrong password' });
-    return { message: 'User signed in successfully', token: this.jwtService.sign({ id: user._id }) };
+    return {
+      message: 'User signed in successfully',
+      token: this.jwtService.sign({ id: user._id }),
+      user: this.userMapper.toGetUser(user),
+    };
   }
 
   changeEmail = (newEmail: string, user: UserDocument): Promise<GetEmptyDto> =>
@@ -70,15 +90,16 @@ export class UserService implements OnModuleInit {
       .updatePasswordByUserId(user._id, newPassword)
       .then(() => ({ message: 'Mot de passe modifié avec succès' }));
 
-  async inviteUser(email: string, admin: boolean) {
+  async inviteUser(email: string, roles: RoleEnum[]) {
     const activationToken = uuidv4();
 
     const userModel: User = {
       email: email,
       password: null,
-      admin: admin,
+      roles: roles,
       activated: false,
-      lan: "en",
+      lan: 'en',
+      nightMode: false
     };
 
     try {
@@ -89,7 +110,7 @@ export class UserService implements OnModuleInit {
       const activationLink = `http://localhost:3000/activate/${activationToken}`;
       await this.mailsService.sendActivationMail(email, activationLink);
 
-      return { message: 'User invited successfully. Activation email sent.' };
+      return this.userMapper.toGetUser(user);
     } catch (error) {
       if (error.code === 11000 && error.message.includes('email')) {
         throw new RpcException({
@@ -117,33 +138,43 @@ export class UserService implements OnModuleInit {
     await this.invitationsRepository.markUsed(activationToken);
     const user = await this.usersRepository.findById(invitation.user._id.toString());
     const token = await this.signIn({ email: user.email, password: password });
-    console.log(token);
     return { token: token.token };
   }
 
-  async changeRights(changeRightsRequestDto: ChangeRightsRequestDto) {
-    await this.usersRepository.updateRightByUserEmail(changeRightsRequestDto.email, changeRightsRequestDto.admin);
+  changeRights = (changeRightsRequestDto: ChangeRightsRequestDto) =>
+    this.usersRepository
+      .updateRightByUserEmail(changeRightsRequestDto.email, changeRightsRequestDto.roles)
+      .then((x) => this.userMapper.toGetUser(x));
 
-    return { message: 'User rights changed successfully' };
-  }
-
-  async findAllUsers(): Promise<GetUsersListDto> {
-    const users = await this.usersRepository.findAllUsers();
-
-    const mappedUsers = users.map((user) =>
-      JSON.stringify({ id: user._id, email: user.email, admin: user.admin, activated: user.activated, lan: user.lan }),
-    );
-
-    return { users: mappedUsers };
-  }
+  findAllUsers = (): Promise<GetUsersListDto> =>
+    this.usersRepository.findAllUsers().then((x) => this.userMapper.toGetUsers(x));
 
   deleteUser = (emailRequestDto: EmailRequestDto) =>
     this.usersRepository.updateDeleteByUserEmail(emailRequestDto.email).then(() => ({
       message: 'User deleted successfully',
     }));
 
-  changeLanguage = (newLanguage: string , user: UserDocument): Promise<GetEmptyDto> =>
+  changeLanguage = (newLanguage: string, user: UserDocument): Promise<GetEmptyDto> =>
+    this.usersRepository
+      .updateLanguageByUserId(user._id, newLanguage)
+      .then(() => ({ message: 'langue modifié avec succès !' }));
+
+  async getUserLanguage(user: UserDocument): Promise<UserLanguageResponseDto> {
+    return { lan: user.lan };
+  }
+
+  async getHistory(dto: GetHistoryRequestDto): Promise<GetHistoryResponseDto> {
+    const historyEntries = await this.historyRepository.getSortedHistory();
+    const entries = historyEntries.map(entry => ({
+      date: entry.date.toISOString(),
+      actionType: entry.actionType,
+      description: entry.description,
+    }));
+    return { entries };
+  }
+  
+  changeNightMode = (NightMode: boolean, user: UserDocument): Promise<GetEmptyDto> =>
   this.usersRepository
-    .updateLanguageByUserId(user._id, newLanguage)
-    .then(() => ({ message: 'langue modifié avec succès !' }));
+    .updateNightModeById(user._id, NightMode)
+    .then(() => ({ message: 'NightMode modifié avec succès !' })); 
 }

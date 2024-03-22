@@ -25,8 +25,8 @@ export class DashboardService {
     });
 
     const containers$ = this.containersService.streamContainers().subscribe((containerReplyDto) => {
-      dashboard.containers = containerReplyDto.containers;
-      subject$.next(dashboard);
+       dashboard.containers = containerReplyDto.containers;
+       subject$.next(dashboard);
     });
 
     const blacklist$ = this.blacklistService.getBlackList$(call).subscribe((blacklistReplyDto) => {

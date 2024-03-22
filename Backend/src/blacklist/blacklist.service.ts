@@ -7,10 +7,19 @@ import { SetIpDto } from './_utils/dto/request/set-ip.dto';
 import * as Docker from 'dockerode';
 import { RpcException } from '@nestjs/microservices';
 import { readFile, writeFile } from 'fs/promises';
+import { HistoryRepository } from '../history/history.repository';
+import { GetBlockCountryReply } from './_utils/dto/response/get-block-country-reply.dto';
 
 @Injectable()
 export class BlacklistService {
+
+  constructor(
+    private historyRepository: HistoryRepository,
+    // ... autres dépendances ...
+  ) {}
+  
   private docker = new Docker();
+  private previousBlockedIps: string[] = [];
 
   private async processFileChange(path: string, subject: Subject<GetIdsDto>) {
     readFile(path, 'utf8')
@@ -27,10 +36,40 @@ export class BlacklistService {
           .filter((ip) => ip !== null) as string[];
 
         subject.next({ ips });
+
+        const newBlockedIps = ips.filter(ip => !this.previousBlockedIps.includes(ip));
+        newBlockedIps.forEach(async (ip) => {
+          await this.historyRepository.createHistoryEntry({
+            date: new Date(),
+            actionType: 'attack',
+            description: `Attaque détectée avec blocage de l'IP ${ip}`,
+          });
+        });
+        this.previousBlockedIps = ips;
       })
       .catch((err) => {
+        console.error(`Error reading block.conf: ${err}`);
         throw new RpcException(`Error reading file: ${err}`);
       });
+  }
+
+  async getBlackListUnary(): Promise<GetIdsDto> {
+    const filePath = '/app/honeypot/block.conf';
+    try {
+      const blockContent = await readFile(filePath, 'utf8');
+      const regex = /deny\s+((?:\d{1,3}\.){3}\d{1,3});/g;
+      const matches = blockContent.match(regex) || [];
+
+      const ips = matches.map((entry) => {
+        const ipRegex = /((?:\d{1,3}\.){3}\d{1,3})/;
+        const match = entry.match(ipRegex);
+        return match ? match[1] : null;
+      }).filter((ip) => ip !== null) as string[];
+
+      return { ips };
+    } catch (err) {
+      throw new RpcException(`Error reading block.conf: ${err}`);
+    }
   }
 
   getBlackList$(call: ServerUnaryCall<unknown, GetIdsDto>) {
@@ -76,6 +115,89 @@ export class BlacklistService {
     await execIpTables.start({}).catch((err) => {
       throw new RpcException(`FFailed to start execution iptables: ${err}`);
     });
+  }
+  
+  private async restartContainer(name: string): Promise<void> {
+    try {
+      const container = this.docker.getContainer(name);
+      await container.restart();
+      console.log('Fail2Ban container restarted successfully');
+    } catch (error) {
+      console.error('Error restarting Fail2Ban container:', error);
+      throw error;
+    }
+  }
+
+  async blockCountry(countryCode: string) {
+    if (!countryCode) throw new RpcException('countryCode is required');
+    const filePath = "/app/honeypot/geohostsdeny.conf";
+
+    try {
+      const blockConf = await readFile(filePath, 'utf8');
+      
+      const lines = blockConf.split('\n');
+      const countryListIndex = lines.findIndex(line => line.trim().startsWith('country_list ='));
+      if (countryListIndex !== -1) {
+        const countryListParts = lines[countryListIndex].split('=');
+        const existingCountries = countryListParts[1].trim().split("|").filter(Boolean);
+        if (!existingCountries.includes(countryCode)) {
+          existingCountries.push(countryCode);
+        }
+        lines[countryListIndex] = `country_list = ${existingCountries.join("|")}`;
+      }
+
+      await writeFile(filePath, lines.join('\n'), 'utf8');
+      await this.restartContainer("suricata");
+
+    } catch (err) {
+      throw new RpcException(`Error while updating the file: ${err}`);
+    }
+  }
+
+  async unblockCountry(countryCode: string) {
+    if (!countryCode) throw new RpcException('countryCode is required');
+    const filePath = "/app/honeypot/geohostsdeny.conf";
+
+    try {
+        const blockConf = await readFile(filePath, 'utf8');
+        
+        const lines = blockConf.split('\n');
+        const countryListIndex = lines.findIndex(line => line.trim().startsWith('country_list ='));
+        if (countryListIndex !== -1) {
+            const countryListParts = lines[countryListIndex].split('=');
+            let existingCountries = countryListParts[1].trim().split("|").filter(Boolean);
+            existingCountries = existingCountries.filter(c => c !== countryCode);
+            lines[countryListIndex] = `country_list = ${existingCountries.join("|")}`;
+        }
+
+        await writeFile(filePath, lines.join('\n'), 'utf8');
+        await this.restartContainer("suricata");
+
+    } catch (err) {
+        throw new RpcException(`Error while updating the file: ${err}`);
+    }
+  }
+
+  async getBlockedCountries(): Promise<GetBlockCountryReply> {
+    const filePath = "/app/honeypot/geohostsdeny.conf";
+  
+    try {
+        const blockConf = await readFile(filePath, 'utf8');
+        const lines = blockConf.split('\n');
+        const countryListIndex = lines.findIndex(line => line.trim().startsWith('country_list ='));
+  
+        if (countryListIndex !== -1) {
+            const countryListParts = lines[countryListIndex].split('=');
+            const existingCountries = countryListParts[1].trim().split("|").filter(Boolean);
+            return { countries: existingCountries }; // Retourne la liste des pays
+        }
+  
+        // Si la liste des pays n'est pas trouvée, retourne un objet avec une liste vide
+        return { countries: [] };
+    } catch (err) {
+        console.error(`Error while reading the file: ${err}`);
+        throw new RpcException(`Error while reading the file: ${err}`);
+    }
   }
 
   async putWhiteList(setIdDto: SetIpDto) {
