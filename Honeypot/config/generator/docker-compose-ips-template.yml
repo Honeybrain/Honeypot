@@ -1,0 +1,36 @@
+version: '3'
+services:
+  fail2ban:
+    image: adrienroco/hb_services_fail2ban:latest
+    container_name: fail2ban
+    restart: "unless-stopped"
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./honeypot/logs/suricata/fast.log:/var/log/suricata.log"
+      - "./honeypot/logs/fail2ban:/var/log/fail2ban"
+      - "./honeypot/config/fail2ban:/data"
+      - "/var/lib/docker/containers/:/container-logs/:ro"
+      - "./honeypot/config/nginx/block.conf:/etc/nginx/block.conf"
+      - "./honeypot/config/nginx/nginx.conf:/etc/nginx/nginx.conf"
+    env_file:
+      - "./honeypot/fail2ban.env"
+    depends_on:
+      - suricata
+
+  suricata:
+    image: jasonish/suricata:latest
+    container_name: suricata
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_NICE
+    volumes:
+      - "./honeypot/logs/suricata/fast.log:/var/log/suricata/fast.log"
+      - "./honeypot/config/suricata/suricata.yaml:/etc/suricata/suricata.yaml"
+      - "./honeypot/config/suricata/suricata.rules:/var/lib/suricata/rules/suricata.rules"
+    command: -i ${NETWORK_INTERFACE:-null}

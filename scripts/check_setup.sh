@@ -46,19 +46,19 @@ if ! python3 -c "import tkinter" &> /dev/null; then
 fi
 echo "✅ tkinter is installed."
 
-# Check if grpcio is installed
-if ! python3 -c "import grpc" &> /dev/null; then
-    echo "❌ Error: grpc is not installed for python3. Please install 'grpcio-tools' and 'grpcio' pip3 packages."
-    exit 1
-fi
-echo "✅ grpc is installed."
+## Check if grpcio is installed
+#if ! python3 -c "import grpc" &> /dev/null; then
+#    echo "❌ Error: grpc is not installed for python3. Please install 'grpcio-tools' and 'grpcio' pip3 packages."
+#    exit 1
+#fi
+#echo "✅ grpc is installed."
 
 # Check for protoc-gen-mypy plugin
-if ! command -v protoc-gen-mypy &> /dev/null; then
-    echo "❌ Error: protoc-gen-mypy is not installed or not in PATH. Please install 'mypy-protobuf' pip3 package and add the executable to PATH."
-    exit 1
-fi
-echo "✅ protoc-gen-mypy plugin is available."
+#if ! command -v protoc-gen-mypy &> /dev/null; then
+#    echo "❌ Error: protoc-gen-mypy is not installed or not in PATH. Please install 'mypy-protobuf' pip3 package and add the executable to PATH."
+#    exit 1
+#fi
+#echo "✅ protoc-gen-mypy plugin is available."
 
 # Check if netifaces is installed
 if ! python3 -c "import netifaces" &> /dev/null; then

@@ -24,7 +24,7 @@ check-setup:
 	@bash scripts/check_setup.sh $(BACKEND_DIR) $(FRONTEND_DIR) $(INSTALLER_DIR)
 	@echo "✅ Setup is okay!"
 
-grpc: check-setup frontend-grpc installer-grpc
+grpc: check-setup frontend-grpc #installer-grpc
 
 backend-grpc:
 	@echo "🚀 Generating backend protobuf files ..."
@@ -33,7 +33,7 @@ backend-grpc:
 
 frontend-grpc:
 	@echo "🚀 Generating frontend protobuf files ..."
-	@bash scripts/make_frontend_protos.sh $(PROTO_DIR) $(FRONTEND_DIR)
+	@bash scripts/make_frontend_protos.sh $(FRONTEND_DIR)
 	@echo "✅ Protobuf frontend files generated successfully!"
 
 installer-grpc:
